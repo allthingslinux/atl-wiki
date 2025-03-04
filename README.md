@@ -8,7 +8,7 @@ If you need wiki support, have any queries or wish to report something, check ou
 ## Useful Links
 - [Policies & Contributing](https://atl.wiki/Policies)
 - [Code of Conduct](https://atl.wiki/Atl.wiki:Code_of_Conduct)
-- [MediaWiki Editors Help](https://meta.wikimedia.org/wiki/Help:Contents)
+- [MediaWiki Editors Help](https://www.mediawiki.org/wiki/Help:Contents)
 - [About atl.wiki](https://atl.wiki/Atl.wiki:About)
 - [General Disclaimer](https://atl.wiki/Atl.wiki:Disclaimer)
 - [CC BY-SA 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/)
