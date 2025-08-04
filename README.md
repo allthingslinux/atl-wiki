@@ -15,3 +15,7 @@ If you need wiki support, have any queries or wish to report something, check ou
 - [Privacy Policy](https://atl.wiki/Atl.wiki:Privacy_policy)
 - [Our Discord](https://discord.gg/linux)
 - [All Things Linux](https://allthingslinux.org)
+
+## Other Repos
+- [ATL Wiki Bot](https://github.com/allthingslinux/atl-wiki-link)
+- [ATL Wiki Config](https://github.com/allthingslinux/atl.wiki-configs) (Private)
