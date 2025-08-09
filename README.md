@@ -18,4 +18,4 @@ If you need wiki support, have any queries or wish to report something, check ou
 
 ## Other Repos
 - [ATL Wiki Bot](https://github.com/allthingslinux/atl-wiki-link)
-- [ATL Wiki Config](https://github.com/allthingslinux/atl.wiki-configs) (Private)
+- [ATL Wiki Config](https://github.com/allthingslinux/atl.wiki-configs)
