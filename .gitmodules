@@ -14,10 +14,6 @@
 	path = CodeMirror
 	url = https://gerrit.wikimedia.org/r/mediawiki/extensions/CodeMirror
 	branch = REL1_43
-[submodule "ContributionScores"]
-	path = ContributionScores
-	url = https://gerrit.wikimedia.org/r/mediawiki/extensions/ContributionScores
-	branch = REL1_43
 [submodule "Description2"]
 	path = Description2
 	url = https://gerrit.wikimedia.org/r/mediawiki/extensions/Description2
