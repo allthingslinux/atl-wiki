@@ -1,7 +1,0 @@
-RewriteEngine On
-
-# Don’t touch .ico requests
-RewriteRule .*\.ico$ – [L]
-
-# Block any .git access
-RedirectMatch 418 /\.git
