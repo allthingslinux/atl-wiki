@@ -1,0 +1,131 @@
+[
+  {
+    "extension_name": "AntiSpoof",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/AntiSpoof",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "ApprovedRevs",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/ApprovedRevs",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "BulkBlock",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/BulkBlock",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "Capiunto",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Capiunto",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "CheckUser",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CheckUser",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "CodeMirror",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CodeMirror",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "ConsoleOutput",
+    "extension_url": "https://github.com/BreezyOps/MediaWiki-ConsoleOutput",
+    "install_type": "git",
+    "git_branch": "master"
+  },
+  {
+    "extension_name": "Description2",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Description2",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "Discord",
+    "extension_url": "https://github.com/jayktaylor/mw-discord",
+    "install_type": "git",
+    "git_branch": "master"
+  },
+  {
+    "extension_name": "Drafts",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Drafts",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "Editcount",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Editcount",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "Favorites",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Favorites",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "FilterSpecialPages",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "LastModified",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/LastModified",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "OAuth",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/OAuth",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "OpenGraphMeta",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/OpenGraphMeta",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "OpenIDConnect",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/OpenIDConnect",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "PluggableAuth",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/PluggableAuth",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "SiteMetrics",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/SiteMetrics",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "TemplateSandbox",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/TemplateSandbox",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "TopLink",
+    "extension_url": "https://github.com/mywikis/TopLink",
+    "install_type": "git",
+    "git_branch": "main"
+  },
+  {
+    "extension_name": "UserMerge",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/UserMerge",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "WebAuthn",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/WebAuthn",
+    "install_type": "git"
+  },
+  {
+    "extension_name": "TemplateStyles",
+    "extension_url": "https://extdist.wmflabs.org/dist/extensions/TemplateStyles-REL1_43-48207c0.tar.gz",
+    "install_type": "tarball"
+  },
+  {
+    "extension_name": "TemplateStylesExtender",
+    "extension_url": "https://github.com/octfx/mediawiki-extensions-TemplateStylesExtender/archive/refs/tags/v2.0.0.tar.gz",
+    "install_type": "tarball"
+  }
+]
+
