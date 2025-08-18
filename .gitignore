@@ -5,3 +5,5 @@ sitemap.xml
 images/
 cache/
 docker-samples/
+OLD/
+.env

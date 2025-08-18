@@ -1,0 +1,6 @@
+.env
+LICENSE
+README.md
+compose.yml
+.git/
+.gitignore
