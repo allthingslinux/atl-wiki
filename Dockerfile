@@ -17,6 +17,9 @@ ENV MEDIAWIKI_VERSION=1.43.3
 ENV MEDIAWIKI_BRANCH=REL1_43
 ENV CITIZEN_VERSION=3.5.0
 
+# Setup Directory's
+RUN mkdir -p /var/www/atlwiki/mediawiki
+
 # Install system dependencies and PHP extensions
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -55,8 +58,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Install Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# Setup Directory's
-RUN mkdir -p /var/www/atlwiki/mediawiki
+# Set up environment variables with phpdotenv
+COPY composer.json /var/www/atlwiki/composer.json
+RUN composer install --no-dev --optimize-autoloader --working-dir=/var/www/atlwiki
 
 # Install Mediawiki
 RUN set -eux; \

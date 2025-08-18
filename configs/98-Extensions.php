@@ -114,8 +114,8 @@ $wgUserrightsInterwikiDelimiter = '#';
 
 wfLoadExtensions([ 'ConfirmEdit', 'ConfirmEdit/Turnstile' ]);
 
-$wgTurnstileSiteKey= getenv('TURNSTILE_SITE_KEY');
-$wgTurnstileSecretKey= getenv('TURNSTILE_SECRET_KEY');
+$wgTurnstileSiteKey= $_SERVER['TURNSTILE_SITE_KEY'];
+$wgTurnstileSecretKey= $_SERVER['TURNSTILE_SECRET_KEY'];
 
 #################################################################### Other Submodule Extensions
 
@@ -171,7 +171,7 @@ $egApprovedRevsEnabledNamespaces[NS_PROJECT] = false;
 // https://www.mediawiki.org/wiki/Extension:Discord
 
 wfLoadExtension( 'Discord' );
-$wgDiscordWebhookURL = [ getenv('DISCORD_WEBHOOK_URL') ];
+$wgDiscordWebhookURL = [ $_SERVER['DISCORD_WEBHOOK_URL'] ];
 $wgDiscordUseEmojis = true;
 $wgDiscordDisabledHooks = [
     'ApprovedRevsRevisionApproved',
@@ -203,8 +203,8 @@ $wgPluggableAuth_Config["Staff Login via All Things Linux (SSO)"] = [
     "plugin" => "OpenIDConnect",
     "data" => [
         "providerURL" => "https://sso.allthingslinux.org",
-        "clientID" => getenv('CLIENT_ID'),
-        "clientsecret" => getenv('CLIENT_SECRET')
+        "clientID" => $_SERVER['CLIENT_ID'],
+        "clientsecret" => $_SERVER['CLIENT_SECRET'],
     ]
 ];
 

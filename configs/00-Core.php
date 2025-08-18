@@ -26,15 +26,13 @@ $wgSitename = "atl.wiki";
 $wgMetaNamespace = "ATL";
 
 // https://www.mediawiki.org/wiki/Manual:$wgUpgradeKey
-$wgUpgradeKey = getenv('UPGRADE_KEY');
+$wgUpgradeKey = $_SERVER['UPGRADE_KEY'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgSecretKey
-$wgSecretKey = getenv('SECRET_KEY');
+$wgSecretKey = $_SERVER['SECRET_KEY'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgAuthenticationTokenVersion
 $wgAuthenticationTokenVersion = "1"; # Changing this will log out all existing sessions.
-
-
 
 #################################################################### URL and CDN
 
@@ -144,7 +142,7 @@ $wgSharedTables[] = "actor";
 $wgDBserver = "10.0.0.5";
 $wgDBname = "mediawiki";
 $wgDBuser = "mediawiki";
-$wgDBpassword = getenv('DB_PASSWORD');
+$wgDBpassword = $_SERVER['DB_PASSWORD'];
 
 $wgSMTP = [
     "host"      => "smtp.gmail.com",
@@ -153,7 +151,7 @@ $wgSMTP = [
     "port"      => 587,
     "auth"      => true,
     "username"  => "services@allthingslinux.org",
-    "password"  => getenv('SMTP_PASSWORD'),
+    "password"  => $_SERVER['SMTP_PASSWORD'],
 ];
 
 #################################################################### Caching
