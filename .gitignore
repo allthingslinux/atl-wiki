@@ -6,4 +6,5 @@ images/
 cache/
 docker-samples/
 OLD/
+vendor/
 .env
