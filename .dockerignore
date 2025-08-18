@@ -4,3 +4,6 @@ README.md
 compose.yml
 .git/
 .gitignore
+vendor/
+OLD/
+docker-samples/
