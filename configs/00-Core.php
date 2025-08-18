@@ -25,6 +25,19 @@ $wgSitename = "atl.wiki";
 // https://www.mediawiki.org/wiki/Manual:$wgMetaNamespace
 $wgMetaNamespace = "ATL";
 
+// https://www.mediawiki.org/wiki/Manual:$wgUpgradeKey
+$wgUpgradeKey = getenv('UPGRADE_KEY');
+
+// https://www.mediawiki.org/wiki/Manual:$wgSecretKey
+$wgSecretKey = getenv('SECRET_KEY');
+
+// https://www.mediawiki.org/wiki/Manual:$wgAuthenticationTokenVersion
+$wgAuthenticationTokenVersion = "1"; # Changing this will log out all existing sessions.
+
+
+
+#################################################################### URL and CDN
+
 // https://www.mediawiki.org/wiki/Manual:$wgServer
 $wgServer = "https://atl.wiki";
 
@@ -128,10 +141,25 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 // https://www.mediawiki.org/wiki/Manual:$wgSharedTables
 $wgSharedTables[] = "actor";
 
+$wgDBserver = "10.0.0.5";
+$wgDBname = "mediawiki";
+$wgDBuser = "mediawiki";
+$wgDBpassword = getenv('DB_PASSWORD');
+
+$wgSMTP = [
+    "host"      => "smtp.gmail.com",
+    "IDHost"    => "allthingslinux.org",
+    "localhost" => "allthingslinux.org",
+    "port"      => 587,
+    "auth"      => true,
+    "username"  => "services@allthingslinux.org",
+    "password"  => getenv('SMTP_PASSWORD'),
+];
+
 #################################################################### Caching
 
 // https://www.mediawiki.org/wiki/Manual:$wgMainCacheType
-$wgMainCacheType = CACHE_ACCEL;  
+$wgMainCacheType = CACHE_ACCEL;
 
 // https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:$wgEnableSidebarCache
 $wgEnableSidebarCache = true;
