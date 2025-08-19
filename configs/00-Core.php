@@ -1,20 +1,20 @@
 <?php
 // All other configs: https://www.mediawiki.org/wiki/Manual:Configuration_settings
 
-#################################################################### Error Logging & Troubleshooting
+// Load environment variables from .env file using phpdotenv
+if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
+    require_once '/var/www/atlwiki/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable('/var/www/atlwiki');
+    $dotenv->safeLoad();
+}
 
-error_reporting( 1 );
-ini_set( 'display_errors', 1 );
+#################################################################### Error Logging & Troubleshooting
 
 // https://www.mediawiki.org/wiki/Manual:$wgShowExceptionDetails
 $wgShowExceptionDetails = true;
 if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
-
-// https://www.mediawiki.org/wiki/Manual:$wgDebugLogFile
-// https://www.mediawiki.org/wiki/Manual:$wgDBname
-$wgDebugLogFile = "/var/log/mediawiki/debug-{$wgDBname}.log";
 
 #################################################################### URL and CDN
 // https://www.mediawiki.org/wiki/Manual:Short_URL1
@@ -69,7 +69,10 @@ $wgCdnServersNoPurge = [
   '2405:b500::/32',
   '2405:8100::/32',
   '2a06:98c0::/29',
-  '2c0f:f248::/32'
+  '2c0f:f248::/32',
+  '172.21.0.0/16',
+  '127.0.0.1',
+  '::1'
 ];
 
 $wgCdnServers = [
@@ -139,9 +142,9 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 // https://www.mediawiki.org/wiki/Manual:$wgSharedTables
 $wgSharedTables[] = "actor";
 
-$wgDBserver = "10.0.0.5";
-$wgDBname = "mediawiki";
-$wgDBuser = "mediawiki";
+$wgDBserver = $_SERVER['DB_SERVER'];
+$wgDBname = $_SERVER['DB_NAME'];
+$wgDBuser = $_SERVER['DB_USER'];
 $wgDBpassword = $_SERVER['DB_PASSWORD'];
 
 $wgSMTP = [
