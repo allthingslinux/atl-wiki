@@ -1,0 +1,12 @@
+
+services:
+  atlwiki:
+    build:
+      context: .
+      dockerfile: Dockerfile-Alpine
+    container_name: atlwiki
+    volumes:
+      - ./.env:/var/www/atlwiki/.env
+    ports:
+      - "3001:80"
+
