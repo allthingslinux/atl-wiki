@@ -113,10 +113,7 @@ RUN set -eux; \
     gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
     tar -x --strip-components=1 -f mediawiki.tar.gz -C /var/www/atlwiki/mediawiki; \
     gpgconf --kill all; \
-    rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz; \
-    rm -rf /var/www/atlwiki/mediawiki/tests/ \
-           /var/www/atlwiki/mediawiki/docs/ \
-           /var/www/atlwiki/mediawiki/.git*;
+    rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz;
 
 # NGINX Configuration
 COPY mediawiki.conf /etc/nginx/http.d/mediawiki.conf
@@ -144,8 +141,12 @@ RUN git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 https://git
 USER root
 
 # Cleanup Files
-RUN rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git && \
-    rm -f /tmp/extensions.json /tmp/install_extensions.py
+RUN rm -f /tmp/extensions.json /tmp/install_extensions.py && \
+    rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git* && \
+    rm -rf /var/www/atlwiki/mediawiki/tests/ && \
+    rm -rf /var/www/atlwiki/mediawiki/docs/ && \
+    rm -rf /var/www/atlwiki/mediawiki/.git* && \
+    rm -rf /var/www/atlwiki/mediawiki/mw-config/
 
 # Startup Setup
 COPY start.sh /start.sh
