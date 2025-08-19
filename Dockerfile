@@ -71,6 +71,7 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
 # Setup Directory
 RUN mkdir -p /var/www/atlwiki/mediawiki
+RUN mkdir -p /var/www/atlwiki/images/tmp
 
 # Install runtime dependencies only
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
