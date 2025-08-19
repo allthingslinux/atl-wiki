@@ -9,6 +9,7 @@
 
 # Multi-stage build to reduce image size
 FROM php:8.3-fpm-alpine AS builder
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # Environment Variables
 ENV MEDIAWIKI_MAJOR_VERSION=1.43
@@ -16,46 +17,48 @@ ENV MEDIAWIKI_VERSION=1.43.3
 ENV MEDIAWIKI_BRANCH=REL1_43
 ENV CITIZEN_VERSION=3.5.0
 
-# Install build dependencies for PHP extensions
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
+    # Install build dependencies
     apk add --no-cache --virtual .build-deps \
-        libxml2-dev \
-        oniguruma-dev \
-        libzip-dev \
-        icu-dev \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        freetype-dev \
-        unzip \
-        git \
-        ca-certificates \
-        gnupg \
-        make \
-        g++ \
-        autoconf \
-    ; \
+        libxml2-dev=2.13.8-r0 \
+        oniguruma-dev=6.9.10-r0 \
+        libzip-dev=1.11.4-r0 \
+        icu-dev=76.1-r1 \
+        libpng-dev=1.6.47-r0 \
+        libjpeg-turbo-dev=3.1.0-r0 \
+        freetype-dev=2.13.3-r0 \
+        unzip=6.0-r15 \
+        git=2.49.1-r0 \
+        ca-certificates=20250619-r0 \
+        gnupg=2.4.7-r0 \
+        make=4.4.1-r3 \
+        gcc=14.2.0-r6 \
+        g++=14.2.0-r6 \
+        autoconf=2.72-r1 \
+        pcre-dev=8.45-r4; \
     # Install PHP extensions
-    docker-php-ext-install -j$(nproc) \
+    docker-php-ext-install -j"$(nproc)" \
         xml \
         mbstring \
         mysqli \
         pdo_mysql \
         intl \
-        zip \
-    ; \
+        zip; \
     # Configure GD properly
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
-    docker-php-ext-install -j$(nproc) gd; \
-    # Install APCu
-    pecl install apcu; \
+    docker-php-ext-install -j"$(nproc)" gd; \
+    # Install APCu with debug disabled
+    printf "no\n" | pecl install apcu-5.1.22; \
     docker-php-ext-enable apcu; \
     # Cleanup
     docker-php-source delete; \
-    rm -rf /tmp/pear ~/.pearrc
+    rm -rf /tmp/pear ~/.pearrc; \
+    apk del .build-deps
 
 # Final stage
 FROM php:8.3-fpm-alpine AS final
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 LABEL maintainer="atmois@allthingslinux.org"
 
@@ -64,7 +67,6 @@ ENV MEDIAWIKI_MAJOR_VERSION=1.43
 ENV MEDIAWIKI_VERSION=1.43.3
 ENV MEDIAWIKI_BRANCH=REL1_43
 ENV CITIZEN_VERSION=3.5.0
-
 # Copy PHP extensions from builder
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
@@ -73,28 +75,27 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
     apk add --no-cache \
-        nginx \
-        imagemagick \
-        librsvg \
-        python3 \
-        git \
-        ca-certificates \
-        gnupg \
-        icu-libs \
-        oniguruma \
-        libzip \
-        libpng \
-        libjpeg-turbo \
-        freetype \
-    ;
+        nginx=1.28.0-r3 \
+        imagemagick=7.1.2.0-r0 \
+        librsvg=2.60.0-r0 \
+        python3=3.12.11-r0 \
+        git=2.49.1-r0 \
+        ca-certificates=20250619-r0 \
+        gnupg=2.4.7-r0 \
+        icu-libs=76.1-r1 \
+        oniguruma=6.9.10-r0 \
+        libzip=1.11.4-r0 \
+        libpng=1.6.47-r0 \
+        libjpeg-turbo=3.1.0-r0 \
+        freetype=2.13.3-r0;
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Setup Directory
-RUN mkdir -p /var/www/atlwiki/mediawiki
-RUN mkdir -p /var/www/atlwiki/images/tmp
-RUN chown -R nginx:nginx /var/www/atlwiki
+RUN mkdir -p /var/www/atlwiki/mediawiki && \
+    mkdir -p /var/www/atlwiki/images/tmp && \
+    chown -R nginx:nginx /var/www/atlwiki
 
 USER nginx
 
@@ -106,7 +107,8 @@ RUN composer install --no-dev --optimize-autoloader --working-dir=/var/www/atlwi
 RUN set -eux; \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
-    export GNUPGHOME="$(mktemp -d)"; \
+    GNUPGHOME="$(mktemp -d)"; \
+    export GNUPGHOME; \
     curl -fsSL "https://www.mediawiki.org/keys/keys.txt" | gpg --import; \
     gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
     tar -x --strip-components=1 -f mediawiki.tar.gz -C /var/www/atlwiki/mediawiki; \
@@ -142,8 +144,8 @@ RUN git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 https://git
 USER root
 
 # Cleanup Files
-RUN rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git
-RUN rm -f /tmp/extensions.json /tmp/install_extensions.py
+RUN rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git && \
+    rm -f /tmp/extensions.json /tmp/install_extensions.py
 
 # Startup Setup
 COPY start.sh /start.sh
