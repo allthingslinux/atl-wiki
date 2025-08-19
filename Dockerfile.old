@@ -1,14 +1,14 @@
 ### TODO & NOTES ###
-# chown -R nginx:nginx extensions skins cache images
+# chown -R www-data:www-data extensions skins cache images
 # volumes config
 # healthcheck configs
-# sudo chown -R atl-wiki:nginx /var/www/atlwiki && sudo chmod -R 750 /var/www/atlwiki
+# sudo chown -R atl-wiki:www-data /var/www/atlwiki && sudo chmod -R 750 /var/www/atlwiki
 # sudo chmod -R 770 /var/www/atlwiki/images && sudo chmod -R 770 /var/www/atlwiki/cache
 # sudo chmod -R 755 /var/www/atlwiki/sitemap && sudo chmod 755 /var/www/atlwiki/sitemap.xml
 # compose setup for git extensions
 
 # Multi-stage build to reduce image size
-FROM php:8.3-fpm-alpine AS builder
+FROM php:8.3-fpm AS builder
 
 # Environment Variables
 ENV MEDIAWIKI_MAJOR_VERSION=1.43
@@ -17,23 +17,23 @@ ENV MEDIAWIKI_BRANCH=REL1_43
 ENV CITIZEN_VERSION=3.5.0
 
 # Install build dependencies for PHP extensions
-RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
     set -eux; \
-    apk add --no-cache --virtual .build-deps \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
         libxml2-dev \
-        oniguruma-dev \
+        libonig-dev \
         libzip-dev \
-        icu-dev \
+        libicu-dev \
         libpng-dev \
-        libjpeg-turbo-dev \
-        freetype-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
         unzip \
         git \
         ca-certificates \
         gnupg \
-        make \
-        g++ \
-        autoconf \
+        dirmngr \
     ; \
     # Install PHP extensions
     docker-php-ext-install -j$(nproc) \
@@ -51,10 +51,11 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     docker-php-ext-enable apcu; \
     # Cleanup
     docker-php-source delete; \
-    rm -rf /tmp/pear ~/.pearrc
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/* /tmp/pear ~/.pearrc
 
 # Final stage
-FROM php:8.3-fpm-alpine AS final
+FROM php:8.3-fpm AS final
 
 LABEL maintainer="atmois@allthingslinux.org"
 
@@ -72,23 +73,28 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 RUN mkdir -p /var/www/atlwiki/mediawiki
 
 # Install runtime dependencies only
-RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
     set -eux; \
-    apk add --no-cache \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
         nginx \
         imagemagick \
-        librsvg \
-        python3 \
+        librsvg2-bin \
+        python3-minimal \
         git \
         ca-certificates \
         gnupg \
-        icu-libs \
-        oniguruma \
-        libzip \
-        libpng \
-        libjpeg-turbo \
-        freetype \
-    ;
+        dirmngr \
+        libicu76 \
+        libonig5 \
+        libzip5 \
+        libpng16-16 \
+        libjpeg62-turbo \
+        libfreetype6 \
+    ; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -111,9 +117,10 @@ RUN set -eux; \
            /var/www/atlwiki/mediawiki/docs/ \
            /var/www/atlwiki/mediawiki/.git*;
 
-# NGINX Configuration (Alpine uses different paths)
-COPY mediawiki.conf /etc/nginx/http.d/mediawiki.conf
-# No need to create symlinks in Alpine's nginx
+# NGINX Configuration
+COPY mediawiki.conf /etc/nginx/sites-available/mediawiki
+RUN ln -s /etc/nginx/sites-available/mediawiki /etc/nginx/sites-enabled/mediawiki && \
+    rm -f /etc/nginx/sites-enabled/default
 
 # Custom PHP Configuration
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
@@ -140,8 +147,5 @@ RUN git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
     /var/www/atlwiki/mediawiki/skins/Citizen && \
     rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git
 
-USER nginx
+USER www-data
 EXPOSE 80
-
-# Default command
-CMD ["php-fpm"]

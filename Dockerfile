@@ -1,14 +1,14 @@
 ### TODO & NOTES ###
-# chown -R www-data:www-data extensions skins cache images
+# chown -R nginx:nginx extensions skins cache images
 # volumes config
 # healthcheck configs
-# sudo chown -R atl-wiki:www-data /var/www/atlwiki && sudo chmod -R 750 /var/www/atlwiki
+# sudo chown -R atl-wiki:nginx /var/www/atlwiki && sudo chmod -R 750 /var/www/atlwiki
 # sudo chmod -R 770 /var/www/atlwiki/images && sudo chmod -R 770 /var/www/atlwiki/cache
 # sudo chmod -R 755 /var/www/atlwiki/sitemap && sudo chmod 755 /var/www/atlwiki/sitemap.xml
 # compose setup for git extensions
 
 # Multi-stage build to reduce image size
-FROM php:8.3-fpm AS builder
+FROM php:8.3-fpm-alpine AS builder
 
 # Environment Variables
 ENV MEDIAWIKI_MAJOR_VERSION=1.43
@@ -17,29 +17,30 @@ ENV MEDIAWIKI_BRANCH=REL1_43
 ENV CITIZEN_VERSION=3.5.0
 
 # Install build dependencies for PHP extensions
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
+    apk add --no-cache --virtual .build-deps \
         libxml2-dev \
-        libonig-dev \
+        oniguruma-dev \
         libzip-dev \
-        libicu-dev \
+        icu-dev \
         libpng-dev \
-        libjpeg-dev \
-        libfreetype6-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
         unzip \
         git \
         ca-certificates \
         gnupg \
-        dirmngr \
+        make \
+        g++ \
+        autoconf \
     ; \
     # Install PHP extensions
     docker-php-ext-install -j$(nproc) \
         xml \
         mbstring \
         mysqli \
+        pdo_mysql \
         intl \
         zip \
     ; \
@@ -51,11 +52,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     docker-php-ext-enable apcu; \
     # Cleanup
     docker-php-source delete; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/* /tmp/pear ~/.pearrc
+    rm -rf /tmp/pear ~/.pearrc
 
 # Final stage
-FROM php:8.3-fpm AS final
+FROM php:8.3-fpm-alpine AS final
 
 LABEL maintainer="atmois@allthingslinux.org"
 
@@ -73,28 +73,23 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 RUN mkdir -p /var/www/atlwiki/mediawiki
 
 # Install runtime dependencies only
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
+    apk add --no-cache \
         nginx \
         imagemagick \
-        librsvg2-bin \
-        python3-minimal \
+        librsvg \
+        python3 \
         git \
         ca-certificates \
         gnupg \
-        dirmngr \
-        libicu76 \
-        libonig5 \
-        libzip5 \
-        libpng16-16 \
-        libjpeg62-turbo \
-        libfreetype6 \
-    ; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/*
+        icu-libs \
+        oniguruma \
+        libzip \
+        libpng \
+        libjpeg-turbo \
+        freetype \
+    ;
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -118,9 +113,7 @@ RUN set -eux; \
            /var/www/atlwiki/mediawiki/.git*;
 
 # NGINX Configuration
-COPY mediawiki.conf /etc/nginx/sites-available/mediawiki
-RUN ln -s /etc/nginx/sites-available/mediawiki /etc/nginx/sites-enabled/mediawiki && \
-    rm -f /etc/nginx/sites-enabled/default
+COPY mediawiki.conf /etc/nginx/http.d/mediawiki.conf
 
 # Custom PHP Configuration
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
@@ -147,5 +140,13 @@ RUN git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
     /var/www/atlwiki/mediawiki/skins/Citizen && \
     rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git
 
-USER www-data
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+RUN chown -R nginx:nginx /var/www/atlwiki
+USER nginx
+
 EXPOSE 80
+
+# Default command
+CMD ["/start.sh"]
