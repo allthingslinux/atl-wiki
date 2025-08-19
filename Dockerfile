@@ -69,10 +69,6 @@ ENV CITIZEN_VERSION=3.5.0
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
-# Setup Directory
-RUN mkdir -p /var/www/atlwiki/mediawiki
-RUN mkdir -p /var/www/atlwiki/images/tmp
-
 # Install runtime dependencies only
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
@@ -94,6 +90,13 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Setup Directory
+RUN mkdir -p /var/www/atlwiki/mediawiki
+RUN mkdir -p /var/www/atlwiki/images/tmp
+RUN chown -R nginx:nginx /var/www/atlwiki
+
+USER nginx
 
 # Set up environment variables with phpdotenv
 COPY composer.json /var/www/atlwiki/composer.json
@@ -131,23 +134,21 @@ COPY configs/ /var/www/atlwiki/configs/
 # Install MediaWiki Extensions dynamically
 COPY extensions.json /tmp/extensions.json
 COPY install_extensions.py /tmp/install_extensions.py
-RUN set -eux; \
-    python3 /tmp/install_extensions.py; \
-    rm -f /tmp/extensions.json /tmp/install_extensions.py
+RUN set -eux; python3 /tmp/install_extensions.py
 
 # Install Citizen Skin
-RUN git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
-    https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git \
-    /var/www/atlwiki/mediawiki/skins/Citizen && \
-    rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git
+RUN git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen
 
+USER root
+
+# Cleanup Files
+RUN rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git
+RUN rm -f /tmp/extensions.json /tmp/install_extensions.py
+
+# Startup Setup
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-RUN chown -R nginx:nginx /var/www/atlwiki
 USER nginx
-
 EXPOSE 80
-
-# Default command
 CMD ["/start.sh"]
