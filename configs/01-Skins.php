@@ -7,12 +7,9 @@ wfLoadSkin( 'MinervaNeue' );
 wfLoadSkin( 'MonoBook' );
 // https://www.mediawiki.org/wiki/Skin:Timeless
 wfLoadSkin( 'Timeless' );
-// https://www.mediawiki.org/wiki/Skin:Vector 
+// https://www.mediawiki.org/wiki/Skin:Vector
 wfLoadSkin( 'Vector' );
-
-// https://www.mediawiki.org/wiki/Manual:$wgStyleDirectory
-$wgStyleDirectory = '/var/www/atlwiki/skins';
-
+// https://www.mediawiki.org/wiki/Skin:Citizen
 wfLoadSkin( 'Citizen' );
 $wgCitizenEnablePreferences = true;
 $wgCitizenSearchDescriptionSource = "wikidata";

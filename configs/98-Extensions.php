@@ -119,9 +119,6 @@ $wgTurnstileSecretKey= $_SERVER['TURNSTILE_SECRET_KEY'];
 
 #################################################################### Other Submodule Extensions
 
-// https://www.mediawiki.org/wiki/Manual:$wgExtensionDirectory
-$wgExtensionDirectory = '/var/www/atlwiki/extensions';
-
 // https://www.mediawiki.org/wiki/Extension:WebAuthn
 wfLoadExtension( 'WebAuthn' );
 // https://www.mediawiki.org/wiki/Extension:Favorites
@@ -150,8 +147,6 @@ wfLoadExtension( 'UserMerge' );
 wfLoadExtension( 'TopLink' );
 // https://www.mediawiki.org/wiki/Extension:ConsoleOutput
 wfLoadExtension( 'ConsoleOutput' );
-// https://www.mediawiki.org/wiki/Extension:ShortDescription
-wfLoadExtension( 'ShortDescription' );
 
 ###################################################################
 // https://www.mediawiki.org/wiki/Extension:Approved_Revs
@@ -239,12 +234,7 @@ wfLoadExtension( 'OAuth' );
 
 #################################################################### Tarballed Extensions
 
-$wgExtensionDirectory = '/var/www/atlwiki/tarballExtensions';
-
 // https://www.mediawiki.org/wiki/Extension:TemplateStylesExtender
 wfLoadExtension( 'TemplateStylesExtender' );
 // https://www.mediawiki.org/wiki/Extension:TemplateStyles
 wfLoadExtension( 'TemplateStyles' );
-
-// Switched back to core directory as it breaks echo otherwise
-$wgExtensionDirectory = '/var/www/atlwiki/mediawiki/extensions';
