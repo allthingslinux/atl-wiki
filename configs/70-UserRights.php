@@ -1,21 +1,29 @@
 <?php
-// For UserRights: https://www.mediawiki.org/wiki/Manual:User_rights
-// bureaucrat, checkuser, supress & push-subscription-manager
+/**
+ * Mediawiki Permissions Configuration
+ * https://www.mediawiki.org/wiki/Manual:User_rights
+ * bureaucrat, checkuser, supress & push-subscription-manager are dead
+ *
+ * PHP version 8.3
+ *
+ * @category Configuration
+ * @package  ATL-Wiki
+ * @author   Atmois <atmois@allthingslinux.org>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://atl.wiki
+ */
 
-# Debugging
-// $wgGroupPermissions['*']['read'] = true;
-
-// * ~ Everyone 
-$wgGroupPermissions['*']['createaccount'] = true; 
+// * ~ Everyone
+$wgGroupPermissions['*']['createaccount'] = true;
 $wgGroupPermissions['*']['edit'] = false;
 
 // user ~ All registered users
-$wgGroupPermissions['user']['edit'] = true;  
-$wgGroupPermissions['user']['writeapi'] = true; # For visual editor
+$wgGroupPermissions['user']['edit'] = true;
+$wgGroupPermissions['user']['writeapi'] = true; // For visual editor
 $wgGroupPermissions['user']['move'] = false;
 $wgGroupPermissions['user']['move-subpages'] = false;
 $wgGroupPermissions['user']['move-categorypages'] = false;
-$wgGroupPermissions['user']['move-rootuserpages'] = false;     
+$wgGroupPermissions['user']['move-rootuserpages'] = false;
 $wgGroupPermissions['user']['movefile'] = false;
 $wgGroupPermissions['user']['viewapprover'] = true;
 
@@ -42,7 +50,7 @@ $wgGroupPermissions['staff']['rollback'] = true;
 $wgGroupPermissions['staff']['move'] = true;
 $wgGroupPermissions['staff']['move-subpages'] = true;
 $wgGroupPermissions['staff']['move-categorypages'] = true;
-$wgGroupPermissions['staff']['move-rootuserpages'] = true;  
+$wgGroupPermissions['staff']['move-rootuserpages'] = true;
 $wgGroupPermissions['staff']['editsemiprotected'] = true;
 $wgGroupPermissions['staff']['approverevisions'] = true;
 
@@ -50,7 +58,7 @@ $wgGroupPermissions['staff']['approverevisions'] = true;
 $wgGroupPermissions['template-editor']['template-editing'] = true;
 $wgGroupPermissions['interface-admin']['module-editing'] = true;
 
-// interface-admin ~ Grants interface edit permissions including templates and modules
+// interface-admin ~ Grants interface edit permissions
 $wgGroupPermissions['interface-admin']['template-editing'] = true;
 $wgGroupPermissions['interface-admin']['module-editing'] = true;
 

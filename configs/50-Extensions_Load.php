@@ -1,6 +1,6 @@
 <?php
 /**
- * This loads all the mediawiki extensions we use.
+ * Extensions Loading
  *
  * PHP version 8.3
  *

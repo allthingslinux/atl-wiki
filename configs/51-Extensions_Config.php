@@ -1,6 +1,6 @@
 <?php
 /**
- * This configures all the extensions we use.
+ * Extension Configuring
  *
  * PHP version 8.3
  *
