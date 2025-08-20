@@ -218,8 +218,8 @@ $wgPluggableAuth_Config["Staff Login via All Things Linux (SSO)"] = [
     "plugin" => "OpenIDConnect",
     "data" => [
         "providerURL" => "https://sso.allthingslinux.org",
-        "clientID" => $_SERVER['CLIENT_ID'],
-        "clientsecret" => $_SERVER['CLIENT_SECRET'],
+        "clientID" => $_SERVER['OPENID_CLIENT_ID'],
+        "clientsecret" => $_SERVER['OPENID_CLIENT_SECRET'],
     ]
 ];
 
