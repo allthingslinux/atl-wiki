@@ -52,9 +52,15 @@ $wgMainPageIsDomainRoot = true;
 // https://www.mediawiki.org/wiki/Manual:$wgUseCdn
 $wgUseCdn = true;
 
+// https://www.mediawiki.org/wiki/Manual:$wgCdnMaxAge
+$wgCdnMaxAge = 259200;
+
+// https://www.mediawiki.org/wiki/Manual:$wgCdnMatchParameterOrder
+$wgCdnMatchParameterOrder = false;
+
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServersNoPurge
 $wgCdnServersNoPurge = [
-  '10.0.0.2',
+  // Cloudflare IP Ranges
   '173.245.48.0/20',
   '103.21.244.0/22',
   '103.22.200.0/22',
@@ -77,23 +83,38 @@ $wgCdnServersNoPurge = [
   '2405:8100::/32',
   '2a06:98c0::/29',
   '2c0f:f248::/32',
+  // Internal Range
   '172.21.0.0/16',
   '127.0.0.1',
-  '::1'
+  '::1',
+  // Reverse Proxy
+  '10.0.0.2'
 ];
 
+// https://www.mediawiki.org/wiki/Manual:$wgCdnServers
 $wgCdnServers = [
+    // Reverse Proxy
     '10.0.0.2',
 ];
 
+// https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
 $wgUsePrivateIPs = true;
 
 // Trust the IP forwarded by the proxy (NPM and Cloudflare)
 if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
     $forwardedIps = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-    // The first IP in the list is the original client IP.
+    // The first IP in the list is the original client IP
     $_SERVER['REMOTE_ADDR'] = trim($forwardedIps[0]);
 }
+
+// https://www.mediawiki.org/wiki/Manual:$wgCookieSameSite
+$wgCookieSameSite = 'Strict';
+
+// https://www.mediawiki.org/wiki/Manual:$wgCookieSecure
+$wgCookieSecure = true;
+
+// https://www.mediawiki.org/wiki/Manual:$wgExternalLinkTarget
+$wgExternalLinkTarget = '_blank';
 
 // https://www.mediawiki.org/wiki/Manual:$wgUsePathInfo
 $wgUsePathInfo = true;
@@ -166,14 +187,35 @@ $wgSMTP = [
 
 //######################################################// Caching
 
+// https://www.mediawiki.org/wiki/Manual:$wgCacheDirectory
+$wgCacheDirectory = "/var/www/atlwiki/cache";
+
+// https://www.mediawiki.org/wiki/Manual:$wgGitInfoCacheDirectory
+$wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
+
+// https://www.mediawiki.org/wiki/Manual:$wgMainStash
+$wgMainStash = 'redis';
+
 // https://www.mediawiki.org/wiki/Manual:$wgMainCacheType
-$wgMainCacheType = CACHE_ACCEL;
+$wgMainCacheType = 'redis';
+
+// https://www.mediawiki.org/wiki/Manual:$wgParserCacheType
+$wgParserCacheType  = 'redis';
+
+// https://www.mediawiki.org/wiki/Manual:$wgSessionCacheType
+$wgSessionCacheType = 'redis';
+
+// https://www.mediawiki.org/wiki/Manual:$wgUseLocalMessageCache
+$wgUseLocalMessageCache = true;
 
 // https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:$wgEnableSidebarCache
 $wgEnableSidebarCache = true;
 
-// https://www.mediawiki.org/wiki/Manual:$wgCacheDirectory
-$wgCacheDirectory = "/var/www/atlwiki/cache";
+// https://www.mediawiki.org/wiki/Manual:$wgParserCacheExpireTime
+$wgParserCacheExpireTime = 259200;
+
+// https://www.mediawiki.org/wiki/Manual:$wgSearchSuggestCacheExpiry
+$wgSearchSuggestCacheExpiry = 10800;
 
 //######################################################// Misc
 

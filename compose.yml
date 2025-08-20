@@ -8,3 +8,11 @@ services:
       - .env:/var/www/atlwiki/.env
     ports:
       - "3001:80"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: atlwiki-redis
+    ports:
+      - "6379:6379"
