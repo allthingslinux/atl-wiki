@@ -193,6 +193,15 @@ $wgCacheDirectory = "/var/www/atlwiki/cache";
 // https://www.mediawiki.org/wiki/Manual:$wgGitInfoCacheDirectory
 $wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
 
+// https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
+$wgObjectCaches['redis'] = [
+    'class'                => 'RedisBagOStuff',
+    'servers'              => [ 'redis:6379' ],
+    'persistent'           => false,
+    'password'             => false,
+    'automaticFailOver'    => false,
+];
+
 // https://www.mediawiki.org/wiki/Manual:$wgMainStash
 $wgMainStash = 'redis';
 
