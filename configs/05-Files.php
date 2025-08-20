@@ -4,20 +4,14 @@
 // https://www.mediawiki.org/wiki/Manual:$wgEnableUploads
 $wgEnableUploads = true;
 
-// https://www.mediawiki.org/wiki/Manual:$wgUploadDirectory
-$wgUploadDirectory = '/var/www/atlwiki/images';
-
-// https://www.mediawiki.org/wiki/Manual:$wgUploadPath
-$wgUploadPath = "/images";
-
-// https://www.mediawiki.org/wiki/Manual:$wgTmpDirectory
-$wgTmpDirectory = '/var/www/atlwiki/images/tmp';
-
 // https://www.mediawiki.org/wiki/Manual:$wgUseImageMagick
 $wgUseImageMagick = true;
 
 // https://www.mediawiki.org/wiki/Manual:$wgImageMagickConvertCommand
 $wgImageMagickConvertCommand = "/usr/bin/convert";
+
+// https://www.mediawiki.org/wiki/Manual:$wgHashedUploadDirectory
+$wgHashedUploadDirectory = false;
 
 // https://www.mediawiki.org/wiki/Manual:$wgUseInstantCommons
 $wgUseInstantCommons = true;
@@ -33,8 +27,8 @@ $wgTrustedMediaFormats = [
 	MEDIATYPE_BITMAP, # All bitmap formats
 	MEDIATYPE_AUDIO, # All audio formats
 	MEDIATYPE_VIDEO, # All plain video formats
-	"image/svg+xml", # svg 
-	"application/pdf", # PDF 
+	"image/svg+xml", # svg
+	"application/pdf", # PDF
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgSVGConverters
