@@ -11,6 +11,10 @@
  * @link     https://atl.wiki
  */
 
+if (!defined('MEDIAWIKI') ) {
+    exit;
+}
+
 // Loads the config files in order
 $configFiles = glob('/var/www/atlwiki/configs/*.php');
 sort($configFiles);

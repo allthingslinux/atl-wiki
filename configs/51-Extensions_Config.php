@@ -49,8 +49,8 @@ $wgTurnstileSecretKey= $_SERVER['TURNSTILE_SECRET_KEY'];
 // https://www.mediawiki.org/wiki/Extension:AWS
 
 $wgAWSRegion = 'auto';
-$wgAWSBucketName = 'atl-wiki';
-$wgAWSBucketDomain = 'images.atl.wiki';
+$wgAWSBucketName = $_SERVER['AWS_BUCKET_NAME'];
+$wgAWSBucketDomain = $_SERVER['AWS_BUCKET_DOMAIN'];
 $wgAWSCredentials = [
     'key' => $_SERVER['ACCESS_KEY_ID'],
     'secret' => $_SERVER['SECRET_ACCESS_KEY'],

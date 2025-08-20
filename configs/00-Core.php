@@ -23,15 +23,11 @@ if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
 // https://www.mediawiki.org/wiki/Manual:$wgShowExceptionDetails
 $wgShowExceptionDetails = true;
 
-if (!defined('MEDIAWIKI') ) {
-    exit;
-}
-
 //######################################################// URL and CDN
 // https://www.mediawiki.org/wiki/Manual:Short_URL1
 
 // https://www.mediawiki.org/wiki/Manual:$wgSitename
-$wgSitename = "atl.wiki";
+$wgSitename = $_SERVER['SITENAME'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMetaNamespace
 $wgMetaNamespace = "ATL";
@@ -48,7 +44,7 @@ $wgAuthenticationTokenVersion = "1"; // Changing this will log out all sessions
 //######################################################// URL and CDN
 
 // https://www.mediawiki.org/wiki/Manual:$wgServer
-$wgServer = "https://atl.wiki";
+$wgServer = $_SERVER['WG_SERVER'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMainPageIsDomainRoot
 $wgMainPageIsDomainRoot = true;

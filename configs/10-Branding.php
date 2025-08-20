@@ -15,26 +15,26 @@
 
 // https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:$wgLogos
 $wgLogos = [
-    '1x' => "https://atl.wiki/images/c/c9/Logo.png",
-    'icon' => "https://atl.wiki/images/c/c9/Logo.png",
-    'svg' => "https://atl.wiki/images/6/6f/Logo.svg",
+    '1x' => "https://images.atl.wiki/Logo.png",
+    'icon' => "https://images.atl.wiki/Logo.png",
+    'svg' => "https://images.atl.wiki/Logo.svg",
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgFavicon
-$wgFavicon = "https://atl.wiki/images/c/c9/Logo.png";
+$wgFavicon = "https://images.atl.wiki/Logo.png";
 
 // https://www.mediawiki.org/wiki/Manual:$wgFooterIcons
 $wgFooterIcons = [
     "copyright" => [
         "copyright" => [
-            "src" => "https://atl.wiki/images/0/0f/Badge-ccbysa.svg",
+            "src" => "https://images.atl.wiki/Badge-ccbysa.svg",
             "url" => "https://creativecommons.org/licenses/by-sa/4.0/",
             "alt" => "Creative Commons Attribution-ShareAlike 4.0 International"
         ],
     ],
     "poweredby" => [
         "mediawiki" => [
-            "src" => "https://atl.wiki/images/8/88/Badge-mediawiki.svg",
+            "src" => "https://images.atl.wiki/Badge-mediawiki.svg",
             "url" => "https://www.mediawiki.org/",
             "alt" => "Powered by MediaWiki",
         ]
