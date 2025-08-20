@@ -1,10 +1,2 @@
-tarballExtensions/
-mediawiki/
-sitemap/
-sitemap.xml
-images/
-cache/
-docker-samples/
-OLD/
 vendor/
 .env
