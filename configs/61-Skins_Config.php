@@ -1,0 +1,26 @@
+<?php
+/**
+ * Skin Configuration
+ *
+ * PHP version 8.3
+ *
+ * @category Configuration
+ * @package  ATL-Wiki
+ * @author   Atmois <atmois@allthingslinux.org>
+ * @license  https://opensource.org/licenses/MIT MIT
+ * @link     https://atl.wiki
+ */
+
+// https://www.mediawiki.org/wiki/Skin:Citizen
+wfLoadSkin('Citizen');
+$wgCitizenEnablePreferences = true;
+$wgCitizenSearchDescriptionSource = "wikidata";
+
+// https://www.mediawiki.org/wiki/Manual:$wgDefaultSkin
+$wgDefaultSkin = "Citizen";
+
+// https://www.mediawiki.org/wiki/Manual:$wgEdititis
+$wgEdititis = true;
+
+// https://www.mediawiki.org/wiki/Manual:$wgAllowUserCss
+$wgAllowUserCss = true;

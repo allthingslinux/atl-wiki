@@ -1,6 +1,6 @@
 <?php
 /**
- * Skin Configuration
+ * Skin Loading
  *
  * PHP version 8.3
  *
@@ -21,14 +21,3 @@ wfLoadSkin('Timeless');
 wfLoadSkin('Vector');
 // https://www.mediawiki.org/wiki/Skin:Citizen
 wfLoadSkin('Citizen');
-$wgCitizenEnablePreferences = true;
-$wgCitizenSearchDescriptionSource = "wikidata";
-
-// https://www.mediawiki.org/wiki/Manual:$wgDefaultSkin
-$wgDefaultSkin = "Citizen";
-
-// https://www.mediawiki.org/wiki/Manual:$wgEdititis
-$wgEdititis = true;
-
-// https://www.mediawiki.org/wiki/Manual:$wgAllowUserCss
-$wgAllowUserCss = true;
