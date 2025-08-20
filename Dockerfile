@@ -1,10 +1,7 @@
 ### TODO & NOTES ###
-# chown -R nginx:nginx extensions skins cache images
 # volumes config
 # healthcheck configs
-# sudo chown -R atl-wiki:nginx /var/www/atlwiki && sudo chmod -R 750 /var/www/atlwiki
-# sudo chmod -R 770 /var/www/atlwiki/images && sudo chmod -R 770 /var/www/atlwiki/cache
-# sudo chmod -R 755 /var/www/atlwiki/sitemap && sudo chmod 755 /var/www/atlwiki/sitemap.xml
+# sitemap stuff
 # compose setup for git extensions
 
 # Multi-stage build to reduce image size
