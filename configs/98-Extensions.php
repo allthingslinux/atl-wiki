@@ -150,7 +150,24 @@ wfLoadExtension( 'ConsoleOutput' );
 // https://www.mediawiki.org/wiki/Extension:ShortDescription
 wfLoadExtension( 'ShortDescription' );
 
-###################################################################
+################################################################### AWS
+// https://www.mediawiki.org/wiki/Extension:AWS
+
+wfLoadExtension( 'AWS' );
+$wgAWSRegion = 'auto';
+$wgAWSBucketName = 'atl-wiki';
+$wgAWSBucketDomain = 'images.atl.wiki';
+$wgAWSRepoHashLevels = '2';
+$wgAWSRepoDeletedHashLevels = '3';
+$wgFileBackends['s3'] = [
+    'class' => 'AmazonS3FileBackend',
+    'bucket' => $wgAWSBucketName,
+    'region' => $wgAWSRegion,
+    'endpoint' => 'https://53d9d9e6ebc5a0dddeeb59477445ea0c.r2.cloudflarestorage.com',
+    'use_path_style_endpoint' => true,
+];
+
+################################################################### ApprovedRevs
 // https://www.mediawiki.org/wiki/Extension:Approved_Revs
 
 wfLoadExtension('ApprovedRevs');

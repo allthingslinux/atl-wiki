@@ -4,15 +4,6 @@
 // https://www.mediawiki.org/wiki/Manual:$wgEnableUploads
 $wgEnableUploads = true;
 
-// https://www.mediawiki.org/wiki/Manual:$wgUploadDirectory
-$wgUploadDirectory = '/var/www/atlwiki/images';
-
-// https://www.mediawiki.org/wiki/Manual:$wgUploadPath
-$wgUploadPath = "/images";
-
-// https://www.mediawiki.org/wiki/Manual:$wgTmpDirectory
-$wgTmpDirectory = '/var/www/atlwiki/images/tmp';
-
 // https://www.mediawiki.org/wiki/Manual:$wgUseImageMagick
 $wgUseImageMagick = true;
 
