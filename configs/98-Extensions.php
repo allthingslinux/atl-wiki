@@ -148,7 +148,27 @@ wfLoadExtension( 'TopLink' );
 // https://www.mediawiki.org/wiki/Extension:ConsoleOutput
 wfLoadExtension( 'ConsoleOutput' );
 
-###################################################################
+################################################################### AWS
+// https://www.mediawiki.org/wiki/Extension:AWS
+
+wfLoadExtension( 'AWS' );
+$wgAWSRegion = 'auto';
+$wgAWSBucketName = 'atl-wiki';
+$wgAWSBucketDomain = 'images.atl.wiki';
+$wgAWSCredentials = [
+    'key' => $_SERVER['ACCESS_KEY_ID'],
+    'secret' => $_SERVER['SECRET_ACCESS_KEY'],
+];
+$wgFileBackends['s3'] = [
+    'class' => 'AmazonS3FileBackend',
+    'bucket' => $wgAWSBucketName,
+    'region' => $wgAWSRegion,
+    'endpoint' => 'https://53d9d9e6ebc5a0dddeeb59477445ea0c.r2.cloudflarestorage.com',
+    'use_path_style_endpoint' => true,
+];
+
+
+################################################################### ApprovedRevs
 // https://www.mediawiki.org/wiki/Extension:Approved_Revs
 
 wfLoadExtension('ApprovedRevs');
@@ -208,7 +228,7 @@ $wgOpenIDConnect_MigrateUsersByEmail = true;
 $wgOpenIDConnect_UseRealNameAsUserName = true;
 $wgPluggableAuth_EnableLocalProperties = true;
 
-#################################################################### DISABLED
+#################################################################### OG Meta Description
 // https://www.mediawiki.org/wiki/Extension:Description2
 
 wfLoadExtension( 'Description2' );
@@ -220,7 +240,7 @@ $wgEnableMetaDescriptionFunctions = true;
 wfLoadExtension( 'CodeMirror' );
 $wgDefaultUserOptions['usecodemirror'] = true;
 
-####################################################################
+#################################################################### Beta Extension
 // https://www.mediawiki.org/wiki/Extension:Drafts
 
 wfLoadExtension( 'Drafts' );

@@ -126,6 +126,12 @@
     "extension_name": "TemplateStylesExtender",
     "extension_url": "https://github.com/octfx/mediawiki-extensions-TemplateStylesExtender/archive/refs/tags/v2.0.0.tar.gz",
     "install_type": "tarball"
+  },
+  {
+    "extension_name": "AWS",
+    "extension_url": "https://github.com/edwardspec/mediawiki-aws-s3",
+    "install_type": "git",
+    "git_branch": "master"
   }
 ]
 
