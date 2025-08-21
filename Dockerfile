@@ -91,7 +91,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Setup Directory
 RUN mkdir -p /var/www/atlwiki/mediawiki && \
-    mkdir -p /var/www/atlwiki/images/tmp && \
+    mkdir -p /var/www/atlwiki/cache && \
     chown -R nginx:nginx /var/www/atlwiki
 
 USER nginx
