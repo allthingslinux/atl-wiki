@@ -98,11 +98,9 @@ RUN mkdir -p /var/www/atlwiki/mediawiki && \
 
 USER nginx
 
-# Set php composer dependencies
+# Set ENV Variable Dependencies
 COPY composer.json /var/www/atlwiki/composer.json
 RUN composer install --no-dev --optimize-autoloader --working-dir=/var/www/atlwiki
-COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
-RUN composer update --working-dir=/var/www/atlwiki/mediawiki
 
 # Install Mediawiki
 RUN set -eux; \
@@ -115,6 +113,10 @@ RUN set -eux; \
     tar -x --strip-components=1 -f mediawiki.tar.gz -C /var/www/atlwiki/mediawiki; \
     gpgconf --kill all; \
     rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz;
+
+# Mediawiki Extension Dependencies
+COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
+RUN composer update --working-dir=/var/www/atlwiki/mediawiki
 
 # NGINX Configuration
 COPY mediawiki.conf /etc/nginx/http.d/mediawiki.conf
