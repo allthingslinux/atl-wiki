@@ -46,8 +46,10 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
     docker-php-ext-install -j"$(nproc)" gd; \
     # Install APCu with debug disabled
-    printf "no\n" | pecl install apcu-5.1.22; \
+    pecl install apcu-5.1.22; \
     docker-php-ext-enable apcu; \
+    pecl install redis; \
+    docker-php-ext-enable redis; \
     # Cleanup
     docker-php-source delete; \
     rm -rf /tmp/pear ~/.pearrc; \
@@ -68,7 +70,7 @@ ENV CITIZEN_VERSION=3.5.0
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
-# Install runtime dependencies only
+# Install runtime dependencies
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
     apk add --no-cache \
@@ -84,8 +86,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         libzip=1.11.4-r0 \
         libpng=1.6.47-r0 \
         libjpeg-turbo=3.1.0-r0 \
-        freetype=2.13.3-r0 \
-        php83-pecl-redis=6.2.0-r0;
+        freetype=2.13.3-r0;
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
