@@ -3,6 +3,7 @@
 LICENSE
 README.md
 compose.yml
+compose.yml.example
 composer.lock
 .gitignore
 .git/
