@@ -1,5 +1,5 @@
 services:
-  atlwiki:
+  wiki:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,7 +9,10 @@ services:
     ports:
       - "3001:80"
     depends_on:
-      - redis
+      redis:
+        condition: service_started
+    networks:
+      - wiki-network
 
   redis:
     image: redis:7-alpine
@@ -19,3 +22,9 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     ports:
       - "6379:6379"
+    networks:
+      - wiki-network
+
+networks:
+  wiki-network:
+    driver: bridge
