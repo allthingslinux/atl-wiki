@@ -84,7 +84,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         libzip=1.11.4-r0 \
         libpng=1.6.47-r0 \
         libjpeg-turbo=3.1.0-r0 \
-        freetype=2.13.3-r0;
+        freetype=2.13.3-r0 \
+        php83-pecl-redis=6.2.0-r0;
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
