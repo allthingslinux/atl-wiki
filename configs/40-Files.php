@@ -13,7 +13,7 @@
  */
 
 // https://www.mediawiki.org/wiki/Manual:$wgEnableUploads
-$wgEnableUploads = true;
+$wgEnableUploads = $_SERVER['UPLOADS_ENABLED'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgUseImageMagick
 $wgUseImageMagick = true;
