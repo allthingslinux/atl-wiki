@@ -93,7 +93,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN mkdir -p /var/www/atlwiki/mediawiki && \
     mkdir -p /var/www/atlwiki/cache && \
     chown -R nginx:nginx /var/www/atlwiki
-
 USER nginx
 
 # Set ENV Variable Dependencies
@@ -115,12 +114,6 @@ RUN set -eux; \
 
 # Mediawiki Extension Dependencies
 COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
-# Install missing PHP calendar extension (required by composer dependencies)
-USER root
-RUN apk add --no-cache --virtual .calendar-build-deps $PHPIZE_DEPS && \
-    docker-php-ext-install calendar && \
-    apk del .calendar-build-deps
-USER nginx
 RUN composer update --working-dir=/var/www/atlwiki/mediawiki
 
 # NGINX Configuration
