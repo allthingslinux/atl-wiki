@@ -114,12 +114,6 @@ RUN set -eux; \
     gpgconf --kill all; \
     rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz;
 
-
-# Mediawiki Extension Dependencies
-COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
-WORKDIR /var/www/atlwiki/mediawiki
-RUN composer update
-
 # NGINX Configuration
 COPY mediawiki.conf /etc/nginx/http.d/mediawiki.conf
 
@@ -139,6 +133,11 @@ COPY --chown=nginx:nginx configs/ /var/www/atlwiki/configs/
 COPY extensions.json /tmp/extensions.json
 COPY install_extensions.py /tmp/install_extensions.py
 RUN set -eux; python3 /tmp/install_extensions.py
+
+# Mediawiki Extension Dependencies
+COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
+WORKDIR /var/www/atlwiki/mediawiki
+RUN composer update
 
 # Install Citizen Skin
 RUN git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen
