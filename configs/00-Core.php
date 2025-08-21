@@ -200,8 +200,8 @@ $wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
 $wgObjectCaches['redis'] = [
     'class'                => 'RedisBagOStuff',
     'servers'              => [ 'redis:6379' ],
+    'password'             => $_SERVER['REDIS_PASSWORD'],
     'persistent'           => false,
-    'password'             => false,
     'automaticFailOver'    => false,
 ];
 
