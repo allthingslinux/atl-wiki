@@ -45,9 +45,9 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         calendar; \
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
     docker-php-ext-install -j"$(nproc)" gd; \
-    printf "no\n" | pecl install apcu-5.1.22; \
+    pecl install apcu-5.1.22; \
     docker-php-ext-enable apcu; \
-    printf "no\n" | pecl install redis; \
+    pecl install redis; \
     # Cleanup
     docker-php-source delete; \
     rm -rf /tmp/pear ~/.pearrc; \
