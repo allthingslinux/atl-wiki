@@ -16,7 +16,7 @@ ENV CITIZEN_VERSION=3.5.0
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
-    # Install build dependencies
+    # Install Build Dependencies
     apk add --no-cache --virtual .build-deps \
         libxml2-dev=2.13.8-r0 \
         oniguruma-dev=6.9.10-r0 \
@@ -34,22 +34,20 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         g++=14.2.0-r6 \
         autoconf=2.72-r1 \
         pcre-dev=8.45-r4; \
-    # Install PHP extensions
+    # Install PHP Extensions
     docker-php-ext-install -j"$(nproc)" \
         xml \
         mbstring \
         mysqli \
         pdo_mysql \
         intl \
-        zip; \
-    # Configure GD properly
+        zip \
+        calendar; \
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
     docker-php-ext-install -j"$(nproc)" gd; \
-    # Install APCu with debug disabled
     printf "no\n" | pecl install apcu-5.1.22; \
     docker-php-ext-enable apcu; \
-    pecl install redis; \
-    docker-php-ext-enable redis; \
+    printf "no\n" | pecl install redis; \
     # Cleanup
     docker-php-source delete; \
     rm -rf /tmp/pear ~/.pearrc; \
@@ -114,8 +112,15 @@ RUN set -eux; \
     gpgconf --kill all; \
     rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz;
 
+
 # Mediawiki Extension Dependencies
 COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
+# Install missing PHP calendar extension (required by composer dependencies)
+USER root
+RUN apk add --no-cache --virtual .calendar-build-deps $PHPIZE_DEPS && \
+    docker-php-ext-install calendar && \
+    apk del .calendar-build-deps
+USER nginx
 RUN composer update --working-dir=/var/www/atlwiki/mediawiki
 
 # NGINX Configuration
