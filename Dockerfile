@@ -65,6 +65,7 @@ ENV MEDIAWIKI_MAJOR_VERSION=1.43
 ENV MEDIAWIKI_VERSION=1.43.3
 ENV MEDIAWIKI_BRANCH=REL1_43
 ENV CITIZEN_VERSION=3.5.0
+
 # Copy PHP extensions from builder
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
@@ -98,7 +99,8 @@ USER nginx
 
 # Set ENV Variable Dependencies
 COPY composer.json /var/www/atlwiki/composer.json
-RUN composer install --no-dev --optimize-autoloader --working-dir=/var/www/atlwiki
+WORKDIR /var/www/atlwiki
+RUN composer install --no-dev --optimize-autoloader
 
 # Install Mediawiki
 RUN set -eux; \
@@ -115,7 +117,8 @@ RUN set -eux; \
 
 # Mediawiki Extension Dependencies
 COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
-RUN composer update --working-dir=/var/www/atlwiki/mediawiki
+WORKDIR /var/www/atlwiki/mediawiki
+RUN composer update
 
 # NGINX Configuration
 COPY mediawiki.conf /etc/nginx/http.d/mediawiki.conf
@@ -149,6 +152,12 @@ RUN rm -f /tmp/extensions.json /tmp/install_extensions.py && \
     rm -rf /var/www/atlwiki/mediawiki/docs/ && \
     rm -rf /var/www/atlwiki/mediawiki/.git* && \
     rm -rf /var/www/atlwiki/mediawiki/mw-config/
+
+# Create Mediawiki Log File
+RUN mkdir -p /var/log/mediawiki && \
+    touch /var/log/mediawiki/debug.log && \
+    chown -R nginx:nginx /var/log/mediawiki && \
+    chmod -R 664 /var/log/mediawiki
 
 # Startup Setup
 COPY start.sh /start.sh

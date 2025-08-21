@@ -23,6 +23,9 @@ if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
 // https://www.mediawiki.org/wiki/Manual:$wgShowExceptionDetails
 $wgShowExceptionDetails = true;
 
+// https://www.mediawiki.org/wiki/Manual:$wgDebugLogFile
+$wgDebugLogFile = "/var/log/mediawiki/debug.log";
+
 //######################################################// URL and CDN
 // https://www.mediawiki.org/wiki/Manual:Short_URL1
 
