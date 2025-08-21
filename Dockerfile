@@ -46,7 +46,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
     docker-php-ext-install -j"$(nproc)" gd; \
     # Install APCu with debug disabled
-    pecl install apcu-5.1.22; \
+    printf "no\n" | pecl install apcu-5.1.22; \
     docker-php-ext-enable apcu; \
     pecl install redis; \
     docker-php-ext-enable redis; \
