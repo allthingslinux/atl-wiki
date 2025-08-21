@@ -196,13 +196,11 @@ $wgCacheDirectory = "/var/www/atlwiki/cache";
 // https://www.mediawiki.org/wiki/Manual:$wgGitInfoCacheDirectory
 $wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
 
-$redisPassword = $_SERVER['REDIS_PASSWORD'];
-
 // https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 $wgObjectCaches['redis'] = [
     'class'                => 'RedisBagOStuff',
     'servers'              => [ 'redis:6379' ],
-    'password'             => $redisPassword,
+    'password'             => $_SERVER['REDIS_PASSWORD'],
     'persistent'           => false,
     'automaticFailOver'    => false,
 ];
