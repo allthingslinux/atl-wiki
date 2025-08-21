@@ -86,9 +86,7 @@ $wgCdnServersNoPurge = [
   // Internal Range
   '172.21.0.0/16',
   '127.0.0.1',
-  '::1',
-  // Reverse Proxy
-  '10.0.0.2'
+  '::1'
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServers
@@ -100,10 +98,8 @@ $wgCdnServers = [
 // https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
 $wgUsePrivateIPs = true;
 
-// Trust the IP forwarded by the proxy (NPM and Cloudflare)
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+if (PHP_SAPI !== 'cli' && isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
     $forwardedIps = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-    // The first IP in the list is the original client IP
     $_SERVER['REMOTE_ADDR'] = trim($forwardedIps[0]);
 }
 
