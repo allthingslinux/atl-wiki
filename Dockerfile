@@ -98,9 +98,11 @@ RUN mkdir -p /var/www/atlwiki/mediawiki && \
 
 USER nginx
 
-# Set up environment variables with phpdotenv
+# Set php composer dependencies
 COPY composer.json /var/www/atlwiki/composer.json
 RUN composer install --no-dev --optimize-autoloader --working-dir=/var/www/atlwiki
+COPY composer.local.json /var/www/atlwiki/mediawiki/composer.local.json
+RUN composer update --working-dir=/var/www/atlwiki/mediawiki
 
 # Install Mediawiki
 RUN set -eux; \
