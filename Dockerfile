@@ -125,8 +125,8 @@ COPY .well-known /var/www/atlwiki/.well-known
 RUN ln -s /var/www/atlwiki/.well-known/security.txt /var/www/atlwiki/security.txt
 
 # Configs
-COPY LocalSettings.php /var/www/atlwiki/mediawiki/LocalSettings.php
-COPY configs/ /var/www/atlwiki/configs/
+COPY --chown=nginx:nginx LocalSettings.php /var/www/atlwiki/mediawiki/LocalSettings.php
+COPY --chown=nginx:nginx configs/ /var/www/atlwiki/configs/
 
 # Install MediaWiki Extensions dynamically
 COPY extensions.json /tmp/extensions.json
