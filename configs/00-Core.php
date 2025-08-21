@@ -18,14 +18,6 @@ if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
     $dotenv->safeLoad();
 }
 
-//######################################################// Troubleshooting
-
-// https://www.mediawiki.org/wiki/Manual:$wgShowExceptionDetails
-$wgShowExceptionDetails = true;
-
-// https://www.mediawiki.org/wiki/Manual:$wgDebugLogFile
-$wgDebugLogFile = "/var/log/mediawiki/debug.log";
-
 //######################################################// URL and CDN
 // https://www.mediawiki.org/wiki/Manual:Short_URL1
 
@@ -200,7 +192,6 @@ $wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
 $wgObjectCaches['redis'] = [
     'class'                => 'RedisBagOStuff',
     'servers'              => [ 'redis:6379' ],
-    'password'             => $_SERVER['REDIS_PASSWORD'],
     'persistent'           => false,
     'automaticFailOver'    => false,
 ];

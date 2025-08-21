@@ -154,7 +154,6 @@ RUN rm -f /tmp/extensions.json /tmp/install_extensions.py && \
 
 # Create Mediawiki Log File
 RUN mkdir -p /var/log/mediawiki && \
-    touch /var/log/mediawiki/debug.log && \
     chown -R nginx:nginx /var/log/mediawiki && \
     chmod -R 664 /var/log/mediawiki
 
