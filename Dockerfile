@@ -6,8 +6,9 @@
 # redis disk persistence
 # https://www.mediawiki.org/wiki/Manual:Performance_tuning
 # php.ini improvements
+# https://www.mediawiki.org/wiki/Manual:$wgCdnReboundPurgeDelay
 
-# Build stage
+# Builder Stage
 FROM php:8.3-fpm-alpine AS builder
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
@@ -48,7 +49,71 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     rm -rf ~/.pearrc; \
     apk del .build-deps
 
-# Final stage
+# Mediawiki Setup Stage
+FROM php:8.3-fpm-alpine AS mediawiki
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
+# Build Arguments
+ARG MEDIAWIKI_MAJOR_VERSION=1.43
+ARG MEDIAWIKI_VERSION=1.43.3
+ARG CITIZEN_VERSION=3.5.0
+ARG MEDIAWIKI_BRANCH=REL1_43
+
+# Install Mediawiki Install Dependencies
+RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
+    set -eux; \
+    apk add --no-cache \
+        python3=3.12.11-r0 \
+        git=2.49.1-r0 \
+        ca-certificates=20250619-r0 \
+        gnupg=2.4.7-r0 \
+        icu-libs=76.1-r1
+
+# Copy PHP extensions from builder stage
+COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+
+# Copy Composer from Official Image
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN mkdir -p /var/www/atlwiki/mediawiki;
+WORKDIR /var/www/atlwiki/mediawiki
+
+# Download and Verify MediaWiki
+RUN --mount=type=cache,target=/tmp/mediawiki-cache \
+    set -eux; \
+    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
+    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
+    GNUPGHOME="$(mktemp -d)"; \
+    export GNUPGHOME; \
+    curl -fsSL "https://www.mediawiki.org/keys/keys.txt" | gpg --import; \
+    gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
+    tar -x --strip-components=1 -f mediawiki.tar.gz; \
+    gpgconf --kill all; \
+    rm -rf "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz
+
+# Copy Configuration Files
+COPY composer.local.json ./composer.local.json
+
+# Install Extensions Dynamically and Citizen Skin
+COPY extensions.json install_extensions.py /tmp/
+RUN --mount=type=cache,target=/root/.composer \
+    set -eux; \
+    python3 /tmp/install_extensions.py; \
+    # Install Citizen skin
+    git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
+        https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen;
+
+# Install Extension Dependencies
+RUN --mount=type=cache,target=/root/.composer \
+    composer install --no-dev --optimize-autoloader --no-scripts
+
+# Cleanup
+RUN rm -rf /var/www/atlwiki/mediawiki/tests/ /var/www/atlwiki/mediawiki/docs/ /var/www/atlwiki/mediawiki/mw-config/ && \
+    rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git* && \
+    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.json /var/www/atlwiki/mediawiki/composer.lock;
+
+# Final Stage
 FROM php:8.3-fpm-alpine AS final
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
@@ -56,31 +121,13 @@ LABEL maintainer="atmois@allthingslinux.org" \
       org.opencontainers.image.title="atl.wiki" \
       org.opencontainers.image.description="atl.wiki Docker Image"
 
-# Build arguments
-ARG MEDIAWIKI_MAJOR_VERSION
-ARG MEDIAWIKI_VERSION
-ARG MEDIAWIKI_BRANCH
-ARG CITIZEN_VERSION
-
-# Copy PHP extensions from builder
-COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
-COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
-
-# Setup Mediawiki user
-RUN addgroup -g 1000 -S mediawiki && \
-    adduser -u 1000 -S mediawiki -G mediawiki
-
-# Install runtime dependencies and setup directories
+# Install Runtime Dependencies
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
-    # Install runtime packages
     apk add --no-cache \
         imagemagick=7.1.2.0-r0 \
         librsvg=2.60.0-r0 \
         python3=3.12.11-r0 \
-        git=2.49.1-r0 \
-        ca-certificates=20250619-r0 \
-        gnupg=2.4.7-r0 \
         icu-libs=76.1-r1 \
         oniguruma=6.9.10-r0 \
         libzip=1.11.4-r0 \
@@ -89,63 +136,32 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         freetype=2.13.3-r0 \
         unzip=6.0-r15;
 
-# Copy Composer from official image
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Copy PHP extensions from builder
+COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
-# Setup Directories
+# Setup Mediawiki user in final image to match ownership
+RUN addgroup -g 1000 -S mediawiki && \
+    adduser -u 1000 -S mediawiki -G mediawiki
+
 RUN mkdir -p /var/www/atlwiki/mediawiki && \
     mkdir -p /var/www/atlwiki/cache && \
-    chown -R mediawiki:mediawiki /var/www/atlwiki
+    chown -R mediawiki:mediawiki /var/www/atlwiki;
 
 USER mediawiki
 WORKDIR /var/www/atlwiki
 
-# Install composer dependencies with cache mount
-COPY --chown=mediawiki:mediawiki composer.json ./
-RUN --mount=type=cache,target=/home/mediawiki/.composer,uid=1000,gid=1000 \
-    composer install --no-dev --optimize-autoloader --no-scripts
+# Copy pre-built mediawiki tree from the mediawiki build stage
+COPY --chown=mediawiki:mediawiki --from=mediawiki /var/www/atlwiki .
 
-# Mediawiki Installation
-RUN --mount=type=cache,target=/tmp/mediawiki-cache,uid=1000,gid=1000 \
-    set -eux; \
-    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
-    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
-    GNUPGHOME="$(mktemp -d)"; \
-    export GNUPGHOME; \
-    curl -fsSL "https://www.mediawiki.org/keys/keys.txt" | gpg --import; \
-    gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
-    tar -x --strip-components=1 -f mediawiki.tar.gz -C mediawiki; \
-    # Cleanup
-    gpgconf --kill all; \
-    rm -rf "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz \
-           mediawiki/tests/ mediawiki/docs/ mediawiki/mw-config/
-
-# Copy configuration files
-COPY --chown=mediawiki:mediawiki LocalSettings.php mediawiki/
-COPY --chown=mediawiki:mediawiki configs/ configs/
-COPY --chown=mediawiki:mediawiki composer.local.json mediawiki/
-
-# Install extensions and update composer dependencies
-COPY --chown=mediawiki:mediawiki extensions.json install_extensions.py /tmp/
-RUN --mount=type=cache,target=/home/mediawiki/.composer,uid=1000,gid=1000 \
-    set -eux; \
-    python3 /tmp/install_extensions.py; \
-    cd mediawiki; \
-    composer update --no-dev --optimize-autoloader; \
-    # Install Citizen skin
-    git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
-        https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git skins/Citizen; \
-    # Cleanup
-    rm -f /tmp/extensions.json /tmp/install_extensions.py \
-    rm -rf skins/Citizen/.git*;
-
-# Copy remaining files
-COPY --chown=mediawiki:mediawiki robots.txt ./
+# Copy Files
+COPY --chown=mediawiki:mediawiki robots.txt ./robots.txt
 COPY --chown=mediawiki:mediawiki .well-known ./.well-known
-RUN ln -s /var/www/atlwiki/.well-known/security.txt /var/www/atlwiki/security.txt
+COPY --chown=mediawiki:mediawiki LocalSettings.php ./mediawiki/LocalSettings.php
+COPY --chown=mediawiki:mediawiki configs/ ./configs/
+RUN ln -s ./.well-known/security.txt ./security.txt
 
 USER root
-
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
 USER mediawiki
