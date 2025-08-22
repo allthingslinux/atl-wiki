@@ -86,7 +86,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         freetype=2.13.3-r0 \
         unzip=6.0-r15; \
     # Setup directories
-    mkdir -p /var/www/atlwiki/{mediawiki,cache} \
+    mkdir -p /var/www/atlwiki/{mediawiki,cache} && \
     chown -R nginx:nginx /var/www/atlwiki
 
 # Copy Composer from official image
