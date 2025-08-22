@@ -1,9 +1,5 @@
 ### TODO & NOTES ###
-# volumes config
-# healthcheck configs
 # sitemap stuff
-# compose setup for git extensions
-# redis disk persistence
 # https://www.mediawiki.org/wiki/Manual:Performance_tuning
 # php.ini improvements
 # https://www.mediawiki.org/wiki/Manual:$wgCdnReboundPurgeDelay
@@ -109,9 +105,21 @@ RUN --mount=type=cache,target=/root/.composer \
     composer install --no-dev --optimize-autoloader --no-scripts
 
 # Cleanup
-RUN rm -rf /var/www/atlwiki/mediawiki/tests/ /var/www/atlwiki/mediawiki/docs/ /var/www/atlwiki/mediawiki/mw-config/ && \
-    rm -rf /var/www/atlwiki/mediawiki/skins/Citizen/.git* && \
-    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.json /var/www/atlwiki/mediawiki/composer.lock;
+RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
+           /var/www/atlwiki/mediawiki/docs/ \
+           /var/www/atlwiki/mediawiki/mw-config/ \
+           /var/www/atlwiki/mediawiki/maintenance/dev/ \
+           /var/www/atlwiki/mediawiki/maintenance/benchmarks/ \
+           /var/www/atlwiki/mediawiki/includes/libs/composer/ \
+           /var/www/atlwiki/mediawiki/vendor/*/tests/ \
+           /var/www/atlwiki/mediawiki/vendor/*/test/ \
+           /var/www/atlwiki/mediawiki/vendor/*/.git* \
+           /var/www/atlwiki/mediawiki/skins/Citizen/.git* \
+           /var/www/atlwiki/mediawiki/skins/*/tests/ \
+           /var/www/atlwiki/mediawiki/extensions/*/tests/ && \
+    find /var/www/atlwiki/mediawiki -name "*.md" -delete && \
+    find /var/www/atlwiki/mediawiki -name "*.txt" -not -path "*/i18n/*" -delete && \
+    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.json /var/www/mediawiki/composer.lock
 
 # Final Stage
 FROM php:8.3-fpm-alpine AS final
@@ -166,3 +174,7 @@ COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
 USER mediawiki
 EXPOSE 9000
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD php-fpm -t || exit 1
