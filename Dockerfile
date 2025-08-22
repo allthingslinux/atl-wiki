@@ -7,7 +7,7 @@
 # https://www.mediawiki.org/wiki/Manual:Performance_tuning
 # php.ini improvements
 
-# Multi-stage build to reduce image size
+# Build stage
 FROM php:8.3-fpm-alpine AS builder
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
@@ -71,7 +71,6 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
     # Install runtime packages
     apk add --no-cache \
-        nginx=1.28.0-r3 \
         imagemagick=7.1.2.0-r0 \
         librsvg=2.60.0-r0 \
         python3=3.12.11-r0 \
@@ -143,13 +142,7 @@ RUN ln -s /var/www/atlwiki/.well-known/security.txt /var/www/atlwiki/security.tx
 
 USER root
 
-# Copy configuration files and startup script
-COPY mediawiki.conf /etc/nginx/http.d/
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
 
 USER nginx
-EXPOSE 80
-
-CMD ["/start.sh"]
+EXPOSE 9000

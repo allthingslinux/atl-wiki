@@ -1,5 +1,5 @@
 services:
-  wiki:
+  mediawiki:
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,12 +10,26 @@ services:
         CITIZEN_VERSION: ${CITIZEN_VERSION}
     container_name: atlwiki
     volumes:
+      - wiki-webroot:/var/www/atlwiki
       - .env:/var/www/atlwiki/.env
-    ports:
-      - "3001:80"
+    expose:
+      - "9000"
     depends_on:
       redis:
         condition: service_started
+    networks:
+      - wiki-network
+
+  nginx:
+    image: nginx:1.28-alpine
+    container_name: atlwiki-nginx
+    depends_on:
+      - wiki
+    ports:
+      - "3000:80"
+    volumes:
+      - wiki-webroot:/var/www/atlwiki:ro
+      - ./mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
     networks:
       - wiki-network
 
@@ -30,3 +44,7 @@ services:
 networks:
   wiki-network:
     driver: bridge
+
+volumes:
+  wiki-webroot:
+    driver: local
