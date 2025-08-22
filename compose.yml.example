@@ -9,9 +9,10 @@ services:
         MEDIAWIKI_BRANCH: ${MEDIAWIKI_BRANCH}
         CITIZEN_VERSION: ${CITIZEN_VERSION}
     container_name: atlwiki
+    user: "1000:1000"
     volumes:
       - wiki-webroot:/var/www/atlwiki
-      - .env:/var/www/atlwiki/.env
+      - .env:/var/www/atlwiki/.env:ro
     expose:
       - "9000"
     depends_on:
@@ -21,10 +22,11 @@ services:
       - wiki-network
 
   nginx:
-    image: nginx:1.28-alpine
+    image: nginx:stable-alpine
     container_name: atlwiki-nginx
     depends_on:
-      - wiki
+      mediawiki:
+        condition: service_started
     ports:
       - "3000:80"
     volumes:
@@ -34,7 +36,7 @@ services:
       - wiki-network
 
   redis:
-    image: redis:7-alpine
+    image: redis:alpine
     container_name: atlwiki-redis
     ports:
       - "6379:6379"

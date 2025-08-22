@@ -66,6 +66,10 @@ ARG CITIZEN_VERSION
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
+# Setup Mediawiki user
+RUN addgroup -g 1000 -S mediawiki && \
+    adduser -u 1000 -S mediawiki -G mediawiki
+
 # Install runtime dependencies and setup directories
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux; \
@@ -91,18 +95,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Setup Directories
 RUN mkdir -p /var/www/atlwiki/mediawiki && \
     mkdir -p /var/www/atlwiki/cache && \
-    chown -R nginx:nginx /var/www/atlwiki
+    chown -R mediawiki:mediawiki /var/www/atlwiki
 
-USER nginx
+USER mediawiki
 WORKDIR /var/www/atlwiki
 
 # Install composer dependencies with cache mount
-COPY --chown=nginx:nginx composer.json ./
-RUN --mount=type=cache,target=/home/nginx/.composer,uid=82,gid=82 \
+COPY --chown=mediawiki:mediawiki composer.json ./
+RUN --mount=type=cache,target=/home/mediawiki/.composer,uid=1000,gid=1000 \
     composer install --no-dev --optimize-autoloader --no-scripts
 
 # Mediawiki Installation
-RUN --mount=type=cache,target=/tmp/mediawiki-cache,uid=82,gid=82 \
+RUN --mount=type=cache,target=/tmp/mediawiki-cache,uid=1000,gid=1000 \
     set -eux; \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
@@ -117,13 +121,13 @@ RUN --mount=type=cache,target=/tmp/mediawiki-cache,uid=82,gid=82 \
            mediawiki/tests/ mediawiki/docs/ mediawiki/mw-config/
 
 # Copy configuration files
-COPY --chown=nginx:nginx LocalSettings.php mediawiki/
-COPY --chown=nginx:nginx configs/ configs/
-COPY --chown=nginx:nginx composer.local.json mediawiki/
+COPY --chown=mediawiki:mediawiki LocalSettings.php mediawiki/
+COPY --chown=mediawiki:mediawiki configs/ configs/
+COPY --chown=mediawiki:mediawiki composer.local.json mediawiki/
 
 # Install extensions and update composer dependencies
-COPY --chown=nginx:nginx extensions.json install_extensions.py /tmp/
-RUN --mount=type=cache,target=/home/nginx/.composer,uid=82,gid=82 \
+COPY --chown=mediawiki:mediawiki extensions.json install_extensions.py /tmp/
+RUN --mount=type=cache,target=/home/mediawiki/.composer,uid=1000,gid=1000 \
     set -eux; \
     python3 /tmp/install_extensions.py; \
     cd mediawiki; \
@@ -136,13 +140,13 @@ RUN --mount=type=cache,target=/home/nginx/.composer,uid=82,gid=82 \
     rm -rf skins/Citizen/.git*;
 
 # Copy remaining files
-COPY --chown=nginx:nginx robots.txt ./
-COPY --chown=nginx:nginx .well-known ./.well-known
+COPY --chown=mediawiki:mediawiki robots.txt ./
+COPY --chown=mediawiki:mediawiki .well-known ./.well-known
 RUN ln -s /var/www/atlwiki/.well-known/security.txt /var/www/atlwiki/security.txt
 
 USER root
 
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
-USER nginx
+USER mediawiki
 EXPOSE 9000
