@@ -25,7 +25,9 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         pcre-dev=8.45-r4 \
         make=4.4.1-r3 \
         gcc=14.2.0-r6 \
-        g++=14.2.0-r6; \
+        g++=14.2.0-r6 \
+        git=2.49.1-r0 \
+       	lua5.1-dev=5.1.5-r13; \
     # Install PHP Extensions
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
     docker-php-ext-install -j"$(nproc)" \
@@ -38,8 +40,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         calendar \
         gd; \
     # Install PECL extensions
-    pecl install apcu-5.1.22 redis; \
-    docker-php-ext-enable apcu redis; \
+    pecl install apcu-5.1.22 redis luasandbox; \
+    docker-php-ext-enable apcu redis luasandbox; \
     # Cleanup in same layer
     docker-php-source delete; \
     rm -rf ~/.pearrc; \
@@ -142,7 +144,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         libpng=1.6.47-r0 \
         libjpeg-turbo=3.1.0-r0 \
         freetype=2.13.3-r0 \
-        unzip=6.0-r15;
+        unzip=6.0-r15 \
+        lua5.1-libs=5.1.5-r13;
 
 # Copy PHP extensions from builder
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/

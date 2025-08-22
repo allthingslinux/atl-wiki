@@ -135,3 +135,8 @@ $wgDefaultUserOptions['usecodemirror'] = true;
 
 $egDraftsAutoSaveInputBased = true;
 $egDraftsAutoSaveWait = 15;
+
+//######################################################// Scribunto
+// https://www.mediawiki.org/wiki/Extension:Scribunto
+
+$wgScribuntoDefaultEngine = 'luasandbox';
