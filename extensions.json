@@ -2,7 +2,10 @@
   {
     "extension_name": "AntiSpoof",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/AntiSpoof",
-    "install_type": "git"
+    "install_type": "git",
+		"post_install_commands": [
+			"composer install --no-dev"
+		]
   },
   {
     "extension_name": "ApprovedRevs",
@@ -22,7 +25,10 @@
   {
     "extension_name": "CheckUser",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CheckUser",
-    "install_type": "git"
+    "install_type": "git",
+		"post_install_commands": [
+			"composer install --no-dev"
+		]
   },
   {
     "extension_name": "CodeMirror",
@@ -74,7 +80,10 @@
   {
     "extension_name": "OAuth",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/OAuth",
-    "install_type": "git"
+    "install_type": "git",
+		"post_install_commands": [
+			"composer install --no-dev"
+		]
   },
   {
     "extension_name": "OpenGraphMeta",
@@ -115,12 +124,18 @@
   {
     "extension_name": "WebAuthn",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/WebAuthn",
-    "install_type": "git"
+    "install_type": "git",
+		"post_install_commands": [
+			"composer install --no-dev"
+		]
   },
   {
     "extension_name": "TemplateStyles",
     "extension_url": "https://extdist.wmflabs.org/dist/extensions/TemplateStyles-REL1_43-48207c0.tar.gz",
-    "install_type": "tarball"
+    "install_type": "tarball",
+		"post_install_commands": [
+			"composer install --no-dev"
+		]
   },
   {
     "extension_name": "TemplateStylesExtender",

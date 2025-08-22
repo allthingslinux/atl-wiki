@@ -3,6 +3,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        MEDIAWIKI_MAJOR_VERSION: ${MEDIAWIKI_MAJOR_VERSION}
+        MEDIAWIKI_VERSION: ${MEDIAWIKI_VERSION}
+        MEDIAWIKI_BRANCH: ${MEDIAWIKI_BRANCH}
+        CITIZEN_VERSION: ${CITIZEN_VERSION}
     container_name: atlwiki
     volumes:
       - .env:/var/www/atlwiki/.env
