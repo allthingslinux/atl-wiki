@@ -22,16 +22,16 @@ if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
 // https://www.mediawiki.org/wiki/Manual:Short_URL1
 
 // https://www.mediawiki.org/wiki/Manual:$wgSitename
-$wgSitename = $_SERVER['SITENAME'];
+$wgSitename = $_ENV['SITENAME'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMetaNamespace
 $wgMetaNamespace = "ATL";
 
 // https://www.mediawiki.org/wiki/Manual:$wgUpgradeKey
-$wgUpgradeKey = $_SERVER['UPGRADE_KEY'];
+$wgUpgradeKey = $_ENV['UPGRADE_KEY'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgSecretKey
-$wgSecretKey = $_SERVER['SECRET_KEY'];
+$wgSecretKey = $_ENV['SECRET_KEY'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgAuthenticationTokenVersion
 $wgAuthenticationTokenVersion = "1"; // Changing this will log out all sessions
@@ -39,7 +39,7 @@ $wgAuthenticationTokenVersion = "1"; // Changing this will log out all sessions
 //######################################################// URL and CDN
 
 // https://www.mediawiki.org/wiki/Manual:$wgServer
-$wgServer = $_SERVER['WG_SERVER'];
+$wgServer = $_ENV['WG_SERVER'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMainPageIsDomainRoot
 $wgMainPageIsDomainRoot = true;
@@ -165,10 +165,10 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 // https://www.mediawiki.org/wiki/Manual:$wgSharedTables
 $wgSharedTables[] = "actor";
 
-$wgDBserver = $_SERVER['DB_SERVER'];
-$wgDBname = $_SERVER['DB_NAME'];
-$wgDBuser = $_SERVER['DB_USER'];
-$wgDBpassword = $_SERVER['DB_PASSWORD'];
+$wgDBserver = $_ENV['DB_SERVER'];
+$wgDBname = $_ENV['DB_NAME'];
+$wgDBuser = $_ENV['DB_USER'];
+$wgDBpassword = $_ENV['DB_PASSWORD'];
 
 $wgSMTP = [
     "host"      => "smtp.gmail.com",
@@ -177,7 +177,7 @@ $wgSMTP = [
     "port"      => 587,
     "auth"      => true,
     "username"  => "services@allthingslinux.org",
-    "password"  => $_SERVER['SMTP_PASSWORD'],
+    "password"  => $_ENV['SMTP_PASSWORD'] ?? '',
 ];
 
 //######################################################// Caching

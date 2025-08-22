@@ -42,18 +42,18 @@ $wgUserrightsInterwikiDelimiter = '#';
 //######################################################// ConfirmEdit
 // https://www.mediawiki.org/wiki/Extension:ConfirmEdit
 
-$wgTurnstileSiteKey= $_SERVER['TURNSTILE_SITE_KEY'];
-$wgTurnstileSecretKey= $_SERVER['TURNSTILE_SECRET_KEY'];
+$wgTurnstileSiteKey= $_ENV['TURNSTILE_SITE_KEY'];
+$wgTurnstileSecretKey= $_ENV['TURNSTILE_SECRET_KEY'];
 
 //######################################################// AWS
 // https://www.mediawiki.org/wiki/Extension:AWS
 
 $wgAWSRegion = 'auto';
-$wgAWSBucketName = $_SERVER['AWS_BUCKET_NAME'];
-$wgAWSBucketDomain = $_SERVER['AWS_BUCKET_DOMAIN'];
+$wgAWSBucketName = $_ENV['AWS_BUCKET_NAME'];
+$wgAWSBucketDomain = $_ENV['AWS_BUCKET_DOMAIN'];
 $wgAWSCredentials = [
-    'key' => $_SERVER['ACCESS_KEY_ID'],
-    'secret' => $_SERVER['SECRET_ACCESS_KEY'],
+    'key' => $_ENV['ACCESS_KEY_ID'],
+    'secret' => $_ENV['SECRET_ACCESS_KEY'],
 ];
 $accountID = '53d9d9e6ebc5a0dddeeb59477445ea0c';
 $wgFileBackends['s3'] = [
@@ -80,7 +80,7 @@ $egApprovedRevsEnabledNamespaces[NS_PROJECT] = false;
 //######################################################// Discord
 // https://www.mediawiki.org/wiki/Extension:Discord
 
-$wgDiscordWebhookURL = [ $_SERVER['DISCORD_WEBHOOK_URL'] ];
+$wgDiscordWebhookURL = [ $_ENV['DISCORD_WEBHOOK_URL'] ];
 $wgDiscordUseEmojis = true;
 $wgDiscordDisabledHooks = [
     'ApprovedRevsRevisionApproved',
@@ -107,8 +107,8 @@ $wgPluggableAuth_Config["Staff Login via All Things Linux (SSO)"] = [
     "plugin" => "OpenIDConnect",
     "data" => [
         "providerURL" => "https://sso.allthingslinux.org",
-        "clientID" => $_SERVER['OPENID_CLIENT_ID'],
-        "clientsecret" => $_SERVER['OPENID_CLIENT_SECRET'],
+        "clientID" => $_ENV['OPENID_CLIENT_ID'],
+        "clientsecret" => $_ENV['OPENID_CLIENT_SECRET'],
     ]
 ];
 $wgPluggableAuth_EnableLocalLogin = true;
