@@ -102,10 +102,9 @@ COPY --chown=nginx:nginx composer.json ./
 RUN --mount=type=cache,target=/home/nginx/.composer,uid=82,gid=82 \
     composer install --no-dev --optimize-autoloader --no-scripts
 
-# Download and verify MediaWiki in single layer
+# Mediawiki Installation
 RUN --mount=type=cache,target=/tmp/mediawiki-cache,uid=82,gid=82 \
     set -eux; \
-    mkdir -p mediawiki; \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
     GNUPGHOME="$(mktemp -d)"; \
