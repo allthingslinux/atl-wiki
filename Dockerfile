@@ -75,6 +75,12 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN mkdir -p /var/www/atlwiki/mediawiki;
+WORKDIR /var/www/atlwiki
+
+COPY composer.json /var/www/atlwiki/composer.json
+RUN --mount=type=cache,target=/root/.composer \
+    composer install --no-dev --optimize-autoloader --no-scripts
+
 WORKDIR /var/www/atlwiki/mediawiki
 
 # Download and Verify MediaWiki
@@ -104,7 +110,7 @@ RUN --mount=type=cache,target=/root/.composer \
 
 # Install Extension Dependencies
 RUN --mount=type=cache,target=/root/.composer \
-    composer install --no-dev --optimize-autoloader --no-scripts
+    composer update --no-dev --optimize-autoloader --no-scripts
 
 # Cleanup
 RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
@@ -174,6 +180,8 @@ RUN ln -s ./.well-known/security.txt ./security.txt
 
 USER root
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 USER mediawiki
 EXPOSE 9000
@@ -181,3 +189,5 @@ EXPOSE 9000
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD php-fpm -t || exit 1
+
+CMD ["/start.sh"]
