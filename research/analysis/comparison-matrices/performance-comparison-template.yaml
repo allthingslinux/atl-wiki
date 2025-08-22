@@ -1,0 +1,74 @@
+# Performance Optimization Comparison Matrix Template
+# Compare performance optimization strategies across all analyzed repositories
+
+comparison_matrix:
+  category: "Performance Optimization"
+  analysis_date: ""
+  repositories: []  # List of repository names analyzed
+  
+  metrics:
+    - name: "Database Optimization"
+      description: "Database performance tuning approaches"
+      values: {}  # Map of repository_name -> optimization techniques
+      analysis: ""
+      
+    - name: "Web Server Configuration"
+      description: "Web server performance optimizations"
+      values: {}  # Map of repository_name -> web server optimizations
+      analysis: ""
+      
+    - name: "PHP Configuration"
+      description: "PHP and PHP-FPM optimization strategies"
+      values: {}  # Map of repository_name -> PHP optimizations
+      analysis: ""
+      
+    - name: "Caching Layers"
+      description: "Caching implementations and strategies"
+      values: {}  # Map of repository_name -> caching approaches
+      analysis: ""
+      
+    - name: "CDN Integration"
+      description: "Content delivery network usage"
+      values: {}  # Map of repository_name -> CDN approach
+      analysis: ""
+      
+    - name: "Asset Optimization"
+      description: "Static asset optimization techniques"
+      values: {}  # Map of repository_name -> asset optimization
+      analysis: ""
+      
+    - name: "Performance Monitoring"
+      description: "Performance monitoring and measurement tools"
+      values: {}  # Map of repository_name -> monitoring tools
+      analysis: ""
+
+  patterns:
+    common_approaches: []     # Most frequently used optimization approaches
+    unique_innovations: []    # Unique or innovative performance patterns
+    best_practices: []        # Identified performance best practices
+    anti_patterns: []         # Performance anti-patterns to avoid
+    
+  trends:
+    popular_caching_solutions: [] # Most commonly used caching solutions
+    database_engines: []      # Database engine preferences and optimizations
+    web_server_preferences: [] # Web server choices and configurations
+    
+  recommendations:
+    - priority: ""            # high, medium, low
+      description: ""
+      implementation_effort: "" # low, medium, high
+      impact: ""              # low, medium, high
+      rationale: ""
+      
+# Performance Benchmarks (if available)
+benchmarks:
+  load_times: {}             # Map of repository_name -> load time metrics
+  throughput: {}             # Map of repository_name -> throughput metrics
+  resource_usage: {}         # Map of repository_name -> resource consumption
+  
+# Summary Analysis
+summary:
+  total_repositories: 0
+  optimization_maturity: ""   # Overall maturity of performance practices
+  common_bottlenecks: []     # Commonly addressed performance bottlenecks
+  optimization_gaps: []      # Areas lacking optimization attention

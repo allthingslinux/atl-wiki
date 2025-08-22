@@ -1,0 +1,170 @@
+comparison_matrix:
+  category: "Web Server and PHP Optimization"
+  repositories:
+    - "WikiDocker"
+    - "mediawiki-docker-ubc"
+    - "mediawiki-docker-offspot"
+    - "docker-mediawiki-chiefy"
+    - "docker-mediawiki-radiorabe"
+    - "mw-docker"
+    - "gcpedia"
+    - "mediawiki-starcitizen"
+
+  metrics:
+    - name: "Web Server Type"
+      values:
+        WikiDocker: "Varnish + Apache"
+        mediawiki-docker-ubc: "Apache"
+        mediawiki-docker-offspot: "Nginx + PHP-FPM"
+        docker-mediawiki-chiefy: "Nginx + PHP-FPM"
+        docker-mediawiki-radiorabe: "Apache"
+        mw-docker: "Apache"
+        gcpedia: "Nginx"
+        mediawiki-starcitizen: "Apache"
+      analysis: "Mixed approach with Nginx+PHP-FPM gaining popularity for containerized deployments, while Apache remains common for traditional setups. Varnish used for high-performance caching."
+
+    - name: "OPcache Memory Allocation"
+      values:
+        WikiDocker: "Not specified"
+        mediawiki-docker-ubc: "Not specified"
+        mediawiki-docker-offspot: "128M"
+        docker-mediawiki-chiefy: "Default"
+        docker-mediawiki-radiorabe: "Not specified"
+        mw-docker: "128M"
+        gcpedia: "Not specified"
+        mediawiki-starcitizen: "Not specified"
+      analysis: "128M is the standard OPcache memory allocation across repositories that specify it. Many deployments rely on default PHP settings."
+
+    - name: "Upload File Size Limit"
+      values:
+        WikiDocker: "64M"
+        mediawiki-docker-ubc: "200M"
+        mediawiki-docker-offspot: "200M"
+        docker-mediawiki-chiefy: "100M"
+        docker-mediawiki-radiorabe: "Not specified"
+        mw-docker: "Not specified"
+        gcpedia: "Not specified"
+        mediawiki-starcitizen: "Not specified"
+      analysis: "Upload limits vary significantly from 64M to 200M. Educational and content-heavy deployments tend to allow larger uploads."
+
+    - name: "Gzip Compression"
+      values:
+        WikiDocker: "Via Varnish"
+        mediawiki-docker-ubc: "Not configured"
+        mediawiki-docker-offspot: "Enabled"
+        docker-mediawiki-chiefy: "Enabled"
+        docker-mediawiki-radiorabe: "Not specified"
+        mw-docker: "Not specified"
+        gcpedia: "Likely enabled"
+        mediawiki-starcitizen: "Not specified"
+      analysis: "Gzip compression is enabled in modern Nginx deployments but often missing in Apache configurations. Varnish handles compression at the cache layer."
+
+    - name: "Static Asset Caching"
+      values:
+        WikiDocker: "Via Varnish (sophisticated)"
+        mediawiki-docker-ubc: "Not configured"
+        mediawiki-docker-offspot: "10 days expiration"
+        docker-mediawiki-chiefy: "Max expiration"
+        docker-mediawiki-radiorabe: "Not specified"
+        mw-docker: "Not specified"
+        gcpedia: "Not specified"
+        mediawiki-starcitizen: "Not specified"
+      analysis: "Nginx deployments implement proper static asset caching with long expiration times. Apache deployments often lack explicit caching configuration."
+
+    - name: "PHP Memory Limit"
+      values:
+        WikiDocker: "Not specified"
+        mediawiki-docker-ubc: "128M"
+        mediawiki-docker-offspot: "512M (LocalSettings)"
+        docker-mediawiki-chiefy: "Default"
+        docker-mediawiki-radiorabe: "Not specified"
+        mw-docker: "Not specified"
+        gcpedia: "Not specified"
+        mediawiki-starcitizen: "Not specified"
+      analysis: "Memory limits range from 128M to 512M. Higher limits are set for content-heavy or extension-rich deployments."
+
+    - name: "FastCGI Timeout Configuration"
+      values:
+        WikiDocker: "Not applicable"
+        mediawiki-docker-ubc: "Not specified"
+        mediawiki-docker-offspot: "600s"
+        docker-mediawiki-chiefy: "1800s"
+        docker-mediawiki-radiorabe: "Not applicable"
+        mw-docker: "Not applicable"
+        gcpedia: "Not specified"
+        mediawiki-starcitizen: "Not applicable"
+      analysis: "Nginx deployments configure extended FastCGI timeouts (600-1800s) for long-running MediaWiki operations like maintenance scripts."
+
+    - name: "Advanced Caching Strategy"
+      values:
+        WikiDocker: "Varnish with MediaWiki optimizations"
+        mediawiki-docker-ubc: "None"
+        mediawiki-docker-offspot: "Basic Nginx caching"
+        docker-mediawiki-chiefy: "Basic Nginx caching"
+        docker-mediawiki-radiorabe: "None"
+        mw-docker: "None"
+        gcpedia: "None"
+        mediawiki-starcitizen: "None"
+      analysis: "Only WikiDocker implements advanced caching with Varnish. Most deployments rely on basic web server caching or no caching at all."
+
+    - name: "Security Hardening"
+      values:
+        WikiDocker: "Basic"
+        mediawiki-docker-ubc: "Comprehensive (directory protection, PHP disabled in images)"
+        mediawiki-docker-offspot: "Basic auth, directory protection"
+        docker-mediawiki-chiefy: "Basic"
+        docker-mediawiki-radiorabe: "Basic"
+        mw-docker: "Basic"
+        gcpedia: "Not specified"
+        mediawiki-starcitizen: "Basic"
+      analysis: "UBC deployment shows the most comprehensive security hardening with proper directory protection and PHP execution controls."
+
+  patterns:
+    common_approaches:
+      - "128M OPcache memory allocation as standard"
+      - "100M-200M upload file size limits for media-rich wikis"
+      - "Basic gzip compression in Nginx deployments"
+      - "Long-term static asset caching (10 days to max)"
+      - "Extended FastCGI timeouts for MediaWiki operations"
+
+    unique_innovations:
+      - "WikiDocker: Sophisticated Varnish configuration with MediaWiki-specific optimizations"
+      - "mediawiki-docker-offspot: Comprehensive PHP-FPM and OPcache tuning"
+      - "mediawiki-docker-ubc: Advanced security hardening with directory protection"
+      - "docker-mediawiki-chiefy: Minimal Alpine-based setup with essential optimizations"
+
+    best_practices:
+      - "Use Nginx + PHP-FPM for containerized deployments"
+      - "Implement Varnish for high-traffic sites with proper MediaWiki integration"
+      - "Configure OPcache with production settings (validate_timestamps=0)"
+      - "Set appropriate upload limits based on content requirements"
+      - "Enable gzip compression for all text-based content"
+      - "Implement long-term caching for static assets"
+      - "Disable PHP execution in sensitive directories"
+      - "Configure extended timeouts for MediaWiki maintenance operations"
+
+  recommendations:
+    - priority: "high"
+      description: "Implement OPcache with production settings for PHP performance"
+      implementation_effort: "low"
+      impact: "high"
+
+    - priority: "high"
+      description: "Configure appropriate upload limits and memory settings"
+      implementation_effort: "low"
+      impact: "medium"
+
+    - priority: "medium"
+      description: "Enable gzip compression and static asset caching"
+      implementation_effort: "medium"
+      impact: "medium"
+
+    - priority: "medium"
+      description: "Implement security hardening with directory protection"
+      implementation_effort: "medium"
+      impact: "high"
+
+    - priority: "low"
+      description: "Consider Varnish for high-traffic deployments"
+      implementation_effort: "high"
+      impact: "high"

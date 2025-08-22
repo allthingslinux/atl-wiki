@@ -1,0 +1,68 @@
+# Containerization Strategy Comparison Matrix Template
+# Compare Docker and containerization approaches across all analyzed repositories
+
+comparison_matrix:
+  category: "Containerization Strategy"
+  analysis_date: ""
+  repositories: []  # List of repository names analyzed
+  
+  metrics:
+    - name: "Docker Strategy"
+      description: "Overall containerization approach"
+      values: {}  # Map of repository_name -> strategy (single-container, multi-container, etc.)
+      analysis: ""
+      
+    - name: "Base Images"
+      description: "Docker base images used"
+      values: {}  # Map of repository_name -> base image(s)
+      analysis: ""
+      
+    - name: "Multi-stage Builds"
+      description: "Usage of multi-stage Docker builds"
+      values: {}  # Map of repository_name -> boolean
+      analysis: ""
+      
+    - name: "Volume Management"
+      description: "Data persistence and volume strategies"
+      values: {}  # Map of repository_name -> volume strategy
+      analysis: ""
+      
+    - name: "Service Orchestration"
+      description: "How multiple services are orchestrated"
+      values: {}  # Map of repository_name -> orchestration approach
+      analysis: ""
+      
+    - name: "Network Configuration"
+      description: "Container networking setup"
+      values: {}  # Map of repository_name -> network approach
+      analysis: ""
+      
+    - name: "Image Optimization"
+      description: "Docker image size and layer optimization"
+      values: {}  # Map of repository_name -> optimization techniques
+      analysis: ""
+
+  patterns:
+    common_approaches: []     # Most frequently used approaches
+    unique_innovations: []    # Unique or innovative containerization patterns
+    best_practices: []        # Identified best practices
+    anti_patterns: []         # Problematic patterns to avoid
+    
+  trends:
+    popular_base_images: []   # Most commonly used base images
+    orchestration_preferences: [] # Preferred orchestration methods
+    optimization_techniques: [] # Common optimization approaches
+    
+  recommendations:
+    - priority: ""            # high, medium, low
+      description: ""
+      implementation_effort: "" # low, medium, high
+      impact: ""              # low, medium, high
+      rationale: ""
+      
+# Summary Analysis
+summary:
+  total_repositories: 0
+  docker_adoption_rate: 0     # Percentage using Docker
+  complexity_distribution: {} # Distribution of complexity levels
+  maturity_assessment: ""     # Overall maturity of containerization practices

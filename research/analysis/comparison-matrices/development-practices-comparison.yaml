@@ -1,0 +1,261 @@
+# Development Practices and CI/CD Comparison Matrix
+
+category: "Development Practices and CI/CD"
+analysis_date: "2025-01-21"
+repositories:
+  - ansible-role-mediawiki
+  - archwiki
+  - backup-mediawiki
+  - docker-mediawiki-chiefy
+  - docker-mediawiki-ldap
+  - docker-mediawiki-radiorabe
+  - gcpedia
+  - mediawiki-docker-offspot
+  - mediawiki-docker-ubc
+  - mediawiki-manager
+  - mediawiki-starcitizen
+  - mediawiki-wbstack
+  - meza
+  - mmb
+  - mw-config
+  - mw-docker
+  - mwExtUpgrader
+  - sct-docker-images
+  - tutorials
+  - WikiDocker
+
+metrics:
+  ci_cd_platform:
+    description: "Primary CI/CD platform used"
+    values:
+      ansible-role-mediawiki: "GitHub Actions"
+      archwiki: "None (MediaWiki core)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "GitHub Actions"
+      docker-mediawiki-ldap: "GitHub Actions"
+      docker-mediawiki-radiorabe: "GitHub Actions"
+      gcpedia: "GitHub Actions + Azure Pipelines"
+      mediawiki-docker-offspot: "GitHub Actions"
+      mediawiki-docker-ubc: "GitHub Actions"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "None (MediaWiki core)"
+      mediawiki-wbstack: "GitHub Actions"
+      meza: "Travis CI"
+      mmb: "None"
+      mw-config: "GitHub Actions"
+      mw-docker: "GitHub Actions"
+      mwExtUpgrader: "None"
+      sct-docker-images: "GitHub Actions"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "GitHub Actions is the dominant CI/CD platform (11/20 repos), with one using Travis CI and one using hybrid GitHub Actions + Azure Pipelines. 8 repositories have no CI/CD automation."
+
+  testing_strategy:
+    description: "Testing frameworks and strategies employed"
+    values:
+      ansible-role-mediawiki: "Molecule + Docker + Multi-distro matrix (Debian/Fedora/Ubuntu) + Ansible Lint + yamllint"
+      archwiki: "PHPUnit + MediaWiki test suite + phpunit.xml.dist configuration"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "Daily Trivy security scanning"
+      gcpedia: "Haibun e2e tests + Playwright + Docker Compose integration + GitHub Pages publishing"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "PHPUnit + MediaWiki test suite + phpunit.xml.dist configuration"
+      mediawiki-wbstack: "Sync validation + Docker build tests + Multi-environment validation"
+      meza: "Docker-based integration tests + Multi-distro support"
+      mmb: "None"
+      mw-config: "PHPUnit + PHP Parallel Lint + PHPCS + MinusX + JSON Schema validation + Multi-PHP matrix (8.2, 8.4)"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "Testing strategies vary significantly by project complexity. Full MediaWiki installations use comprehensive PHPUnit with MediaWiki test suites. Infrastructure projects use specialized testing (Molecule for Ansible, Haibun for e2e). Configuration projects implement multi-version testing matrices. Many Docker-focused projects lack formal testing beyond build validation."
+
+  code_quality_tools:
+    description: "Linting and code quality tools used"
+    values:
+      ansible-role-mediawiki: "Ansible Lint + yamllint + Galaxy dependency validation"
+      archwiki: "PHPCS (MediaWiki standards) + ESLint (wikimedia/client,jquery,mediawiki) + PHP Parallel Lint + MinusX"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "Trivy security scanning + Conventional commit validation"
+      gcpedia: "ESLint (Wikimedia standards) + Custom global definitions"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "PHPCS (MediaWiki standards + extensive exclusions) + ESLint (wikimedia/client,jquery,mediawiki,jsduck)"
+      mediawiki-wbstack: "PHP Parallel Lint + JSON Lint + YAML Lint + Python Lint + Docker Lint"
+      meza: "None"
+      mmb: "None"
+      mw-config: "PHPCS (MediaWiki standards) + PHP Parallel Lint + MinusX + PHPUnit + JSON Schema validation"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "MediaWiki-based projects consistently use comprehensive PHPCS with MediaWiki coding standards and ESLint with multiple Wikimedia extensions. Advanced projects implement multi-language linting (PHP, JavaScript, YAML, JSON, Python). Security-focused projects add container scanning. Many simple containerization projects lack code quality tools entirely."
+
+  automated_workflows:
+    description: "Types of automated workflows implemented"
+    values:
+      ansible-role-mediawiki: "Molecule multi-distro testing + Ansible Lint + Galaxy release on tag"
+      archwiki: "None (upstream MediaWiki)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "Dependabot auto-merge for non-major updates"
+      docker-mediawiki-radiorabe: "Semantic release + Daily Trivy security scanning + Dependabot"
+      gcpedia: "Haibun e2e testing + Playwright + GitHub Pages deployment"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "None (upstream MediaWiki)"
+      mediawiki-wbstack: "Multi-stage Docker builds + Multi-environment K8s deployment + Sync validation + Comprehensive linting"
+      meza: "Multi-distro testing + Slack/Pushover notifications"
+      mmb: "None"
+      mw-config: "Multi-PHP testing + IRC notifications + Auto-formatting + JSON Schema validation"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "Dependabot for GitHub Actions and Docker"
+    analysis: "Advanced projects implement comprehensive workflows including automated deployment, security scanning, and notifications. Enterprise projects use sophisticated testing matrices and multi-environment deployment. Many simple containerization projects lack automation beyond basic Dependabot."
+
+  dependency_management:
+    description: "Approach to managing dependencies and updates"
+    values:
+      ansible-role-mediawiki: "Composer + Ansible Galaxy + requirements.yml"
+      archwiki: "Composer + Git submodules + MediaWiki core integration"
+      backup-mediawiki: "Shell scripts only"
+      docker-mediawiki-chiefy: "Docker base images"
+      docker-mediawiki-ldap: "Docker base images + Dependabot (auto-merge non-major)"
+      docker-mediawiki-radiorabe: "Docker base images + Dependabot (GitHub Actions + Docker, daily updates)"
+      gcpedia: "Composer + Docker + Dependabot"
+      mediawiki-docker-offspot: "Python requirements + Docker"
+      mediawiki-docker-ubc: "Composer + Docker"
+      mediawiki-manager: "Shell scripts + Docker"
+      mediawiki-starcitizen: "Composer + Git submodules + MediaWiki core integration"
+      mediawiki-wbstack: "Composer + Dependabot (GitHub Actions + Docker, PHP version pinning) + Sync scripts"
+      meza: "Ansible + Vagrant"
+      mmb: "Docker Compose"
+      mw-config: "Composer + Dependabot (GitHub Actions + Composer, daily updates)"
+      mw-docker: "Docker + Makefiles"
+      mwExtUpgrader: "Composer"
+      sct-docker-images: "Composer + Docker"
+      tutorials: "Various per tutorial"
+      WikiDocker: "Docker Compose + Dependabot (GitHub Actions + Docker)"
+    analysis: "Composer is universal for PHP dependencies with PSR-4 autoloading. Advanced projects implement sophisticated Dependabot configurations with ecosystem-specific monitoring, update scheduling, and auto-merge policies. Docker-based projects rely on base image updates with security scanning. Full MediaWiki installations use Git submodules for core integration."
+
+  documentation_practices:
+    description: "Documentation and contributor guidelines"
+    values:
+      ansible-role-mediawiki: "README + Contributing guidelines + Issue templates"
+      archwiki: "Extensive MediaWiki documentation"
+      backup-mediawiki: "Basic README"
+      docker-mediawiki-chiefy: "Basic README + Makefile help"
+      docker-mediawiki-ldap: "Basic README"
+      docker-mediawiki-radiorabe: "README + Semantic commit guidelines"
+      gcpedia: "README + Contributing guidelines + Code of conduct"
+      mediawiki-docker-offspot: "README + Python docstrings"
+      mediawiki-docker-ubc: "README + Development setup"
+      mediawiki-manager: "README + Drawio diagrams"
+      mediawiki-starcitizen: "MediaWiki documentation standards"
+      mediawiki-wbstack: "README + Build documentation + YAML configs"
+      meza: "README + Contributing + Release notes"
+      mmb: "README + Authors file"
+      mw-config: "README + Contributing guidelines"
+      mw-docker: "README + Makefile"
+      mwExtUpgrader: "README + Code of conduct"
+      sct-docker-images: "Basic README"
+      tutorials: "Tutorial-specific documentation"
+      WikiDocker: "Basic README"
+    analysis: "Documentation quality varies significantly. Enterprise and community projects have comprehensive documentation with contributing guidelines. Simple containerization projects typically have basic READMEs only."
+
+patterns:
+  common_approaches:
+    - "GitHub Actions as primary CI/CD platform for active projects"
+    - "Composer for PHP dependency management"
+    - "Docker for containerization and deployment"
+    - "MediaWiki coding standards (PHPCS) for MediaWiki-based projects"
+    - "ESLint with Wikimedia standards for JavaScript"
+    - "Basic README documentation as minimum standard"
+
+  unique_innovations:
+    - "Semantic release automation with conventional commits (docker-mediawiki-radiorabe)"
+    - "Multi-environment Kubernetes deployment with automated PR creation (mediawiki-wbstack)"
+    - "Haibun e2e testing with Playwright and GitHub Pages publishing (gcpedia)"
+    - "Molecule testing with multi-distro Docker matrix and systemd support (ansible-role-mediawiki)"
+    - "Sync validation workflows to prevent configuration drift (mediawiki-wbstack)"
+    - "Multi-distro testing matrix with Docker and systemd integration (ansible-role-mediawiki, meza)"
+    - "Automated code formatting with commit-back to PR (mw-config)"
+    - "Daily Trivy security scanning via reusable workflows (docker-mediawiki-radiorabe)"
+    - "Multi-stage Docker builds with BuildKit caching optimization (mediawiki-wbstack)"
+    - "Dependabot auto-merge for non-major updates with metadata validation (docker-mediawiki-ldap)"
+    - "IRC notifications for build status with conditional messaging (mw-config)"
+    - "Multi-PHP version testing matrix with strategy configuration (mw-config)"
+
+  best_practices:
+    - "Comprehensive CI/CD with testing, linting, and deployment"
+    - "Dependabot for automated dependency updates"
+    - "Security scanning integration (Trivy)"
+    - "Multi-environment deployment pipelines"
+    - "Automated release management with semantic versioning"
+    - "Code quality gates with PHPCS and ESLint"
+    - "Comprehensive documentation with contributing guidelines"
+    - "Issue templates and pull request templates"
+
+recommendations:
+  high_priority:
+    - priority: "high"
+      description: "Implement GitHub Actions CI/CD pipeline with testing and linting"
+      implementation_effort: "medium"
+      impact: "high"
+      rationale: "11/20 active projects use GitHub Actions successfully. Essential for code quality and automated deployment."
+
+    - priority: "high"
+      description: "Add PHPCS with MediaWiki coding standards"
+      implementation_effort: "low"
+      impact: "high"
+      rationale: "Standard across all MediaWiki projects. Ensures code quality and consistency."
+
+    - priority: "high"
+      description: "Implement Dependabot for automated dependency updates"
+      implementation_effort: "low"
+      impact: "medium"
+      rationale: "Used by advanced projects. Critical for security and maintenance."
+
+  medium_priority:
+    - priority: "medium"
+      description: "Add ESLint with Wikimedia standards for JavaScript"
+      implementation_effort: "low"
+      impact: "medium"
+      rationale: "Standard for MediaWiki JavaScript development."
+
+    - priority: "medium"
+      description: "Implement PHPUnit testing framework"
+      implementation_effort: "medium"
+      impact: "high"
+      rationale: "Standard testing approach for MediaWiki projects."
+
+    - priority: "medium"
+      description: "Add security scanning with Trivy or similar"
+      implementation_effort: "low"
+      impact: "medium"
+      rationale: "Important for container security, used by security-conscious projects."
+
+  low_priority:
+    - priority: "low"
+      description: "Implement semantic release automation"
+      implementation_effort: "medium"
+      impact: "low"
+      rationale: "Nice to have for automated versioning and changelog generation."
+
+    - priority: "low"
+      description: "Add comprehensive documentation with contributing guidelines"
+      implementation_effort: "medium"
+      impact: "medium"
+      rationale: "Important for community projects and maintainability."

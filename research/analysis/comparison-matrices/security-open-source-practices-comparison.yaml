@@ -1,0 +1,354 @@
+# Security and Open-Source Practices Comparison Matrix
+
+category: "Security and Open-Source Practices"
+analysis_date: "2025-01-21"
+repositories:
+  - ansible-role-mediawiki
+  - archwiki
+  - backup-mediawiki
+  - docker-mediawiki-chiefy
+  - docker-mediawiki-ldap
+  - docker-mediawiki-radiorabe
+  - gcpedia
+  - mediawiki-docker-offspot
+  - mediawiki-docker-ubc
+  - mediawiki-manager
+  - mediawiki-starcitizen
+  - mediawiki-wbstack
+  - meza
+  - mmb
+  - mw-config
+  - mw-docker
+  - mwExtUpgrader
+  - sct-docker-images
+  - tutorials
+  - WikiDocker
+
+metrics:
+  security_policy:
+    description: "Presence of security policy and vulnerability reporting process"
+    values:
+      ansible-role-mediawiki: "SECURITY.md with issue reporting process"
+      archwiki: "None (inherits MediaWiki security)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "None"
+      gcpedia: "None"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "None (inherits MediaWiki security)"
+      mediawiki-wbstack: "None"
+      meza: "None"
+      mmb: "None"
+      mw-config: "None"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "Only 1/20 repositories has an explicit security policy. MediaWiki-based projects rely on upstream security processes. Most containerization projects lack formal security reporting mechanisms."
+
+  automated_security_updates:
+    description: "Dependabot or similar automated dependency update systems"
+    values:
+      ansible-role-mediawiki: "None"
+      archwiki: "None (upstream MediaWiki)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "Dependabot (GitHub Actions + Docker)"
+      docker-mediawiki-radiorabe: "Dependabot (GitHub Actions + Docker)"
+      gcpedia: "None"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "None (upstream MediaWiki)"
+      mediawiki-wbstack: "Dependabot (GitHub Actions + Docker)"
+      meza: "None"
+      mmb: "None"
+      mw-config: "Dependabot (GitHub Actions + Composer)"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "Dependabot (GitHub Actions + Docker)"
+    analysis: "5/20 repositories (25%) use Dependabot for automated security updates. Coverage includes GitHub Actions, Docker images, and Composer dependencies. Most projects rely on manual updates."
+
+  vulnerability_scanning:
+    description: "Automated vulnerability scanning tools and processes"
+    values:
+      ansible-role-mediawiki: "None"
+      archwiki: "None"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "Trivy container scanning + SARIF upload"
+      gcpedia: "None"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "None"
+      mediawiki-wbstack: "None"
+      meza: "None"
+      mmb: "None"
+      mw-config: "None"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "Only 1/20 repositories implements automated vulnerability scanning. docker-mediawiki-radiorabe uses Trivy with GitHub Security tab integration. This represents a significant security gap across most projects."
+
+  secret_management:
+    description: "Approach to managing secrets and credentials"
+    values:
+      ansible-role-mediawiki: "GitHub Secrets for Galaxy API key"
+      archwiki: "None (no CI/CD)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "GitHub Secrets for container registry"
+      docker-mediawiki-ldap: "GitHub Secrets for Docker Hub + auto-merge"
+      docker-mediawiki-radiorabe: "GitHub Secrets for registry + semantic release"
+      gcpedia: "None"
+      mediawiki-docker-offspot: "GitHub Secrets for GHCR"
+      mediawiki-docker-ubc: "GitHub Secrets for Docker Hub"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "None (no CI/CD)"
+      mediawiki-wbstack: "GitHub Secrets for deployment tokens + GHCR"
+      meza: "GitHub Secrets for Docker Hub + notifications"
+      mmb: "None"
+      mw-config: "GitHub Secrets for IRC notifications"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "GitHub Secrets for Docker Hub"
+      tutorials: "None"
+      WikiDocker: "GitHub Secrets for Docker Hub"
+    analysis: "Projects with CI/CD consistently use GitHub Secrets for credential management. Common patterns include container registry authentication and deployment tokens. No evidence of hardcoded secrets in CI/CD workflows."
+
+  code_of_conduct:
+    description: "Presence of code of conduct for community guidelines"
+    values:
+      ansible-role-mediawiki: "None"
+      archwiki: "MediaWiki Code of Conduct (inherited)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "None"
+      gcpedia: "MediaWiki Code of Conduct"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "MediaWiki Code of Conduct"
+      mediawiki-wbstack: "None"
+      meza: "None"
+      mmb: "None"
+      mw-config: "None"
+      mw-docker: "None"
+      mwExtUpgrader: "MediaWiki Code of Conduct"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "4/20 repositories reference the MediaWiki Code of Conduct. These are primarily MediaWiki core installations or extensions. Independent projects generally lack community conduct guidelines."
+
+  contributing_guidelines:
+    description: "Presence and quality of contributor guidelines"
+    values:
+      ansible-role-mediawiki: "Comprehensive CONTRIBUTING.md + issue templates"
+      archwiki: "MediaWiki contributing standards (inherited)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "None"
+      gcpedia: "None"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "MediaWiki contributing standards (inherited)"
+      mediawiki-wbstack: "None"
+      meza: "Comprehensive CONTRIBUTING.md with testing guidelines"
+      mmb: "None"
+      mw-config: "Comprehensive CONTRIBUTING.md with coding standards"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "6/20 repositories have contributing guidelines. Quality varies from comprehensive guides with testing instructions to basic MediaWiki standards. Most containerization projects lack contributor guidance."
+
+  issue_templates:
+    description: "GitHub issue templates for structured bug reports and feature requests"
+    values:
+      ansible-role-mediawiki: "Bug report + feature request templates"
+      archwiki: "None (uses MediaWiki Phabricator)"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "None"
+      gcpedia: "None"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "None"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "None (uses MediaWiki Phabricator)"
+      mediawiki-wbstack: "None"
+      meza: "None"
+      mmb: "None"
+      mw-config: "None"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "Only 1/20 repositories uses GitHub issue templates. MediaWiki projects use Phabricator for issue tracking. Most projects rely on unstructured issue reporting."
+
+  security_headers:
+    description: "Implementation of security headers like CSP, X-Frame-Options, etc."
+    values:
+      ansible-role-mediawiki: "None"
+      archwiki: "MediaWiki core CSP + X-Frame-Options"
+      backup-mediawiki: "None"
+      docker-mediawiki-chiefy: "None"
+      docker-mediawiki-ldap: "None"
+      docker-mediawiki-radiorabe: "None"
+      gcpedia: "None"
+      mediawiki-docker-offspot: "None"
+      mediawiki-docker-ubc: "Comprehensive CSP + security headers in SimpleSAMLphp"
+      mediawiki-manager: "None"
+      mediawiki-starcitizen: "MediaWiki core CSP + X-Frame-Options"
+      mediawiki-wbstack: "MediaWiki core CSP + X-Frame-Options"
+      meza: "None"
+      mmb: "None"
+      mw-config: "None"
+      mw-docker: "None"
+      mwExtUpgrader: "None"
+      sct-docker-images: "None"
+      tutorials: "None"
+      WikiDocker: "None"
+    analysis: "4/20 repositories implement security headers. MediaWiki projects inherit core CSP functionality. mediawiki-docker-ubc has comprehensive security headers in SimpleSAMLphp configuration."
+
+  license_clarity:
+    description: "Clear licensing information and compliance"
+    values:
+      ansible-role-mediawiki: "Apache 2.0 (clear)"
+      archwiki: "GPL-2.0+ (MediaWiki standard)"
+      backup-mediawiki: "None specified"
+      docker-mediawiki-chiefy: "MIT (clear)"
+      docker-mediawiki-ldap: "MIT (clear)"
+      docker-mediawiki-radiorabe: "Apache 2.0 (clear)"
+      gcpedia: "GPL-2.0+ (MediaWiki standard)"
+      mediawiki-docker-offspot: "GPL-3.0 (clear)"
+      mediawiki-docker-ubc: "MIT (clear)"
+      mediawiki-manager: "GPL-3.0 (clear)"
+      mediawiki-starcitizen: "GPL-2.0+ (MediaWiki standard)"
+      mediawiki-wbstack: "None specified"
+      meza: "GPL-3.0 (clear)"
+      mmb: "GPL-3.0 (clear)"
+      mw-config: "GPL-2.0+ (clear)"
+      mw-docker: "MIT (clear)"
+      mwExtUpgrader: "GPL-2.0+ (clear)"
+      sct-docker-images: "None specified"
+      tutorials: "None specified"
+      WikiDocker: "None specified"
+    analysis: "15/20 repositories (75%) have clear licensing. MediaWiki projects consistently use GPL-2.0+. Docker projects prefer MIT or Apache 2.0. 5 projects lack license specification."
+
+patterns:
+  common_approaches:
+    - "GitHub Secrets for credential management in CI/CD pipelines"
+    - "MediaWiki Code of Conduct adoption for MediaWiki-based projects"
+    - "GPL licensing for MediaWiki projects, MIT/Apache for containerization projects"
+    - "Basic README documentation as minimum standard"
+    - "Manual dependency management without automation"
+
+  unique_innovations:
+    - "Trivy vulnerability scanning with SARIF integration (docker-mediawiki-radiorabe)"
+    - "Comprehensive issue templates with structured reporting (ansible-role-mediawiki)"
+    - "Automated Dependabot PR approval and merging (docker-mediawiki-ldap)"
+    - "Multi-ecosystem Dependabot coverage (GitHub Actions + Docker + Composer)"
+    - "Semantic release automation with security scanning"
+    - "CVE allowlist management with documented justifications (docker-mediawiki-radiorabe)"
+    - "GitHub Sponsors integration for project sustainability (ansible-role-mediawiki)"
+    - "Comprehensive security headers implementation in authentication systems"
+
+  best_practices:
+    - "Automated dependency updates with Dependabot"
+    - "Container vulnerability scanning with Trivy"
+    - "Structured issue reporting with templates"
+    - "Comprehensive contributing guidelines with testing instructions"
+    - "Clear licensing with LICENSE files"
+    - "Security policy with vulnerability reporting process"
+    - "GitHub Secrets for all credential management"
+    - "SARIF integration for security findings"
+    - "CVE allowlist management with security team references"
+    - "Comprehensive security headers (CSP, X-Frame-Options, X-Content-Type-Options)"
+    - "Automated PR approval for security updates with version constraints"
+    - "GitHub Sponsors integration for project sustainability"
+
+security_gaps:
+  critical:
+    - "95% of projects lack vulnerability scanning"
+    - "95% of projects lack security policies"
+    - "75% of projects lack automated security updates"
+    - "No evidence of SAST (Static Application Security Testing)"
+    - "Limited container security hardening practices"
+
+  moderate:
+    - "No centralized secret management beyond GitHub Secrets"
+    - "Limited security headers configuration"
+    - "No evidence of security-focused code review processes"
+    - "Lack of security-focused documentation"
+
+  low:
+    - "Some projects lack clear licensing"
+    - "Limited community conduct guidelines"
+    - "Inconsistent contributor onboarding processes"
+
+recommendations:
+  high_priority:
+    - priority: "high"
+      description: "Implement Dependabot for automated security updates"
+      implementation_effort: "low"
+      impact: "high"
+      rationale: "Critical for maintaining security posture with minimal effort. Used successfully by 25% of analyzed projects."
+
+    - priority: "high"
+      description: "Add container vulnerability scanning with Trivy"
+      implementation_effort: "low"
+      impact: "high"
+      rationale: "Essential for container security. Proven implementation available in docker-mediawiki-radiorabe."
+
+    - priority: "high"
+      description: "Create security policy (SECURITY.md) with vulnerability reporting process"
+      implementation_effort: "low"
+      impact: "medium"
+      rationale: "Establishes clear security communication channels. Required for responsible disclosure."
+
+  medium_priority:
+    - priority: "medium"
+      description: "Implement GitHub issue templates for structured reporting"
+      implementation_effort: "low"
+      impact: "medium"
+      rationale: "Improves issue quality and contributor experience. Low effort, proven effective."
+
+    - priority: "medium"
+      description: "Add comprehensive contributing guidelines"
+      implementation_effort: "medium"
+      impact: "medium"
+      rationale: "Essential for community projects and maintainability. Reduces onboarding friction."
+
+    - priority: "medium"
+      description: "Implement SAST tools for code security analysis"
+      implementation_effort: "medium"
+      impact: "high"
+      rationale: "Catches security issues early in development cycle."
+
+  low_priority:
+    - priority: "low"
+      description: "Add code of conduct for community guidelines"
+      implementation_effort: "low"
+      impact: "low"
+      rationale: "Important for community projects but lower priority for infrastructure tools."
+
+    - priority: "low"
+      description: "Implement advanced secret management beyond GitHub Secrets"
+      implementation_effort: "high"
+      impact: "medium"
+      rationale: "GitHub Secrets sufficient for most use cases. Consider for enterprise deployments."

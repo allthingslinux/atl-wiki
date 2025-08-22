@@ -1,0 +1,74 @@
+# Configuration Management Comparison Matrix Template
+# Compare configuration management approaches across all analyzed repositories
+
+comparison_matrix:
+  category: "Configuration Management"
+  analysis_date: ""
+  repositories: []  # List of repository names analyzed
+  
+  metrics:
+    - name: "Environment Management"
+      description: "How environments and configuration are managed"
+      values: {}  # Map of repository_name -> environment approach
+      analysis: ""
+      
+    - name: "Secret Management"
+      description: "Approach to handling secrets and sensitive data"
+      values: {}  # Map of repository_name -> secret management strategy
+      analysis: ""
+      
+    - name: "12-Factor Compliance"
+      description: "Adherence to 12-factor app principles"
+      values: {}  # Map of repository_name -> compliance level
+      analysis: ""
+      
+    - name: "Extension Management"
+      description: "MediaWiki extension management strategy"
+      values: {}  # Map of repository_name -> extension approach
+      analysis: ""
+      
+    - name: "Configuration Externalization"
+      description: "How configuration is externalized from code"
+      values: {}  # Map of repository_name -> externalization approach
+      analysis: ""
+      
+    - name: "LocalSettings Management"
+      description: "How LocalSettings.php is organized and managed"
+      values: {}  # Map of repository_name -> LocalSettings approach
+      analysis: ""
+      
+    - name: "Environment Separation"
+      description: "How staging/production environments are separated"
+      values: {}  # Map of repository_name -> environment separation
+      analysis: ""
+
+  patterns:
+    common_approaches: []     # Most frequently used configuration approaches
+    unique_innovations: []    # Unique or innovative configuration patterns
+    best_practices: []        # Identified configuration best practices
+    anti_patterns: []         # Configuration anti-patterns to avoid
+    
+  trends:
+    secret_management_evolution: [] # Trends in secret management
+    extension_management_preferences: [] # Preferred extension management methods
+    configuration_complexity: []    # Complexity trends in configuration
+    
+  recommendations:
+    - priority: ""            # high, medium, low
+      description: ""
+      implementation_effort: "" # low, medium, high
+      impact: ""              # low, medium, high
+      rationale: ""
+      
+# Security Assessment
+security_analysis:
+  secret_exposure_risks: {}  # Map of repository_name -> risk level
+  configuration_security: {} # Map of repository_name -> security practices
+  access_control: {}         # Map of repository_name -> access control approach
+  
+# Summary Analysis
+summary:
+  total_repositories: 0
+  twelve_factor_adoption: 0   # Percentage following 12-factor principles
+  secret_management_maturity: "" # Overall secret management maturity
+  configuration_complexity_distribution: {} # Distribution of configuration complexity

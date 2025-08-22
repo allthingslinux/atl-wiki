@@ -1,0 +1,121 @@
+# Repository Analysis Profile Template
+# This template follows the data model schema defined in the design document
+# Fill out each section based on analysis of the repository
+
+repository:
+  name: ""                    # Repository name (e.g., "mw-docker")
+  url: ""                     # GitHub URL
+  analysis_date: ""           # Date of analysis (YYYY-MM-DD)
+  analyst: ""                 # Name of person conducting analysis
+  description: ""             # Brief description of the repository's purpose
+  
+infrastructure:
+  containerization:
+    docker_strategy: ""       # Options: single-container, multi-container, docker-compose, kubernetes
+    base_images: []           # List of base Docker images used
+    optimization_techniques: [] # Docker optimization patterns found
+    dockerfile_patterns: []   # Notable Dockerfile patterns or techniques
+    multi_stage_builds: false # Boolean: uses multi-stage builds
+    volume_management: ""     # Description of volume/persistence strategy
+    network_configuration: "" # Network setup approach
+  
+  database:
+    separation_strategy: ""   # Options: same-container, separate-container, external-service
+    engine: ""               # Options: mysql, mariadb, postgresql, sqlite
+    optimization_patterns: [] # Database tuning and optimization approaches
+    backup_strategy: ""      # Backup and persistence approach
+    migration_handling: ""   # How database migrations are handled
+  
+  web_server:
+    type: ""                 # Options: nginx, apache, built-in, none
+    configuration_patterns: [] # Notable web server configuration patterns
+    performance_optimizations: [] # Performance tuning approaches
+    ssl_handling: ""         # SSL/TLS configuration approach
+    reverse_proxy: ""        # Reverse proxy setup if applicable
+  
+  caching:
+    layers: []               # Options: redis, memcached, file-cache, opcache, varnish
+    configuration_patterns: [] # Caching configuration approaches
+    cdn_integration: false   # Boolean: integrates with CDN
+    asset_optimization: ""   # Asset optimization strategies
+
+configuration:
+  environment_management:
+    twelve_factor_compliance: false # Boolean: follows 12-factor app principles
+    secret_management: ""    # Options: env-vars, docker-secrets, external-vault, hardcoded
+    configuration_externalization: false # Boolean: externalizes configuration
+    environment_separation: "" # How staging/prod environments are handled
+  
+  extension_management:
+    strategy: ""             # Options: composer, submodules, tarballs, mixed
+    update_mechanism: ""     # How extensions are updated
+    dependency_management: "" # Dependency resolution approach
+    custom_extensions: []    # List of custom/non-standard extensions
+  
+  mediawiki_configuration:
+    localsettings_approach: "" # How LocalSettings.php is managed
+    configuration_splitting: "" # How configuration is organized/split
+    feature_flags: ""        # Feature flag or conditional configuration approach
+
+performance:
+  database_optimizations: [] # Database performance tuning approaches
+  php_optimizations: []      # PHP/PHP-FPM optimization strategies
+  caching_strategies: []     # Caching implementation details
+  cdn_integration: false     # Boolean: uses CDN
+  performance_monitoring: [] # Performance monitoring tools/approaches
+  asset_delivery: ""         # Asset delivery optimization
+
+development:
+  ci_cd:
+    platform: ""             # Options: github-actions, gitlab-ci, jenkins, travis, other, none
+    workflows: []            # List of CI/CD workflows implemented
+    deployment_automation: "" # Deployment automation approach
+    testing_integration: ""  # Testing in CI/CD pipeline
+  
+  code_quality:
+    linting: false           # Boolean: uses code linting
+    formatting: false        # Boolean: uses code formatting
+    testing_strategy: ""     # Testing approach and frameworks
+    documentation_quality: "" # Quality and completeness of documentation
+  
+  security:
+    secret_scanning: false   # Boolean: scans for secrets in code
+    vulnerability_scanning: false # Boolean: scans for vulnerabilities
+    open_source_practices: [] # Open source security practices
+    access_control: ""       # Access control and permissions approach
+  
+  developer_experience:
+    local_development: ""    # Local development setup approach
+    onboarding_docs: ""      # Developer onboarding documentation quality
+    contribution_guidelines: "" # Contribution process and guidelines
+
+user_experience:
+  seo_optimizations: []      # SEO optimization techniques implemented
+  performance_monitoring: [] # User-facing performance monitoring
+  accessibility_features: [] # Accessibility implementations
+  social_integration: []     # Social media integration features
+  analytics_tracking: []     # Analytics and tracking implementations
+  mobile_optimization: ""    # Mobile responsiveness and optimization
+
+# Analysis Notes
+analysis_notes:
+  strengths: []              # Key strengths identified
+  weaknesses: []             # Areas for improvement identified
+  unique_features: []        # Unique or innovative approaches
+  best_practices: []         # Best practices demonstrated
+  anti_patterns: []          # Anti-patterns or issues identified
+  
+# Recommendations
+recommendations:
+  adopt: []                  # Practices we should adopt
+  avoid: []                  # Practices we should avoid
+  investigate: []            # Practices worth further investigation
+  
+# Scoring (1-5 scale, 5 being best)
+scores:
+  containerization_maturity: 0    # How mature is the containerization approach
+  configuration_management: 0     # How well is configuration managed
+  performance_optimization: 0     # Level of performance optimization
+  development_practices: 0        # Quality of development practices
+  documentation_quality: 0        # Quality of documentation
+  overall_architecture: 0         # Overall architectural quality

@@ -1,0 +1,74 @@
+# Infrastructure Architecture Comparison Matrix Template
+# Compare infrastructure and architectural approaches across all analyzed repositories
+
+comparison_matrix:
+  category: "Infrastructure Architecture"
+  analysis_date: ""
+  repositories: []  # List of repository names analyzed
+  
+  metrics:
+    - name: "Service Architecture"
+      description: "Overall service architecture and separation"
+      values: {}  # Map of repository_name -> architecture approach
+      analysis: ""
+      
+    - name: "Database Strategy"
+      description: "Database deployment and separation strategy"
+      values: {}  # Map of repository_name -> database strategy
+      analysis: ""
+      
+    - name: "Reverse Proxy Setup"
+      description: "Reverse proxy and load balancing configuration"
+      values: {}  # Map of repository_name -> proxy setup
+      analysis: ""
+      
+    - name: "SSL/TLS Handling"
+      description: "SSL certificate and TLS termination approach"
+      values: {}  # Map of repository_name -> SSL approach
+      analysis: ""
+      
+    - name: "Scalability Design"
+      description: "Horizontal and vertical scaling considerations"
+      values: {}  # Map of repository_name -> scalability approach
+      analysis: ""
+      
+    - name: "Monitoring Integration"
+      description: "Infrastructure monitoring and observability"
+      values: {}  # Map of repository_name -> monitoring setup
+      analysis: ""
+      
+    - name: "Backup Strategy"
+      description: "Data backup and disaster recovery approach"
+      values: {}  # Map of repository_name -> backup strategy
+      analysis: ""
+
+  patterns:
+    common_approaches: []     # Most frequently used infrastructure approaches
+    unique_innovations: []    # Unique or innovative infrastructure patterns
+    best_practices: []        # Identified infrastructure best practices
+    anti_patterns: []         # Infrastructure anti-patterns to avoid
+    
+  trends:
+    architecture_complexity: [] # Trends in architectural complexity
+    database_separation_trends: [] # Database separation preferences
+    proxy_technology_preferences: [] # Reverse proxy technology choices
+    
+  recommendations:
+    - priority: ""            # high, medium, low
+      description: ""
+      implementation_effort: "" # low, medium, high
+      impact: ""              # low, medium, high
+      rationale: ""
+      
+# Scalability Assessment
+scalability_analysis:
+  horizontal_scaling: {}     # Map of repository_name -> horizontal scaling capability
+  vertical_scaling: {}       # Map of repository_name -> vertical scaling approach
+  bottleneck_identification: {} # Map of repository_name -> identified bottlenecks
+  
+# Summary Analysis
+summary:
+  total_repositories: 0
+  architecture_maturity: ""   # Overall architectural maturity
+  separation_of_concerns: ""  # How well concerns are separated
+  scalability_readiness: ""   # Overall scalability preparedness
