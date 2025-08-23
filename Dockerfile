@@ -36,9 +36,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         intl \
         zip \
         calendar \
-        gd \
-        tokenizer \
-        simplexml; \
+        gd; \
     # Install PECL extensions
     pecl install apcu-5.1.22 redis luasandbox; \
     docker-php-ext-enable apcu redis luasandbox; \
