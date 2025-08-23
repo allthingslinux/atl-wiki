@@ -5,10 +5,9 @@
 FROM php:8.3-fpm-alpine AS builder
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
-# Install build dependencies and PHP extensions
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     --mount=type=cache,target=/tmp/pear,sharing=locked \
-    set -eux; \
+    set -eux && \
     # Install Build Dependencies
     apk add --no-cache --virtual .build-deps \
         libxml2-dev=2.13.8-r0 \
@@ -24,9 +23,9 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         gcc=14.2.0-r6 \
         g++=14.2.0-r6 \
         git=2.49.1-r0 \
-       	lua5.1-dev=5.1.5-r13; \
+        lua5.1-dev=5.1.5-r13; \
     # Install PHP Extensions
-    docker-php-ext-configure gd --with-freetype --with-jpeg; \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install -j"$(nproc)" \
         xml \
         mbstring \
@@ -37,11 +36,11 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         calendar \
         gd; \
     # Install PECL extensions
-    pecl install apcu-5.1.22 redis luasandbox; \
-    docker-php-ext-enable apcu redis luasandbox; \
+    pecl install apcu-5.1.22 redis luasandbox && \
+    docker-php-ext-enable apcu redis luasandbox && \
     # Cleanup in same layer
-    docker-php-source delete; \
-    rm -rf ~/.pearrc; \
+    docker-php-source delete && \
+    rm -rf ~/.pearrc && \
     apk del .build-deps
 
 # Mediawiki Setup Stage
@@ -54,9 +53,8 @@ ARG MEDIAWIKI_VERSION=1.43.3
 ARG CITIZEN_VERSION=3.5.0
 ARG MEDIAWIKI_BRANCH=REL1_43
 
-# Install Mediawiki Install Dependencies
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
-    set -eux; \
+    set -eux && \
     apk add --no-cache \
         python3=3.12.11-r0 \
         git=2.49.1-r0 \
@@ -64,14 +62,12 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         gnupg=2.4.7-r0 \
         icu-libs=76.1-r1
 
-# Copy PHP extensions from builder stage
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
-# Copy Composer from Official Image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN mkdir -p /var/www/atlwiki/mediawiki;
+RUN mkdir -p /var/www/atlwiki/mediawiki
 WORKDIR /var/www/atlwiki
 
 COPY composer.json /var/www/atlwiki/composer.json
@@ -80,50 +76,46 @@ RUN --mount=type=cache,target=/root/.composer \
 
 WORKDIR /var/www/atlwiki/mediawiki
 
-# Download and Verify MediaWiki
 RUN --mount=type=cache,target=/tmp/mediawiki-cache \
-    set -eux; \
-    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
-    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
-    GNUPGHOME="$(mktemp -d)"; \
-    export GNUPGHOME; \
-    curl -fsSL "https://www.mediawiki.org/keys/keys.txt" | gpg --import; \
-    gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
-    tar -x --strip-components=1 -f mediawiki.tar.gz; \
-    gpgconf --kill all; \
+    set -eux && \
+    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz && \
+    curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig && \
+    GNUPGHOME="$(mktemp -d)" && \
+    export GNUPGHOME && \
+    curl -fsSL "https://www.mediawiki.org/keys/keys.txt" | gpg --import && \
+    gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz && \
+    tar -x --strip-components=1 -f mediawiki.tar.gz && \
+    gpgconf --kill all && \
     rm -rf "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz
 
 # Copy Configuration Files
 COPY composer.local.json ./composer.local.json
 
-# Install Extensions Dynamically and Citizen Skin
 COPY extensions.json install_extensions.py /tmp/
 RUN --mount=type=cache,target=/root/.composer \
-    set -eux; \
-    python3 /tmp/install_extensions.py; \
+    set -eux && \
+    python3 /tmp/install_extensions.py && \
     # Install Citizen skin
     git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
-        https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen;
+        https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen
 
-# Install Extension Dependencies
 RUN --mount=type=cache,target=/root/.composer \
     composer update --no-dev --optimize-autoloader --no-scripts
 
-# Cleanup
 RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
-           /var/www/atlwiki/mediawiki/docs/ \
-           /var/www/atlwiki/mediawiki/mw-config/ \
-           /var/www/atlwiki/mediawiki/maintenance/dev/ \
-           /var/www/atlwiki/mediawiki/maintenance/benchmarks/ \
-           /var/www/atlwiki/mediawiki/vendor/*/tests/ \
-           /var/www/atlwiki/mediawiki/vendor/*/test/ \
-           /var/www/atlwiki/mediawiki/vendor/*/.git* \
-           /var/www/atlwiki/mediawiki/skins/Citizen/.git* \
-           /var/www/atlwiki/mediawiki/skins/*/tests/ \
-           /var/www/atlwiki/mediawiki/extensions/*/tests/ && \
+        /var/www/atlwiki/mediawiki/docs/ \
+        /var/www/atlwiki/mediawiki/mw-config/ \
+        /var/www/atlwiki/mediawiki/maintenance/dev/ \
+        /var/www/atlwiki/mediawiki/maintenance/benchmarks/ \
+        /var/www/atlwiki/mediawiki/vendor/*/tests/ \
+        /var/www/atlwiki/mediawiki/vendor/*/test/ \
+        /var/www/atlwiki/mediawiki/vendor/*/.git* \
+        /var/www/atlwiki/mediawiki/skins/Citizen/.git* \
+        /var/www/atlwiki/mediawiki/skins/*/tests/ \
+        /var/www/atlwiki/mediawiki/extensions/*/tests/ && \
     find /var/www/atlwiki/mediawiki -name "*.md" -delete && \
     find /var/www/atlwiki/mediawiki -name "*.txt" -not -path "*/i18n/*" -delete && \
-    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.json /var/www/mediawiki/composer.lock
+    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.json /var/www/atlwiki/mediawiki/composer.lock
 
 # Final Stage
 FROM php:8.3-fpm-alpine AS final
@@ -135,7 +127,7 @@ LABEL maintainer="atmois@allthingslinux.org" \
 
 # Install Runtime Dependencies
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
-    set -eux; \
+    set -eux && \
     apk add --no-cache \
         imagemagick=7.1.2.0-r0 \
         librsvg=2.60.0-r0 \
@@ -147,9 +139,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         libjpeg-turbo=3.1.0-r0 \
         freetype=2.13.3-r0 \
         unzip=6.0-r15 \
-        lua5.1-libs=5.1.5-r13;
+        lua5.1-libs=5.1.5-r13
 
-# Copy PHP extensions from builder
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
@@ -162,15 +153,13 @@ RUN mkdir -p /var/www/atlwiki/mediawiki && \
     mkdir -p /var/www/atlwiki/sitemap && \
     touch /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml && \
     ln -s /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml /var/www/atlwiki/sitemap.xml && \
-    chown -R mediawiki:mediawiki /var/www/atlwiki;
+    chown -R mediawiki:mediawiki /var/www/atlwiki
 
 USER mediawiki
 WORKDIR /var/www/atlwiki
 
-# Copy pre-built mediawiki tree from the mediawiki build stage
 COPY --chown=mediawiki:mediawiki --from=mediawiki /var/www/atlwiki .
 
-# Copy Files
 COPY --chown=mediawiki:mediawiki robots.txt ./robots.txt
 COPY --chown=mediawiki:mediawiki .well-known ./.well-known
 COPY --chown=mediawiki:mediawiki LocalSettings.php ./mediawiki/LocalSettings.php
@@ -179,14 +168,10 @@ RUN ln -s ./.well-known/security.txt ./security.txt
 
 USER root
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
 
 USER mediawiki
 EXPOSE 9000
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD php-fpm -t || exit 1
-
-CMD ["/start.sh"]
+    CMD ["php-fpm", "-t"]
