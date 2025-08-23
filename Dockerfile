@@ -160,6 +160,8 @@ RUN addgroup -g 1000 -S mediawiki && \
 RUN mkdir -p /var/www/atlwiki/mediawiki && \
     mkdir -p /var/www/atlwiki/cache && \
     mkdir -p /var/www/atlwiki/sitemap && \
+    touch /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml && \
+    ln -s /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml /var/www/atlwiki/sitemap.xml && \
     chown -R mediawiki:mediawiki /var/www/atlwiki;
 
 USER mediawiki
