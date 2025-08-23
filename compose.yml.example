@@ -67,7 +67,7 @@ services:
       - wiki-network
     restart: unless-stopped
 
-  sitemap-generator:
+  sitemap:
     image: mediawiki:${MEDIAWIKI_VERSION}-fpm-alpine
     container_name: atlwiki-sitemap
     user: "1000:1000"
