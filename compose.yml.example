@@ -40,7 +40,7 @@ services:
       - wiki-webroot:/var/www/atlwiki:ro
       - ./mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
     ports:
-      - '127.0.0.1:3000:80'
+      - '3000:80'
     networks:
       - wiki-network
     restart: unless-stopped
