@@ -50,8 +50,11 @@ services:
   redis:
     image: redis:alpine
     container_name: atlwiki-redis
-    ports:
-      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    expose:
+      - "6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
@@ -67,4 +70,6 @@ networks:
 
 volumes:
   wiki-webroot:
+    driver: local
+  redis-data:
     driver: local
