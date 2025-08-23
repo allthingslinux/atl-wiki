@@ -26,6 +26,7 @@ services:
         condition: service_started
     networks:
       - wiki-network
+    restart: unless-stopped
 
   nginx:
     image: nginx:stable-alpine
@@ -46,6 +47,7 @@ services:
       retries: 3
     networks:
       - wiki-network
+    restart: unless-stopped
 
   redis:
     image: redis:alpine
@@ -63,6 +65,25 @@ services:
       retries: 3
     networks:
       - wiki-network
+    restart: unless-stopped
+
+  sitemap-generator:
+    image: mediawiki:${MEDIAWIKI_VERSION}-fpm-alpine
+    container_name: atlwiki-sitemap
+    user: "1000:1000"
+    volumes:
+      - wiki-webroot:/var/www/atlwiki
+    command: >
+      sh -c "
+        echo '0 6 * * * php /var/www/atlwiki/mediawiki/maintenancerun.php generateSitemap --memory-limit=50M --fspath=/var/www/atlwiki/sitemap/ --identifier=atl.wiki --urlpath=/sitemap/ --server=https://atl.wiki --compress=yes --skip-redirects' | crontab - &&
+        crond -f
+      "
+    depends_on:
+      mediawiki:
+        condition: service_healthy
+    networks:
+      - wiki-network
+    restart: unless-stopped
 
 networks:
   wiki-network:

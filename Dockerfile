@@ -1,5 +1,4 @@
 ### TODO & NOTES ###
-# sitemap stuff
 # php.ini improvements
 
 # Builder Stage
@@ -160,6 +159,7 @@ RUN addgroup -g 1000 -S mediawiki && \
 
 RUN mkdir -p /var/www/atlwiki/mediawiki && \
     mkdir -p /var/www/atlwiki/cache && \
+    mkdir -p /var/www/atlwiki/sitemap && \
     chown -R mediawiki:mediawiki /var/www/atlwiki;
 
 USER mediawiki
