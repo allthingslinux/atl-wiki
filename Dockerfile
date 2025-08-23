@@ -108,7 +108,7 @@ RUN --mount=type=cache,target=/root/.composer \
 
 # Install Extension Dependencies
 RUN --mount=type=cache,target=/root/.composer \
-    composer install --no-dev --optimize-autoloader --no-scripts
+    composer update --no-dev --optimize-autoloader --no-scripts
 
 # Cleanup
 RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \

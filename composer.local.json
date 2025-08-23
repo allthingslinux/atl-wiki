@@ -3,7 +3,12 @@
 		"merge-plugin": {
 			"include": [
 				"extensions/AWS/composer.json",
-				"extensions/OpenIDConnect/composer.json"
+				"extensions/OpenIDConnect/composer.json",
+				"extensions/CheckUser/composer.json",
+				"extensions/Cite/composer.json",
+				"extensions/OATHAuth/composer.json",
+				"extensions/TemplateStyles/composer.json",
+				"extensions/AbuseFilter/composer.json"
 			]
 		}
 	}
