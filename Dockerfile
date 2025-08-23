@@ -1,8 +1,6 @@
 ### TODO & NOTES ###
 # sitemap stuff
-# https://www.mediawiki.org/wiki/Manual:Performance_tuning
 # php.ini improvements
-# https://www.mediawiki.org/wiki/Manual:$wgCdnReboundPurgeDelay
 
 # Builder Stage
 FROM php:8.3-fpm-alpine AS builder
