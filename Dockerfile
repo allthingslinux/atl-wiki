@@ -108,9 +108,9 @@ RUN --mount=type=cache,target=/root/.composer \
 
 # Install Extension Dependencies
 RUN --mount=type=cache,target=/root/.composer \
-    composer update --no-dev --optimize-autoloader --no-scripts
+    composer install --no-dev --optimize-autoloader --no-scripts
 
-# Cleanup 
+# Cleanup
 RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
            /var/www/atlwiki/mediawiki/docs/ \
            /var/www/atlwiki/mediawiki/mw-config/ \
