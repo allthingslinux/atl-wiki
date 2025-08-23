@@ -1,3 +1,5 @@
+name: atlwiki
+
 services:
   mediawiki:
     build:
@@ -9,24 +11,24 @@ services:
         MEDIAWIKI_BRANCH: ${MEDIAWIKI_BRANCH}
         CITIZEN_VERSION: ${CITIZEN_VERSION}
     container_name: atlwiki
-    user: "1000:1000"
+    depends_on:
+      redis:
+        condition: service_started
     volumes:
       - wiki-webroot:/var/www/atlwiki
       - .env:/var/www/atlwiki/.env:ro
-    expose:
-      - "9000"
+    networks:
+      - wiki-network
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "php-fpm", "-t"]
+      test: [ "CMD", "php-fpm", "-t" ]
       interval: 30s
       timeout: 10s
       start_period: 60s
       retries: 3
-    depends_on:
-      redis:
-        condition: service_started
-    networks:
-      - wiki-network
-    restart: unless-stopped
+    user: "1000:1000"
+    expose:
+      - '9000'
 
   nginx:
     image: nginx:stable-alpine
@@ -34,38 +36,38 @@ services:
     depends_on:
       mediawiki:
         condition: service_healthy
-    ports:
-      - "3000:80"
     volumes:
       - wiki-webroot:/var/www/atlwiki:ro
       - ./mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
+    ports:
+      - '127.0.0.1:3000:80'
+    networks:
+      - wiki-network
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      test: [ "CMD", "curl", "-f", "http://localhost/" ]
       interval: 30s
       timeout: 10s
       start_period: 30s
       retries: 3
-    networks:
-      - wiki-network
-    restart: unless-stopped
 
   redis:
     image: redis:alpine
     container_name: atlwiki-redis
-    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
     volumes:
       - redis-data:/data
-    expose:
-      - "6379"
+    networks:
+      - wiki-network
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
       timeout: 10s
       start_period: 30s
       retries: 3
-    networks:
-      - wiki-network
-    restart: unless-stopped
+    expose:
+      - '6379'
 
 networks:
   wiki-network:
