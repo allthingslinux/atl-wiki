@@ -78,18 +78,14 @@ $wgCdnServersNoPurge = [
   '2405:8100::/32',
   '2a06:98c0::/29',
   '2c0f:f248::/32',
-  // Internal Range
-  '172.21.0.0/16',
-  '127.0.0.1',
-  '::1',
-  // Reverse Proxy
-  '10.0.0.2'
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServers
 $wgCdnServers = [
     // Reverse Proxy
     '10.0.0.2',
+    // nginx Container
+    'nginx'
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
@@ -125,21 +121,21 @@ $wgArticlePath = "/$1";
 
 // https://www.mediawiki.org/wiki/Manual:$wgActionPaths
 $actions = [
-    'view',
-    'edit',
-    'watch',
-    'unwatch',
-    'delete',
-    'revert',
-    'rollback',
-    'protect',
-    'unprotect',
-    'markpatrolled',
-    'render',
-    'submit',
-    'history',
-    'purge',
-    'info',
+  'view',
+  'edit',
+  'watch',
+  'unwatch',
+  'delete',
+  'revert',
+  'rollback',
+  'protect',
+  'unprotect',
+  'markpatrolled',
+  'render',
+  'submit',
+  'history',
+  'purge',
+  'info',
 ];
 foreach ( $actions as $action ) {
     $wgActionPaths[$action] = "/$action/$1";
@@ -171,13 +167,13 @@ $wgDBuser = $_ENV['DB_USER'];
 $wgDBpassword = $_ENV['DB_PASSWORD'];
 
 $wgSMTP = [
-    "host"      => "smtp.gmail.com",
-    "IDHost"    => "allthingslinux.org",
-    "localhost" => "allthingslinux.org",
-    "port"      => 587,
-    "auth"      => true,
-    "username"  => "services@allthingslinux.org",
-    "password"  => $_ENV['SMTP_PASSWORD'] ?? '',
+  "host"      => "smtp.gmail.com",
+  "IDHost"    => "allthingslinux.org",
+  "localhost" => "allthingslinux.org",
+  "port"      => 587,
+  "auth"      => true,
+  "username"  => "services@allthingslinux.org",
+  "password"  => $_ENV['SMTP_PASSWORD'] ?? '',
 ];
 
 //######################################################// Caching
@@ -190,10 +186,10 @@ $wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
 
 // https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 $wgObjectCaches['redis'] = [
-    'class'                => 'RedisBagOStuff',
-    'servers'              => [ 'redis:6379' ],
-    'persistent'           => false,
-    'automaticFailOver'    => false,
+  'class'                => 'RedisBagOStuff',
+  'servers'              => [ 'redis:6379' ],
+  'persistent'           => false,
+  'automaticFailOver'    => false,
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMainStash
@@ -254,6 +250,3 @@ $wgEditRecoveryExpiry = 604800; // 7 Days
 
 // https://www.mediawiki.org/wiki/Manual:$wgRestrictDisplayTitle
 $wgRestrictDisplayTitle = false;
-
-// https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
-$wgUsePrivateIPs = true;
