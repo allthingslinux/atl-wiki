@@ -110,13 +110,12 @@ RUN --mount=type=cache,target=/root/.composer \
 RUN --mount=type=cache,target=/root/.composer \
     composer update --no-dev --optimize-autoloader --no-scripts
 
-# Cleanup
+# Cleanup 
 RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
            /var/www/atlwiki/mediawiki/docs/ \
            /var/www/atlwiki/mediawiki/mw-config/ \
            /var/www/atlwiki/mediawiki/maintenance/dev/ \
            /var/www/atlwiki/mediawiki/maintenance/benchmarks/ \
-           /var/www/atlwiki/mediawiki/includes/libs/composer/ \
            /var/www/atlwiki/mediawiki/vendor/*/tests/ \
            /var/www/atlwiki/mediawiki/vendor/*/test/ \
            /var/www/atlwiki/mediawiki/vendor/*/.git* \
