@@ -154,10 +154,10 @@ RUN mkdir -p /var/www/atlwiki/mediawiki && \
     touch /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml && \
     ln -s /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml /var/www/atlwiki/sitemap.xml && \
     chown -R mediawiki:mediawiki /var/www/atlwiki && \
-    chmod 700 /var/www/atlwiki && \
-    chmod -R 600 /var/www/atlwiki/mediawiki && \
+    chmod 750 /var/www/atlwiki && \
+    chmod -R 650 /var/www/atlwiki/mediawiki && \
     chmod -R 655 /var/www/atlwiki/sitemap && \
-    chmod -R 700 /var/www/atlwiki/cache
+    chmod -R 750 /var/www/atlwiki/cache
 
 
 USER mediawiki
