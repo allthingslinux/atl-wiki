@@ -1,0 +1,80 @@
+name: atlwiki
+
+services:
+  mediawiki:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MEDIAWIKI_MAJOR_VERSION: ${MEDIAWIKI_MAJOR_VERSION}
+        MEDIAWIKI_VERSION: ${MEDIAWIKI_VERSION}
+        MEDIAWIKI_BRANCH: ${MEDIAWIKI_BRANCH}
+        CITIZEN_VERSION: ${CITIZEN_VERSION}
+    container_name: atlwiki-mediawiki
+    depends_on:
+      redis:
+        condition: service_started
+    volumes:
+      - wiki-webroot:/var/www/atlwiki
+      - .env:/var/www/atlwiki/.env:ro
+    networks:
+      - wiki-network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "php-fpm", "-t" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    user: "1000:1000"
+    expose:
+      - '9000'
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: atlwiki-nginx
+    depends_on:
+      mediawiki:
+        condition: service_healthy
+    volumes:
+      - wiki-webroot:/var/www/atlwiki:ro
+      - ./mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
+    ports:
+      - '3000:80'
+    networks:
+      - wiki-network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+
+  redis:
+    image: redis:alpine
+    container_name: atlwiki-redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - wiki-network
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+    expose:
+      - '6379'
+
+networks:
+  wiki-network:
+    driver: bridge
+
+volumes:
+  wiki-webroot:
+    driver: local
+  redis-data:
+    driver: local

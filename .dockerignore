@@ -3,8 +3,11 @@
 LICENSE
 README.md
 compose.yml
+production-compose.yml.example
+staging-compose.yml.example
 compose.yml.example
 composer.lock
 .gitignore
 .git/
 vendor/
+systemd/
