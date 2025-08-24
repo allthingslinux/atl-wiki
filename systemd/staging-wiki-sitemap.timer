@@ -1,0 +1,10 @@
+[Unit]
+Description=Run sitemap generator daily at 6:00 AM (Staging)
+Requires=staging-wiki-sitemap.service
+
+[Timer]
+OnCalendar=*-*-* 06:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
