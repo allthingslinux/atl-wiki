@@ -1,5 +1,8 @@
 # update: Restart the wiki after an update
 update:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
 	docker compose down -v
 	docker compose up -d --build
 
@@ -85,3 +88,9 @@ env:
     cp -v "$SRC" "$DST"
     echo "Wrote $DST from $SRC"
 
+# start: Start the application
+start:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    docker compose up -d --build
