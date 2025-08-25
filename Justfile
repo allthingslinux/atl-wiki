@@ -12,9 +12,11 @@ start:
 stop:
     docker compose down
 
-# Restart the wiki after an update (stops, rebuilds, starts)
+# Restart the wiki after an update (stops, pulls, rebuilds, starts)
 update:
     docker compose down -v
+    sudo git pull
+    just copy-file production-compose.yml.example compose.yml
     docker compose up -d --build
 
 # === Configuration Setup ===
@@ -68,8 +70,7 @@ sitemap-staging:
 
 # === Utility Functions ===
 
-# Copy a file with backup (internal function)
-[private]
+# Copy a file with backup (DO NOT RUN MANUALLY)
 copy-file src dst:
     #!/usr/bin/env bash
     set -euo pipefail

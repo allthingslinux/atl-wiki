@@ -1,4 +1,4 @@
-name: atlwiki
+name: prod-wiki
 
 services:
   mediawiki:

@@ -1,4 +1,4 @@
-name: staging-atlwiki
+name: staging-wiki
 
 services:
   mediawiki:
