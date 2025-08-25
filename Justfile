@@ -12,11 +12,18 @@ start:
 stop:
     docker compose down
 
-# Restart the wiki after an update (stops, pulls, rebuilds, starts)
-update:
+# Restart the production wiki after an update (stops, pulls, rebuilds, starts)
+update-prod:
     docker compose down -v
     sudo git pull
     just copy-file production-compose.yml.example compose.yml
+    docker compose up -d --build
+
+# Restart the staging wiki after an update (stops, pulls, rebuilds, starts)
+update-staging:
+    docker compose down -v
+    sudo git pull
+    just copy-file staging-compose.yml.example compose.yml
     docker compose up -d --build
 
 # === Configuration Setup ===
