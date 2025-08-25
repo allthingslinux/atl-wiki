@@ -154,8 +154,8 @@ RUN mkdir -p /var/www/atlwiki/mediawiki && \
     touch /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml && \
     ln -s /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml /var/www/atlwiki/sitemap.xml && \
     chown -R mediawiki:mediawiki /var/www/atlwiki && \
-    chmod -R 775 /var/www/atlwiki/sitemap && \
-    chmod -R 770 /var/www/atlwiki/cache
+    chmod -R 770 /var/www/atlwiki && \
+    chmod -R 775 /var/www/atlwiki/sitemap
 
 USER mediawiki
 WORKDIR /var/www/atlwiki
