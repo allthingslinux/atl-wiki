@@ -2,3 +2,4 @@ vendor/
 .env
 compose.yml
 composer.lock
+*.bak.*
