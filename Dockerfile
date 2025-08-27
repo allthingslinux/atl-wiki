@@ -65,8 +65,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         ca-certificates=20250619-r0 \
         gnupg=2.4.7-r0 \
         icu-libs=76.1-r1 \
-        libzip=1.11.4-r1 \
-        libpng=1.6.49-r0 \
+        libzip=1.11.4-r0 \
+        libpng=1.6.47-r0 \
         lua5.1-libs=5.1.5-r13
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
