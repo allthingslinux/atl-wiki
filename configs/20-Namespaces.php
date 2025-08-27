@@ -2,13 +2,13 @@
 /**
  * Namespaces Configuration
  * https://www.mediawiki.org/wiki/Manual:$wgNamespaceProtection
- * 
+ *
  * PHP version 8.3
  *
  * @category Configuration
  * @package  ATL-Wiki
  * @author   Atmois <atmois@allthingslinux.org>
- * @license  https://opensource.org/licenses/MIT MIT
+ * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  * @link     https://atl.wiki
  */
 
