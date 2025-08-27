@@ -64,29 +64,12 @@ $wgFileBackends['s3'] = [
     'use_path_style_endpoint' => true,
 ];
 
-//######################################################// Approved_Revs
-// https://www.mediawiki.org/wiki/Extension:Approved_Revs
-
-$egApprovedRevsAutomaticApprovals = true;
-$egApprovedRevsShowNotApprovedMessage = true;
-$egApprovedRevsEnabledNamespaces[NS_GUIDES] = true;
-$egApprovedRevsEnabledNamespaces[NS_MAIN] = false;
-$egApprovedRevsEnabledNamespaces[NS_USER] = false;
-$egApprovedRevsEnabledNamespaces[NS_FILE] = false;
-$egApprovedRevsEnabledNamespaces[NS_TEMPLATE] = false;
-$egApprovedRevsEnabledNamespaces[NS_HELP] = false;
-$egApprovedRevsEnabledNamespaces[NS_PROJECT] = false;
-
 //######################################################// Discord
 // https://www.mediawiki.org/wiki/Extension:Discord
 
 $wgDiscordWebhookURL = [ $_ENV['DISCORD_WEBHOOK_URL'] ];
 $wgDiscordUseEmojis = true;
 $wgDiscordDisabledHooks = [
-    'ApprovedRevsRevisionApproved',
-    'ApprovedRevsRevisionUnapproved',
-    'ApprovedRevsFileRevisionApproved',
-    'ApprovedRevsFileRevisionUnapproved',
     'BlockIpComplete',
     'UnblockUserComplete',
     'FileDeleteComplete',

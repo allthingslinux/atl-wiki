@@ -15,8 +15,6 @@
 // wfLoadExtension('AbuseFilter');
 // https://www.mediawiki.org/wiki/Extension:AntiSpoof
 wfLoadExtension('AntiSpoof');
-// https://www.mediawiki.org/wiki/Extension:Approved_Revs
-wfLoadExtension('ApprovedRevs');
 // https://www.mediawiki.org/wiki/Extension:AWS
 wfLoadExtension('AWS');
 // https://www.mediawiki.org/wiki/Extension:BulkBlock

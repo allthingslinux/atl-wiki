@@ -92,8 +92,7 @@ RUN --mount=type=cache,target=/tmp/mediawiki-cache \
     gpgconf --kill all && \
     rm -rf "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz
 
-# Copy Configuration Files
-COPY composer.local.json ./composer.local.json
+# Install Additional Dependencies
 
 COPY extensions.json install_extensions.py /tmp/
 RUN --mount=type=cache,target=/root/.composer \
@@ -103,8 +102,11 @@ RUN --mount=type=cache,target=/root/.composer \
     git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
         https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen
 
+COPY composer.local.json ./composer.local.json
 RUN --mount=type=cache,target=/root/.composer \
     composer update --no-dev --optimize-autoloader --no-scripts
+
+# Cleanup
 
 RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
         /var/www/atlwiki/mediawiki/docs/ \

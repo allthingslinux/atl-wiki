@@ -8,11 +8,6 @@
 		]
   },
   {
-    "extension_name": "ApprovedRevs",
-    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/ApprovedRevs",
-    "install_type": "git"
-  },
-  {
     "extension_name": "BulkBlock",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/BulkBlock",
     "install_type": "git"
