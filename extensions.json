@@ -131,7 +131,7 @@
   },
   {
     "extension_name": "TemplateStyles",
-    "extension_url": "https://extdist.wmflabs.org/dist/extensions/TemplateStyles-REL1_43-48207c0.tar.gz",
+    "extension_url": "https://extdist.wmflabs.org/dist/extensions/TemplateStyles-REL1_43-adea53c.tar.gz",
     "install_type": "tarball",
 		"post_install_commands": [
 			"composer install --no-dev"
