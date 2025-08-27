@@ -64,7 +64,10 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         git=2.49.1-r0 \
         ca-certificates=20250619-r0 \
         gnupg=2.4.7-r0 \
-        icu-libs=76.1-r1
+        icu-libs=76.1-r1 \
+        libzip=1.11.4-r1 \
+        libpng=1.6.49-r0 \
+        lua5.1-libs=5.1.5-r13
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
@@ -107,7 +110,6 @@ RUN --mount=type=cache,target=/root/.composer \
     composer update --no-dev --optimize-autoloader --no-scripts
 
 # Cleanup
-
 RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
         /var/www/atlwiki/mediawiki/docs/ \
         /var/www/atlwiki/mediawiki/mw-config/ \
