@@ -1,7 +1,5 @@
-tarballExtensions/
-mediawiki/
-sitemap/
-sitemap.xml
-images/
-cache/
-docker-samples/
+vendor/
+.env
+compose.yml
+composer.lock
+*.bak.*

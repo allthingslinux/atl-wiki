@@ -1,0 +1,9 @@
+[Unit]
+Description=Generate atl.wiki Sitemap
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/docker exec atlwiki-mediawiki php /var/www/atlwiki/mediawiki/maintenance/run.php generateSitemap --memory-limit=50M --fspath=/var/www/atlwiki/sitemap/ --identifier=atl.wiki --urlpath=/sitemap/ --server=https://atl.wiki --compress=yes --skip-redirects

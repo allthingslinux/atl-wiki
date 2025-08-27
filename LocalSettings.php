@@ -1,13 +1,23 @@
 <?php
+/**
+ * The root setting for all things Mediawiki
+ *
+ * PHP version 8.3
+ *
+ * @category Configuration
+ * @package  ATL-Wiki
+ * @author   Atmois <atmois@allthingslinux.org>
+ * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
+ * @link     https://atl.wiki
+ */
 
-// Use to disable editing
-#wgReadOnly = $adminTask ? false : 'Maintenance, see #atl-wiki for more info on discord.gg/linux';
+if (!defined('MEDIAWIKI') ) {
+    exit;
+}
 
 // Loads the config files in order
 $configFiles = glob('/var/www/atlwiki/configs/*.php');
 sort($configFiles);
 foreach ($configFiles as $configFile) {
-    require_once $configFile;
+    include_once $configFile;
 }
-
-require_once "/etc/mediawiki/secrets/Credentials.php";

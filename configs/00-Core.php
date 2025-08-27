@@ -1,32 +1,45 @@
 <?php
-// All other configs: https://www.mediawiki.org/wiki/Manual:Configuration_settings
+/**
+ * Core Wiki Configuration
+ *
+ * PHP version 8.3
+ *
+ * @category Configuration
+ * @package  ATL-Wiki
+ * @author   Atmois <atmois@allthingslinux.org>
+ * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
+ * @link     https://atl.wiki
+ */
 
-#################################################################### Error Logging & Troubleshooting
-
-error_reporting( 1 );
-ini_set( 'display_errors', 1 );
-
-// https://www.mediawiki.org/wiki/Manual:$wgShowExceptionDetails
-$wgShowExceptionDetails = true;
-if ( !defined( 'MEDIAWIKI' ) ) {
-	exit;
+// Load environment variables from .env file using phpdotenv
+if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
+    include_once '/var/www/atlwiki/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable('/var/www/atlwiki');
+    $dotenv->safeLoad();
 }
 
-// https://www.mediawiki.org/wiki/Manual:$wgDebugLogFile
-// https://www.mediawiki.org/wiki/Manual:$wgDBname
-$wgDebugLogFile = "/var/log/mediawiki/debug-{$wgDBname}.log";
-
-#################################################################### URL and CDN
+//######################################################// URL and CDN
 // https://www.mediawiki.org/wiki/Manual:Short_URL1
 
 // https://www.mediawiki.org/wiki/Manual:$wgSitename
-$wgSitename = "atl.wiki";
+$wgSitename = $_ENV['SITENAME'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMetaNamespace
 $wgMetaNamespace = "ATL";
 
+// https://www.mediawiki.org/wiki/Manual:$wgUpgradeKey
+$wgUpgradeKey = $_ENV['UPGRADE_KEY'];
+
+// https://www.mediawiki.org/wiki/Manual:$wgSecretKey
+$wgSecretKey = $_ENV['SECRET_KEY'];
+
+// https://www.mediawiki.org/wiki/Manual:$wgAuthenticationTokenVersion
+$wgAuthenticationTokenVersion = "1"; // Changing this will log out all sessions
+
+//######################################################// URL and CDN
+
 // https://www.mediawiki.org/wiki/Manual:$wgServer
-$wgServer = "https://atl.wiki";
+$wgServer = $_ENV['WG_SERVER'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMainPageIsDomainRoot
 $wgMainPageIsDomainRoot = true;
@@ -34,9 +47,15 @@ $wgMainPageIsDomainRoot = true;
 // https://www.mediawiki.org/wiki/Manual:$wgUseCdn
 $wgUseCdn = true;
 
+// https://www.mediawiki.org/wiki/Manual:$wgCdnMaxAge
+$wgCdnMaxAge = 259200;
+
+// https://www.mediawiki.org/wiki/Manual:$wgCdnMatchParameterOrder
+$wgCdnMatchParameterOrder = false;
+
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServersNoPurge
 $wgCdnServersNoPurge = [
-  '10.0.0.2',
+  // Cloudflare IP Ranges
   '173.245.48.0/20',
   '103.21.244.0/22',
   '103.22.200.0/22',
@@ -58,21 +77,35 @@ $wgCdnServersNoPurge = [
   '2405:b500::/32',
   '2405:8100::/32',
   '2a06:98c0::/29',
-  '2c0f:f248::/32'
+  '2c0f:f248::/32',
 ];
 
+// https://www.mediawiki.org/wiki/Manual:$wgCdnServers
 $wgCdnServers = [
-	'10.0.0.2',
+    // Reverse Proxy
+    '10.0.0.2',
+    // nginx Container
+    'nginx'
 ];
 
+// https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
 $wgUsePrivateIPs = true;
 
 // Trust the IP forwarded by the proxy (NPM and Cloudflare)
-if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-    $forwardedIps = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
-    // The first IP in the list is the original client IP.
-    $_SERVER['REMOTE_ADDR'] = trim( $forwardedIps[0] );
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+    $forwardedIps = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+    // The first IP in the list is the original client IP
+    $_SERVER['REMOTE_ADDR'] = trim($forwardedIps[0]);
 }
+
+// https://www.mediawiki.org/wiki/Manual:$wgCookieSameSite
+$wgCookieSameSite = 'Strict';
+
+// https://www.mediawiki.org/wiki/Manual:$wgCookieSecure
+$wgCookieSecure = true;
+
+// https://www.mediawiki.org/wiki/Manual:$wgExternalLinkTarget
+$wgExternalLinkTarget = '_blank';
 
 // https://www.mediawiki.org/wiki/Manual:$wgUsePathInfo
 $wgUsePathInfo = true;
@@ -84,34 +117,34 @@ $wgScript = "/index.php";
 $wgScriptPath = "";
 
 // https://www.mediawiki.org/wiki/Manual:$wgArticlePath
-$wgArticlePath = "/$1"; # Pretty URL
+$wgArticlePath = "/$1";
 
 // https://www.mediawiki.org/wiki/Manual:$wgActionPaths
 $actions = [
-	'view',
-	'edit',
-	'watch',
-	'unwatch',
-	'delete',
-	'revert',
-	'rollback',
-	'protect',
-	'unprotect',
-	'markpatrolled',
-	'render',
-	'submit',
-	'history',
-	'purge',
-	'info',
+  'view',
+  'edit',
+  'watch',
+  'unwatch',
+  'delete',
+  'revert',
+  'rollback',
+  'protect',
+  'unprotect',
+  'markpatrolled',
+  'render',
+  'submit',
+  'history',
+  'purge',
+  'info',
 ];
 foreach ( $actions as $action ) {
-  $wgActionPaths[$action] = "/$action/$1";
+    $wgActionPaths[$action] = "/$action/$1";
 }
 
 // https://www.mediawiki.org/wiki/Manual:$wgForceHTTPS
 $wgForceHTTPS = true;
 
-#################################################################### DB Config - Do not change this
+//######################################################// DB Config
 
 // https://www.mediawiki.org/wiki/Manual:$wgDBtype
 $wgDBtype = "mysql";
@@ -128,18 +161,62 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 // https://www.mediawiki.org/wiki/Manual:$wgSharedTables
 $wgSharedTables[] = "actor";
 
-#################################################################### Caching
+$wgDBserver = $_ENV['DB_SERVER'];
+$wgDBname = $_ENV['DB_NAME'];
+$wgDBuser = $_ENV['DB_USER'];
+$wgDBpassword = $_ENV['DB_PASSWORD'];
 
-// https://www.mediawiki.org/wiki/Manual:$wgMainCacheType
-$wgMainCacheType = CACHE_ACCEL;  
+$wgSMTP = [
+  "host"      => "smtp.gmail.com",
+  "IDHost"    => "allthingslinux.org",
+  "localhost" => "allthingslinux.org",
+  "port"      => 587,
+  "auth"      => true,
+  "username"  => "services@allthingslinux.org",
+  "password"  => $_ENV['SMTP_PASSWORD'] ?? '',
+];
 
-// https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:$wgEnableSidebarCache
-$wgEnableSidebarCache = true;
+//######################################################// Caching
 
 // https://www.mediawiki.org/wiki/Manual:$wgCacheDirectory
 $wgCacheDirectory = "/var/www/atlwiki/cache";
 
-#################################################################### Misc
+// https://www.mediawiki.org/wiki/Manual:$wgGitInfoCacheDirectory
+$wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
+
+// https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
+$wgObjectCaches['redis'] = [
+  'class'                => 'RedisBagOStuff',
+  'servers'              => [ 'redis:6379' ],
+  'persistent'           => false,
+  'automaticFailOver'    => false,
+];
+
+// https://www.mediawiki.org/wiki/Manual:$wgMainStash
+$wgMainStash = 'redis';
+
+// https://www.mediawiki.org/wiki/Manual:$wgMainCacheType
+$wgMainCacheType = 'redis';
+
+// https://www.mediawiki.org/wiki/Manual:$wgParserCacheType
+$wgParserCacheType  = 'redis';
+
+// https://www.mediawiki.org/wiki/Manual:$wgSessionCacheType
+$wgSessionCacheType = 'redis';
+
+// https://www.mediawiki.org/wiki/Manual:$wgUseLocalMessageCache
+$wgUseLocalMessageCache = true;
+
+// https://www.mediawiki.org/wiki/Special:MyLanguage/Manual:$wgEnableSidebarCache
+$wgEnableSidebarCache = true;
+
+// https://www.mediawiki.org/wiki/Manual:$wgParserCacheExpireTime
+$wgParserCacheExpireTime = 259200;
+
+// https://www.mediawiki.org/wiki/Manual:$wgSearchSuggestCacheExpiry
+$wgSearchSuggestCacheExpiry = 10800;
+
+//######################################################// Misc
 
 // https://www.mediawiki.org/wiki/Manual:$wgPingback
 $wgPingback = true;
@@ -169,10 +246,7 @@ $wgEnableCanonicalServerLink = true;
 $wgEnableEditRecovery = true;
 
 // https://www.mediawiki.org/wiki/Manual:$wgEditRecoveryExpiry
-$wgEditRecoveryExpiry = 604800; # 7 Days
+$wgEditRecoveryExpiry = 604800; // 7 Days
 
 // https://www.mediawiki.org/wiki/Manual:$wgRestrictDisplayTitle
 $wgRestrictDisplayTitle = false;
-
-// https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
-$wgUsePrivateIPs = true;
