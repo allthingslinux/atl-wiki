@@ -77,7 +77,7 @@ sitemap-staging:
 
 # === Utility Functions ===
 
-# Copy a file with backup (DO NOT RUN MANUALLY)
+# Copy a file (DO NOT RUN MANUALLY)
 copy-file src dst:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -88,13 +88,6 @@ copy-file src dst:
     if [ ! -f "$SRC" ]; then
         echo "Error: source '$SRC' not found." >&2
         exit 1
-    fi
-
-    if [ -f "$DST" ]; then
-        TS=$(date +%s)
-        BACKUP="${DST}.bak.${TS}"
-        cp -v "$DST" "$BACKUP"
-        echo "Existing $DST backed up to $BACKUP"
     fi
 
     cp -v "$SRC" "$DST"
