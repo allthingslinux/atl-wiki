@@ -99,7 +99,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
 }
 
 // https://www.mediawiki.org/wiki/Manual:$wgCookieSameSite
-$wgCookieSameSite = 'Strict';
+$wgCookieSameSite = 'Lax';
 
 // https://www.mediawiki.org/wiki/Manual:$wgCookieSecure
 $wgCookieSecure = true;
