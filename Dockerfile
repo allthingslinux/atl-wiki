@@ -52,10 +52,10 @@ FROM php:8.3-fpm-alpine AS mediawiki
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # Build Arguments
-ARG MEDIAWIKI_MAJOR_VERSION=1.43
-ARG MEDIAWIKI_VERSION=1.43.3
-ARG CITIZEN_VERSION=3.5.0
-ARG MEDIAWIKI_BRANCH=REL1_43
+ARG MEDIAWIKI_MAJOR_VERSION
+ARG MEDIAWIKI_VERSION
+ARG CITIZEN_VERSION
+ARG MEDIAWIKI_BRANCH
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
