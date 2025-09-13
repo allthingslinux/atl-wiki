@@ -54,11 +54,11 @@
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Favorites",
     "install_type": "git"
   },
-  {
-    "extension_name": "FilterSpecialPages",
-    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
-    "install_type": "git"
-  },
+  //{
+  //  "extension_name": "FilterSpecialPages",
+  //  "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
+  //  "install_type": "git"
+  //},
   {
     "extension_name": "LastModified",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/LastModified",
