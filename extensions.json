@@ -120,7 +120,7 @@
     "extension_name": "FilterSpecialPages",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
     "install_type": "git",
-    "git_branch": "master"
+    "git_branch": "REL1_43"
   }
 ]
 
