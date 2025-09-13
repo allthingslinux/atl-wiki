@@ -115,6 +115,12 @@
     "extension_url": "https://github.com/edwardspec/mediawiki-aws-s3",
     "install_type": "git",
     "git_branch": "master"
+  },
+  {
+    "extension_name": "FilterSpecialPages",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
+    "install_type": "git",
+    "git_branch": "master"
   }
 ]
 

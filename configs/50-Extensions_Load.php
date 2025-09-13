@@ -51,6 +51,8 @@ wfLoadExtension('Echo');
 wfLoadExtension('Editcount');
 // https://www.mediawiki.org/wiki/Extension:Favorites
 wfLoadExtension('Favorites');
+// https://www.mediawiki.org/wiki/Extension:FilterSpecialPages
+wfLoadExtension('FilterSpecialPages');
 // https://www.mediawiki.org/wiki/Extension:Gadgets
 wfLoadExtension('Gadgets');
 // https://www.mediawiki.org/wiki/Extension:ImageMap
