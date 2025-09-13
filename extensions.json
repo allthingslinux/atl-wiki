@@ -93,12 +93,6 @@
     "install_type": "git"
   },
   {
-    "extension_name": "TopLink",
-    "extension_url": "https://github.com/mywikis/TopLink",
-    "install_type": "git",
-    "git_branch": "main"
-  },
-  {
     "extension_name": "UserMerge",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/UserMerge",
     "install_type": "git"

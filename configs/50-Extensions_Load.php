@@ -113,8 +113,6 @@ wfLoadExtension('TemplateStylesExtender');
 wfLoadExtension('TextExtracts');
 // https://www.mediawiki.org/wiki/Extension:Thanks
 wfLoadExtension('Thanks');
-// https://www.mediawiki.org/wiki/Extension:TopLink
-wfLoadExtension('TopLink');
 // https://www.mediawiki.org/wiki/Extension:UserMerge
 wfLoadExtension('UserMerge');
 // https://www.mediawiki.org/wiki/Extension:VisualEditor
