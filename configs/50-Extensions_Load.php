@@ -59,8 +59,6 @@ wfLoadExtension('Gadgets');
 wfLoadExtension('ImageMap');
 // https://www.mediawiki.org/wiki/Extension:InputBox
 wfLoadExtension('InputBox');
-// https://www.mediawiki.org/wiki/Extension:Interwiki
-wfLoadExtension('Interwiki');
 // https://www.mediawiki.org/wiki/Extension:LastModified
 wfLoadExtension('LastModified');
 // https://www.mediawiki.org/wiki/Extension:Linter
