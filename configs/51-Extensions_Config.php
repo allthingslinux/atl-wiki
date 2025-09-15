@@ -42,6 +42,7 @@ $wgUserrightsInterwikiDelimiter = '#';
 //######################################################// ConfirmEdit
 // https://www.mediawiki.org/wiki/Extension:ConfirmEdit
 
+$wgCaptchaClass = MediaWiki\Extension\ConfirmEdit\Turnstile\Turnstile::class;
 $wgTurnstileSiteKey= $_ENV['TURNSTILE_SITE_KEY'];
 $wgTurnstileSecretKey= $_ENV['TURNSTILE_SECRET_KEY'];
 
