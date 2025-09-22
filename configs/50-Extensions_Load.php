@@ -49,8 +49,6 @@ wfLoadExtension('Drafts');
 wfLoadExtension('Echo');
 // https://www.mediawiki.org/wiki/Extension:Editcount
 wfLoadExtension('Editcount');
-// https://www.mediawiki.org/wiki/Extension:Favorites
-wfLoadExtension('Favorites');
 // https://www.mediawiki.org/wiki/Extension:FilterSpecialPages
 wfLoadExtension('FilterSpecialPages');
 // https://www.mediawiki.org/wiki/Extension:Gadgets
@@ -59,8 +57,6 @@ wfLoadExtension('Gadgets');
 wfLoadExtension('ImageMap');
 // https://www.mediawiki.org/wiki/Extension:InputBox
 wfLoadExtension('InputBox');
-// https://www.mediawiki.org/wiki/Extension:Interwiki
-wfLoadExtension('Interwiki');
 // https://www.mediawiki.org/wiki/Extension:LastModified
 wfLoadExtension('LastModified');
 // https://www.mediawiki.org/wiki/Extension:Linter
@@ -115,8 +111,6 @@ wfLoadExtension('TemplateStylesExtender');
 wfLoadExtension('TextExtracts');
 // https://www.mediawiki.org/wiki/Extension:Thanks
 wfLoadExtension('Thanks');
-// https://www.mediawiki.org/wiki/Extension:TopLink
-wfLoadExtension('TopLink');
 // https://www.mediawiki.org/wiki/Extension:UserMerge
 wfLoadExtension('UserMerge');
 // https://www.mediawiki.org/wiki/Extension:VisualEditor

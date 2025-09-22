@@ -17,6 +17,12 @@ EXTENSIONS_JSON = '/tmp/extensions.json'
 EXTENSIONS_DIR = '/var/www/atlwiki/mediawiki/extensions'
 
 def run(command):
+    """
+    Run a shell command and handle errors
+
+    args:
+        command (str): The shell command to run
+    """
     print(f'Running: {command}')
     try:
         subprocess.check_call(command, shell=True)
@@ -25,7 +31,11 @@ def run(command):
         raise
 
 def main():
-    with open(EXTENSIONS_JSON) as extensions_file:
+    """
+    Install MediaWiki extensions as specified in the extensions.json file
+    """
+
+    with open(EXTENSIONS_JSON, encoding='utf-8') as extensions_file:
         extensions = json.load(extensions_file)
     os.makedirs(EXTENSIONS_DIR, exist_ok=True)
     os.chdir(EXTENSIONS_DIR)
@@ -37,7 +47,8 @@ def main():
         print(f"Installing {extension_name}...")
 
         if install_type == 'git':
-            run(f"git clone --branch {git_branch} --single-branch --depth 1 {extension_url} {extension_name}")
+            run(f"git clone \
+                --branch {git_branch} --single-branch --depth 1 {extension_url} {extension_name}")
         elif install_type == 'tarball':
             tarball_name = f"{extension_name}.tar.gz"
             run(f"curl -fsSL {extension_url} -o {tarball_name}")

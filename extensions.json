@@ -18,14 +18,6 @@
     "install_type": "git"
   },
   {
-    "extension_name": "CheckUser",
-    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CheckUser",
-    "install_type": "git",
-		"post_install_commands": [
-			"composer install --no-dev"
-		]
-  },
-  {
     "extension_name": "CodeMirror",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CodeMirror",
     "install_type": "git"
@@ -43,7 +35,7 @@
   },
   {
     "extension_name": "Discord",
-    "extension_url": "https://github.com/jayktaylor/mw-discord",
+    "extension_url": "https://github.com/allthingslinux/mw-discord-44",
     "install_type": "git",
     "git_branch": "master"
   },
@@ -55,16 +47,6 @@
   {
     "extension_name": "Editcount",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Editcount",
-    "install_type": "git"
-  },
-  {
-    "extension_name": "Favorites",
-    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Favorites",
-    "install_type": "git"
-  },
-  {
-    "extension_name": "FilterSpecialPages",
-    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
     "install_type": "git"
   },
   {
@@ -106,12 +88,6 @@
     "install_type": "git"
   },
   {
-    "extension_name": "TopLink",
-    "extension_url": "https://github.com/mywikis/TopLink",
-    "install_type": "git",
-    "git_branch": "main"
-  },
-  {
     "extension_name": "UserMerge",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/UserMerge",
     "install_type": "git"
@@ -125,16 +101,8 @@
 		]
   },
   {
-    "extension_name": "TemplateStyles",
-    "extension_url": "https://extdist.wmflabs.org/dist/extensions/TemplateStyles-REL1_43-adea53c.tar.gz",
-    "install_type": "tarball",
-		"post_install_commands": [
-			"composer install --no-dev"
-		]
-  },
-  {
     "extension_name": "TemplateStylesExtender",
-    "extension_url": "https://github.com/octfx/mediawiki-extensions-TemplateStylesExtender/archive/refs/tags/v2.0.0.tar.gz",
+    "extension_url": "https://github.com/octfx/mediawiki-extensions-TemplateStylesExtender/archive/refs/tags/v2.1.0.tar.gz",
     "install_type": "tarball"
   },
   {
@@ -142,6 +110,12 @@
     "extension_url": "https://github.com/edwardspec/mediawiki-aws-s3",
     "install_type": "git",
     "git_branch": "master"
+  },
+  {
+    "extension_name": "FilterSpecialPages",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
+    "install_type": "git",
+    "git_branch": "REL1_43"
   }
 ]
 
