@@ -16,23 +16,23 @@ stop:
 update-prod:
     docker compose down -v
     sudo git pull
-    just copy-file production-compose.yml.example compose.yml
+    just copy-file production-compose.yaml.example compose.yaml
     docker compose up -d --build
 
 # Restart the staging wiki after an update (stops, pulls, rebuilds, starts)
 update-staging:
     docker compose down -v
     sudo git pull
-    just copy-file staging-compose.yml.example compose.yml
+    just copy-file staging-compose.yaml.example compose.yaml
     docker compose up -d --build
 
 # === Configuration Setup ===
 
 # Setup production environment (copies prod compose and env files, installs prod systemd)
-setup-prod: (copy-file "production-compose.yml.example" "compose.yml") env sitemap-prod
+setup-prod: (copy-file "production-compose.yaml.example" "compose.yaml") env sitemap-prod
 
 # Setup staging environment (copies staging compose and env files, installs staging systemd)
-setup-staging: (copy-file "staging-compose.yml.example" "compose.yml") env sitemap-staging
+setup-staging: (copy-file "staging-compose.yaml.example" "compose.yaml") env sitemap-staging
 
 # Copy environment example to .env
 env: (copy-file ".example.env" ".env")
