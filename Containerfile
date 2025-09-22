@@ -6,7 +6,7 @@
 #      http://www.apache.org/licenses/LICENSE-2.0
 
 # Builder Stage
-FROM php:8.3-fpm-alpine AS builder
+FROM php:8.4-fpm-alpine AS builder
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
@@ -48,7 +48,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     apk del .build-deps
 
 # Mediawiki Setup Stage
-FROM php:8.3-fpm-alpine AS mediawiki
+FROM php:8.4-fpm-alpine AS mediawiki
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # Build Arguments
@@ -126,7 +126,7 @@ RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
     rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.json /var/www/atlwiki/mediawiki/composer.lock
 
 # Final Stage
-FROM php:8.3-fpm-alpine AS final
+FROM php:8.4-fpm-alpine AS final
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 LABEL maintainer="atmois@allthingslinux.org" \
