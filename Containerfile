@@ -139,6 +139,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     apk add --no-cache \
         imagemagick=7.1.2.0-r0 \
         librsvg=2.60.0-r0 \
+        rsvg-convert=2.60.0-r0 \
         python3=3.12.11-r0 \
         icu-libs=76.1-r1 \
         oniguruma=6.9.10-r0 \
