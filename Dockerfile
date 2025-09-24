@@ -178,7 +178,7 @@ COPY --chown=mediawiki:mediawiki configs/ ./configs/
 RUN ln -s ./.well-known/security.txt ./security.txt
 
 # Fix MWCallbackStream.php return type declaration
-RUN sed -i "s/public function write(\$string) {/public function write(\$string): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
+RUN sed -i "s/public function write( \$string ) {/public function write( \$string ): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
 
 USER root
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
