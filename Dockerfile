@@ -96,6 +96,9 @@ RUN --mount=type=cache,target=/tmp/mediawiki-cache \
     gpgconf --kill all && \
     rm -rf "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz
 
+# Fix MWCallbackStream.php return type declaration
+RUN sed -i "s/public function write(\$string) {/public function write(\$string): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
+
 # Install Additional Dependencies
 
 COPY extensions.json install_extensions.py /tmp/
