@@ -177,11 +177,12 @@ COPY --chown=mediawiki:mediawiki LocalSettings.php ./mediawiki/LocalSettings.php
 COPY --chown=mediawiki:mediawiki configs/ ./configs/
 RUN ln -s ./.well-known/security.txt ./security.txt
 
-# Fix MWCallbackStream.php return type declaration
-RUN sed -i "s/public function write(\$string) {/public function write(\$string): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
-
 USER root
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+
+# Fix MWCallbackStream.php return type declaration
+RUN sed -i "s/public function write(\$string) {/public function write(\$string): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php \
+    && chown mediawiki:mediawiki /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
 
 USER mediawiki
 EXPOSE 9000
