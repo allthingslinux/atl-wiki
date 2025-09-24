@@ -123,7 +123,7 @@ RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
         /var/www/atlwiki/mediawiki/extensions/*/tests/ && \
     find /var/www/atlwiki/mediawiki -name "*.md" -delete && \
     find /var/www/atlwiki/mediawiki -name "*.txt" -not -path "*/i18n/*" -delete && \
-    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.json /var/www/atlwiki/mediawiki/composer.lock
+    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.lock
 
 # Final Stage
 FROM php:8.3-fpm-alpine AS final
