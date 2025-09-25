@@ -78,7 +78,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN mkdir -p /var/www/atlwiki/mediawiki
 WORKDIR /var/www/atlwiki
 
-COPY composer.json /var/www/atlwiki/composer.json
+COPY wiki/composer.json /var/www/atlwiki/composer.json
 RUN --mount=type=cache,target=/root/.composer \
     composer install --no-dev --optimize-autoloader --no-scripts
 
@@ -98,7 +98,7 @@ RUN --mount=type=cache,target=/tmp/mediawiki-cache \
 
 # Install Additional Dependencies
 
-COPY extensions.json install_extensions.py /tmp/
+COPY wiki/extensions.json wiki/install_extensions.py /tmp/
 RUN --mount=type=cache,target=/root/.composer \
     set -eux && \
     python3 /tmp/install_extensions.py && \
@@ -106,7 +106,7 @@ RUN --mount=type=cache,target=/root/.composer \
     git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
         https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen
 
-COPY composer.local.json ./composer.local.json
+COPY wiki/composer.local.json ./composer.local.json
 RUN --mount=type=cache,target=/root/.composer \
     composer update --no-dev --optimize-autoloader --no-scripts
 
@@ -172,19 +172,21 @@ WORKDIR /var/www/atlwiki
 
 COPY --chown=mediawiki:mediawiki --from=mediawiki /var/www/atlwiki .
 
-COPY --chown=mediawiki:mediawiki robots.txt ./robots.txt
-COPY --chown=mediawiki:mediawiki .well-known ./.well-known
-COPY --chown=mediawiki:mediawiki LocalSettings.php ./mediawiki/LocalSettings.php
-COPY --chown=mediawiki:mediawiki configs/ ./configs/
+COPY --chown=mediawiki:mediawiki wiki/robots.txt ./robots.txt
+COPY --chown=mediawiki:mediawiki wiki/.well-known ./.well-known
+COPY --chown=mediawiki:mediawiki wiki/LocalSettings.php ./mediawiki/LocalSettings.php
+COPY --chown=mediawiki:mediawiki wiki/configs/ ./configs/
 RUN ln -s ./.well-known/security.txt ./security.txt
 
-# Fix MWCallbackStream.php return type declaration
-RUN sed -i "s/public function write( \$string ) {/public function write( \$string ): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
-
 USER root
-COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY wiki/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 USER mediawiki
+
+# Fix MWCallbackStream.php return type declaration (TEMPORARY until Upstream Fixes it)
+RUN sed -i "s/public function write( \$string ) {/public function write( \$string ): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
+
+# Expose Port for FastCGI
 EXPOSE 9000
 
 # Healthcheck
