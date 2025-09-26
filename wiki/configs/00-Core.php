@@ -187,7 +187,7 @@ $wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
 // https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 $wgObjectCaches['redis'] = [
   'class'                => 'RedisBagOStuff',
-  'servers'              => [ 'redis:6379' ],
+  'servers'              => [ 'valkey:6379' ],
   'persistent'           => false,
   'automaticFailOver'    => false,
 ];
