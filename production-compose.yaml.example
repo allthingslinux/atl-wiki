@@ -12,7 +12,7 @@ services:
         CITIZEN_VERSION: ${CITIZEN_VERSION}
     container_name: atlwiki-mediawiki
     depends_on:
-      redis:
+      valkey:
         condition: service_started
     volumes:
       - wiki-webroot:/var/www/atlwiki
@@ -38,7 +38,7 @@ services:
         condition: service_healthy
     volumes:
       - wiki-webroot:/var/www/atlwiki:ro
-      - ./mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
+      - .wiki/mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
     ports:
       - '3000:80'
     networks:
@@ -51,17 +51,17 @@ services:
       start_period: 30s
       retries: 3
 
-  redis:
-    image: redis:alpine
-    container_name: atlwiki-redis
+  valkey:
+    image: valkey/valkey:alpine
+    container_name: atlwiki-valkey
     volumes:
-      - redis-data:/data
+      - valkey-data:/data
     networks:
       - wiki-network
-    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    command: valkey-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: [ "CMD", "valkey-cli", "ping" ]
       interval: 30s
       timeout: 10s
       start_period: 30s
@@ -76,5 +76,5 @@ networks:
 volumes:
   wiki-webroot:
     driver: local
-  redis-data:
+  valkey-data:
     driver: local
