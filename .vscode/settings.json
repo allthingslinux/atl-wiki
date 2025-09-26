@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "*compose.yaml*": "yaml"
+    }
+}
