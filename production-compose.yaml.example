@@ -38,7 +38,7 @@ services:
         condition: service_healthy
     volumes:
       - wiki-webroot:/var/www/atlwiki:ro
-      - .wiki/mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
+      - ./wiki/mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
     ports:
       - '3000:80'
     networks:
