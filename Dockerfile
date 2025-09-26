@@ -41,8 +41,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         gd \
         exif; \
     # Install PECL extensions
-    pecl install apcu-5.1.22 redis luasandbox && \
-    docker-php-ext-enable apcu redis luasandbox && \
+    pecl install redis luasandbox && \
+    docker-php-ext-enable redis luasandbox && \
     # Cleanup in same layer
     docker-php-source delete && \
     rm -rf ~/.pearrc && \
