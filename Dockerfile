@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     # Install Build Dependencies
     apk add --no-cache --virtual .build-deps \
-        libxml2-dev=2.13.8-r0 \
+        libxml2-dev=2.13.9-r0 \
         oniguruma-dev=6.9.10-r0 \
         libzip-dev=1.11.4-r0 \
         icu-dev=76.1-r1 \
@@ -68,6 +68,10 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         icu-libs=76.1-r1 \
         libzip=1.11.4-r0 \
         libpng=1.6.47-r0 \
+        libjpeg-turbo=3.1.2-r0 \
+        freetype=2.13.3-r0 \
+        libxml2=2.13.9-r0 \
+        oniguruma=6.9.10-r0 \
         lua5.1-libs=5.1.5-r13
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
@@ -149,7 +153,8 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         libjpeg-turbo=3.1.0-r0 \
         freetype=2.13.3-r0 \
         unzip=6.0-r15 \
-        lua5.1-libs=5.1.5-r13
+        lua5.1-libs=5.1.5-r13 \
+        libxml2=2.13.9-r0
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
