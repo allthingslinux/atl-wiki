@@ -142,7 +142,7 @@ LABEL maintainer="atmois@allthingslinux.org" \
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     apk add --no-cache \
-        imagemagick=7.1.2.3-r1 \
+        imagemagick=7.1.2.3-r0 \
         librsvg=2.60.0-r0 \
         rsvg-convert=2.60.0-r0 \
         python3=3.12.11-r0 \
