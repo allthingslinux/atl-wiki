@@ -1,18 +1,5 @@
-LICENSE
-README.md
-compose.yaml
-production-compose.yaml.example
-staging-compose.yaml.example
-composer.lock
-renovate.json
-Dockerfile
-Justfile
-.env
-.env.example
-.dockerignore
-.gitignore
-.git/
-.vscode/
-.github/
-vendor/
-systemd/
+# Deny all files by default
+*
+
+# Allow everything in the wiki directory
+!wiki/
