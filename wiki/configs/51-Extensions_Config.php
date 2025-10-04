@@ -53,8 +53,8 @@ $wgAWSRegion = 'auto';
 $wgAWSBucketName = $_ENV['AWS_BUCKET_NAME'];
 $wgAWSBucketDomain = $_ENV['AWS_BUCKET_DOMAIN'];
 $wgAWSCredentials = [
-    'key' => $_ENV['ACCESS_KEY_ID'],
-    'secret' => $_ENV['SECRET_ACCESS_KEY'],
+    'key' => $_ENV['S3_ACCESS_KEY_ID'],
+    'secret' => $_ENV['S3_SECRET_ACCESS_KEY'],
 ];
 $accountID = '53d9d9e6ebc5a0dddeeb59477445ea0c';
 $wgFileBackends['s3'] = [
