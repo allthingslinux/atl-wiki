@@ -48,7 +48,7 @@ setup-local: (copy-file "local-compose.yaml.example" "compose.yaml") env-local
 env: (copy-file ".example.env" ".env")
 
 # Copy local environment to .env
-env-local: (copy-file ".env.local" ".env")
+env-local: (copy-file ".env.local.example" ".env")
 
 # === System Services ===
 
