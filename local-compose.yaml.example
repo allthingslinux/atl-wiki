@@ -103,7 +103,7 @@ services:
       - ./images:/data
     networks:
       - wiki-network
-    command: server /data --console-address ":9001"
+    command: server /data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
