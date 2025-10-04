@@ -1,4 +1,4 @@
-name: prod-wiki
+name: local-wiki
 
 services:
   mediawiki:
@@ -10,7 +10,7 @@ services:
         MEDIAWIKI_VERSION: ${MEDIAWIKI_VERSION}
         MEDIAWIKI_BRANCH: ${MEDIAWIKI_BRANCH}
         CITIZEN_VERSION: ${CITIZEN_VERSION}
-    container_name: atlwiki-mediawiki
+    container_name: local-atlwiki-mediawiki
     depends_on:
       valkey:
         condition: service_started
@@ -32,7 +32,7 @@ services:
 
   nginx:
     image: nginx:stable-alpine
-    container_name: atlwiki-nginx
+    container_name: local-atlwiki-nginx
     depends_on:
       mediawiki:
         condition: service_healthy
@@ -53,7 +53,7 @@ services:
 
   valkey:
     image: valkey/valkey:alpine
-    container_name: atlwiki-valkey
+    container_name: local-atlwiki-valkey
     volumes:
       - valkey-data:/data
     networks:
