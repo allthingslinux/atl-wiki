@@ -113,7 +113,6 @@ services:
       retries: 3
     expose:
       - '9000'
-      - '9001'
 
 networks:
   wiki-network:
