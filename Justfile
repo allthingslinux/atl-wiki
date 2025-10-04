@@ -26,6 +26,13 @@ update-staging:
     just copy-file staging-compose.yaml.example compose.yaml
     docker compose up -d --build
 
+# Restart the local wiki after an update (stops, pulls, rebuilds, starts)
+update-local:
+    docker compose down -v
+    sudo git pull
+    just copy-file local-compose.yaml.example compose.yaml
+    docker compose --env-file .env.local -f compose.yaml up -d --build
+
 # === Configuration Setup ===
 
 # Setup production environment (copies prod compose and env files, installs prod systemd)
@@ -34,8 +41,14 @@ setup-prod: (copy-file "production-compose.yaml.example" "compose.yaml") env sit
 # Setup staging environment (copies staging compose and env files, installs staging systemd)
 setup-staging: (copy-file "staging-compose.yaml.example" "compose.yaml") env sitemap-staging
 
+# Setup local environment (copies local compose and env files)
+setup-local: (copy-file "local-compose.yaml.example" "compose.yaml") env-local
+
 # Copy environment example to .env
 env: (copy-file ".example.env" ".env")
+
+# Copy local environment to .env
+env-local: (copy-file ".env.local" ".env")
 
 # === System Services ===
 
