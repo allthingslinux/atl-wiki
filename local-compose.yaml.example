@@ -14,6 +14,8 @@ services:
     depends_on:
       valkey:
         condition: service_started
+      mariadb:
+        condition: service_healthy
     volumes:
       - wiki-webroot:/var/www/atlwiki
       - .env:/var/www/atlwiki/.env:ro
@@ -68,6 +70,50 @@ services:
       retries: 3
     expose:
       - '6379'
+
+  mariadb:
+    image: mariadb:latest
+    container_name: local-atlwiki-mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./database:/var/lib/mysql
+    networks:
+      - wiki-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    expose:
+      - '3306'
+
+  minio:
+    image: minio/minio:latest
+    container_name: local-atlwiki-minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - ./images:/data
+    networks:
+      - wiki-network
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+    expose:
+      - '9000'
+      - '9001'
 
 networks:
   wiki-network:
