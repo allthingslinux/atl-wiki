@@ -36,9 +36,11 @@ services:
     depends_on:
       mediawiki:
         condition: service_healthy
+    environment:
+      NGINX_SERVER_NAME: ${SITENAME}
     volumes:
       - wiki-webroot:/var/www/atlwiki:ro
-      - ./wiki/mediawiki.conf:/etc/nginx/conf.d/mediawiki.conf:ro
+      - ./mediawiki.conf:/etc/nginx/templates/mediawiki.conf.template:ro
     ports:
       - '3000:80'
     networks:
