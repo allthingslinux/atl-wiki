@@ -2,3 +2,5 @@ vendor/
 .env
 compose.yaml
 composer.lock
+database/
+images/
