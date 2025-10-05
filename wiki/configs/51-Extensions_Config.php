@@ -56,12 +56,11 @@ $wgAWSCredentials = [
     'key' => $_ENV['S3_ACCESS_KEY_ID'],
     'secret' => $_ENV['S3_SECRET_ACCESS_KEY'],
 ];
-$accountID = '53d9d9e6ebc5a0dddeeb59477445ea0c';
 $wgFileBackends['s3'] = [
     'class' => 'AmazonS3FileBackend',
     'bucket' => $wgAWSBucketName,
-    'region' => $wgAWSRegion,
-    'endpoint' => 'https://'.$accountID.'.r2.cloudflarestorage.com',
+    'region' => 'auto',
+    'endpoint' => $_ENV['S3_ENDPOINT'],
     'use_path_style_endpoint' => true,
 ];
 
