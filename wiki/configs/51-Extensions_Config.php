@@ -50,8 +50,8 @@ $wgTurnstileSecretKey= $_ENV['TURNSTILE_SECRET_KEY'];
 // https://www.mediawiki.org/wiki/Extension:AWS
 
 $wgAWSRegion = 'auto';
-$wgAWSBucketName = $_ENV['AWS_BUCKET_NAME'];
-$wgAWSBucketDomain = $_ENV['AWS_BUCKET_DOMAIN'];
+$wgAWSBucketName = $_ENV['S3_BUCKET_NAME'];
+$wgAWSBucketDomain = $_ENV['S3_BUCKET_DOMAIN'];
 $wgAWSCredentials = [
     'key' => $_ENV['S3_ACCESS_KEY_ID'],
     'secret' => $_ENV['S3_SECRET_ACCESS_KEY'],
