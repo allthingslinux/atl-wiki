@@ -21,7 +21,7 @@ $wgEnableUserEmail = true;
 $wgEmergencyContact = $_ENV['EMERGENCY_EMAIL'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgPasswordSender
-$wgPasswordSender = $_ENV['PASSWORD_EMAIL'];
+$wgPasswordSender = $_ENV['SMTP_USERNAME'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgEmailAuthentication
 $wgEmailAuthentication = true;
