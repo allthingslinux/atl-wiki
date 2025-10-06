@@ -167,12 +167,12 @@ $wgDBuser = $_ENV['DB_USER'];
 $wgDBpassword = $_ENV['DB_PASSWORD'];
 
 $wgSMTP = [
-  "host"      => "smtp.gmail.com",
-  "IDHost"    => "allthingslinux.org",
-  "localhost" => "allthingslinux.org",
-  "port"      => 587,
+  "host"      => $_ENV['SMTP_HOST'],
+  "IDHost"    => $_ENV['SMTP_DOMAIN'],
+  "localhost" => $_ENV['SMTP_DOMAIN'],
+  "port"      => $_ENV['SMTP_PORT'],
   "auth"      => true,
-  "username"  => "services@allthingslinux.org",
+  "username"  => $_ENV['SMTP_USERNAME'],
   "password"  => $_ENV['SMTP_PASSWORD'] ?? '',
 ];
 

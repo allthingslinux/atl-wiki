@@ -18,10 +18,10 @@ $wgEnableEmail = true;
 $wgEnableUserEmail = true;
 
 // https://www.mediawiki.org/wiki/Manual:$wgEmergencyContact
-$wgEmergencyContact = "atmois@allthingslinux.org";
+$wgEmergencyContact = $_ENV['EMERGENCY_EMAIL'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgPasswordSender
-$wgPasswordSender = "services@allthingslinux.org";
+$wgPasswordSender = $_ENV['PASSWORD_EMAIL'];
 
 // https://www.mediawiki.org/wiki/Manual:$wgEmailAuthentication
 $wgEmailAuthentication = true;
