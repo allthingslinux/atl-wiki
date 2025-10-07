@@ -48,6 +48,9 @@ services:
     networks:
       - wiki-network
     restart: unless-stopped
+    command: >
+      sh -c "rm -f /etc/nginx/conf.d/default.conf &&
+             nginx -g 'daemon off;'"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost/" ]
       interval: 30s
