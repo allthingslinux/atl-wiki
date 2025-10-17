@@ -14,20 +14,20 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     # Install Build Dependencies
     apk add --no-cache --virtual .build-deps \
-        libxml2-dev=2.13.8-r0 \
-        oniguruma-dev=6.9.10-r0 \
-        libzip-dev=1.11.4-r0 \
-        icu-dev=76.1-r1 \
-        libpng-dev=1.6.47-r0 \
-        libjpeg-turbo-dev=3.1.0-r0 \
-        freetype-dev=2.13.3-r0 \
-        autoconf=2.72-r1 \
-        pcre-dev=8.45-r4 \
-        make=4.4.1-r3 \
-        gcc=14.2.0-r6 \
-        g++=14.2.0-r6 \
-        git=2.49.1-r0 \
-        lua5.1-dev=5.1.5-r13; \
+        libxml2-dev \
+        oniguruma-dev \
+        libzip-dev \
+        icu-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
+        autoconf \
+        pcre-dev \
+        make \
+        gcc \
+        g++ \
+        git \
+        lua5.1-dev; \
     # Install PHP Extensions
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install -j"$(nproc)" \
@@ -61,18 +61,18 @@ ARG MEDIAWIKI_BRANCH
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     apk add --no-cache \
-        python3=3.12.11-r0 \
-        git=2.49.1-r0 \
-        ca-certificates=20250619-r0 \
-        gnupg=2.4.7-r0 \
-        icu-libs=76.1-r1 \
-        libzip=1.11.4-r0 \
-        libpng=1.6.47-r0 \
-        libjpeg-turbo=3.1.0-r0 \
-        freetype=2.13.3-r0 \
-        libxml2=2.13.8-r0 \
-        oniguruma=6.9.10-r0 \
-        lua5.1-libs=5.1.5-r13
+        python3 \
+        git \
+        ca-certificates \
+        gnupg \
+        icu-libs \
+        libzip \
+        libpng \
+        libjpeg-turbo \
+        freetype \
+        libxml2 \
+        oniguruma \
+        lua5.1-libs
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
@@ -142,19 +142,19 @@ LABEL maintainer="atmois@allthingslinux.org" \
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     apk add --no-cache \
-        imagemagick=7.1.2.3-r0 \
-        librsvg=2.60.0-r0 \
-        rsvg-convert=2.60.0-r0 \
-        python3=3.12.11-r0 \
-        icu-libs=76.1-r1 \
-        oniguruma=6.9.10-r0 \
-        libzip=1.11.4-r0 \
-        libpng=1.6.47-r0 \
-        libjpeg-turbo=3.1.0-r0 \
-        freetype=2.13.3-r0 \
-        unzip=6.0-r15 \
-        lua5.1-libs=5.1.5-r13 \
-        libxml2=2.13.8-r0
+        imagemagick \
+        librsvg \
+        rsvg-convert \
+        python3 \
+        icu-libs \
+        oniguruma \
+        libzip \
+        libpng \
+        libjpeg-turbo \
+        freetype \
+        unzip \
+        lua5.1-libs \
+        libxml2
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
