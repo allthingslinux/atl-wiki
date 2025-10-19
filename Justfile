@@ -49,6 +49,10 @@ init-local:
     #!/usr/bin/env bash
     set -euo pipefail
 
+    echo "Configuring nginx..."
+    docker exec local-atlwiki-nginx rm -f /etc/nginx/conf.d/default.conf
+    docker exec local-atlwiki-nginx nginx -s reload
+
     echo "Setting up MediaWiki database..."
     docker exec local-atlwiki-mediawiki mv /var/www/atlwiki/mediawiki/LocalSettings.php /var/www/atlwiki/mediawiki/LocalSettings.php.bak
 
