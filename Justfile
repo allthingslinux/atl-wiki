@@ -62,6 +62,7 @@ init-local:
       --dbname=local-maria-db \
       --dbuser=local-maria-user \
       --dbpass=local-maria-password \
+      --dbprefix=mw_ \
       --server="http://localhost:3000" \
       --scriptpath="" \
       --lang=en \
