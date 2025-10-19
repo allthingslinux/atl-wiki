@@ -44,6 +44,40 @@ setup-staging: (copy-file "staging-compose.yaml.example" "compose.yaml") env sit
 # Setup local environment (copies local compose and env files)
 setup-local: (copy-file "local-compose.yaml.example" "compose.yaml") env-local
 
+# Initialize local wiki (configure nginx and database - assumes containers are already running)
+init-local:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    echo "Configuring nginx..."
+    docker exec local-atlwiki-nginx rm -f /etc/nginx/conf.d/default.conf || true
+    docker exec local-atlwiki-nginx nginx -s reload
+
+    echo "Setting up MediaWiki database..."
+    docker exec local-atlwiki-mediawiki mv /var/www/atlwiki/mediawiki/LocalSettings.php /var/www/atlwiki/mediawiki/LocalSettings.php.bak
+
+    docker exec local-atlwiki-mediawiki php /var/www/atlwiki/mediawiki/maintenance/install.php \
+      --dbtype=mysql \
+      --dbserver=mariadb \
+      --dbname=local-maria-db \
+      --dbuser=local-maria-user \
+      --dbpass=local-maria-password \
+      --server="http://localhost:3000" \
+      --scriptpath="" \
+      --lang=en \
+      --pass=AdminPassword123! \
+      "ATL Wiki" \
+      "admin"
+
+    echo "Restoring custom LocalSettings.php..."
+    docker exec local-atlwiki-mediawiki rm /var/www/atlwiki/mediawiki/LocalSettings.php
+    docker exec local-atlwiki-mediawiki mv /var/www/atlwiki/mediawiki/LocalSettings.php.bak /var/www/atlwiki/mediawiki/LocalSettings.php
+
+    echo ""
+    echo "✓ Local wiki initialization complete!"
+    echo "Access your wiki at: http://localhost:3000"
+    echo "User Login credentials: admin / AdminPassword123!"
+
 # Copy environment example to .env
 env: (copy-file ".example.env" ".env")
 
