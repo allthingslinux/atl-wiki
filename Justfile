@@ -74,11 +74,16 @@ init-local:
     echo "✓ Local wiki initialization complete!"
     echo "Access your wiki at: http://localhost:3000"
     echo "User Login credentials: admin / AdminPassword123!"
+    echo ""
 
     echo "Restarting containers to apply changes..."
     docker compose down
     docker compose up -d --build
     echo "Containers restarted."
+
+    echo "Updating MediaWiki database schema..."
+    docker exec local-atlwiki-mediawiki php /var/www/atlwiki/mediawiki/maintenance/update.php --quick
+    echo "✓ Database schema update complete!"
 
 # Copy environment example to .env
 env: (copy-file ".example.env" ".env")
