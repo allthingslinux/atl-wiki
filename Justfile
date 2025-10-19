@@ -79,6 +79,11 @@ init-local:
     echo "Access your wiki at: http://localhost:3000"
     echo "User Login credentials: admin / AdminPassword123!"
 
+    echo "Restarting containers to apply changes..."
+    docker compose down -v
+    docker compose up -d --build
+    echo "Containers restarted."
+
 # Copy environment example to .env
 env: (copy-file ".example.env" ".env")
 
