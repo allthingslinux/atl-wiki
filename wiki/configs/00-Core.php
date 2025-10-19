@@ -104,7 +104,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
 $wgCookieSameSite = 'Lax';
 
 // https://www.mediawiki.org/wiki/Manual:$wgCookieSecure
-$wgCookieSecure = true;
+// Only use secure cookies if HTTPS is enabled
+$wgCookieSecure = (strpos($_ENV['WG_SERVER'], 'https://') === 0);
 
 // https://www.mediawiki.org/wiki/Manual:$wgExternalLinkTarget
 $wgExternalLinkTarget = '_blank';
@@ -144,7 +145,8 @@ foreach ( $actions as $action ) {
 }
 
 // https://www.mediawiki.org/wiki/Manual:$wgForceHTTPS
-$wgForceHTTPS = true;
+// Only force HTTPS if the server URL uses HTTPS
+$wgForceHTTPS = (strpos($_ENV['WG_SERVER'], 'https://') === 0);
 
 //######################################################// DB Config
 
