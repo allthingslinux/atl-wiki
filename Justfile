@@ -31,7 +31,7 @@ update-local:
     docker compose down -v
     sudo git pull
     just copy-file local-compose.yaml.example compose.yaml
-    docker compose --env-file .env.local -f compose.yaml up -d --build
+    docker compose -f compose.yaml up -d --build
 
 # === Configuration Setup ===
 
