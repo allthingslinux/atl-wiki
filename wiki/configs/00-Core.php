@@ -82,10 +82,12 @@ $wgCdnServersNoPurge = [
 
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServers
 $wgCdnServers = [
-    // Reverse Proxy
-    '10.0.0.2',
-    // nginx Container
-    'nginx'
+    // nginx container (local reverse proxy)
+    'nginx',
+    // Wiki server on Tailscale
+    '100.64.3.0',
+    // NPM server on Tailscale
+    '100.64.1.0',
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
