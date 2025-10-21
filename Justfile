@@ -44,7 +44,7 @@ setup-staging: (copy-file "staging-compose.yaml.example" "compose.yaml") env sit
 # Setup local environment (copies local compose and env files)
 setup-local: (copy-file "local-compose.yaml.example" "compose.yaml") env-local
 
-# Initialize local wiki (configure nginx and database - assumes containers are already running)
+# Initialize local wiki (configure database - assumes containers are already running)
 init-local:
     #!/usr/bin/env bash
     set -euo pipefail
