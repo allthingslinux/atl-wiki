@@ -93,4 +93,5 @@ $wgGroupPermissions['sysop']['mwoauthsuppress'] = true;
 $wgGroupPermissions['sysop']['mwoauthviewsuppressed'] = true;
 $wgGroupPermissions['sysop']['mwoauthviewprivate'] = true;
 $wgGroupPermissions['sysop']['mwoauthmanagemygrants'] = true;
+$wgGroupPermissions['sysop']['interwiki'] = true;
 $wgGroupPermissions['sysop']['import'] = false;
