@@ -10,13 +10,13 @@ services:
         MEDIAWIKI_VERSION: ${MEDIAWIKI_VERSION}
         MEDIAWIKI_BRANCH: ${MEDIAWIKI_BRANCH}
         CITIZEN_VERSION: ${CITIZEN_VERSION}
-    container_name: atlwiki-mediawiki
+    container_name: wiki-mediawiki
     depends_on:
       valkey:
         condition: service_started
     volumes:
-      - wiki-webroot:/var/www/atlwiki
-      - .env:/var/www/atlwiki/.env:ro
+      - wiki-webroot:/var/www/wiki
+      - .env:/var/www/wiki/.env:ro
     networks:
       - wiki-network
     restart: unless-stopped
@@ -32,14 +32,14 @@ services:
 
   nginx:
     image: nginx:stable-alpine
-    container_name: atlwiki-nginx
+    container_name: wiki-nginx
     depends_on:
       mediawiki:
         condition: service_healthy
     environment:
       NGINX_SERVER_NAME: ${SITENAME}
     volumes:
-      - wiki-webroot:/var/www/atlwiki:ro
+      - wiki-webroot:/var/www/wiki:ro
       - ./wiki/mediawiki.conf:/etc/nginx/templates/mediawiki.conf.template:ro
       - ./wiki/default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
@@ -56,7 +56,7 @@ services:
 
   valkey:
     image: valkey/valkey:alpine
-    container_name: atlwiki-valkey
+    container_name: wiki-valkey
     volumes:
       - valkey-data:/data
     networks:
