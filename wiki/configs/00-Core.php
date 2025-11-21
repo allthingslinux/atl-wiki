@@ -12,9 +12,9 @@
  */
 
 // Load environment variables from .env file using phpdotenv
-if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
-    include_once '/var/www/atlwiki/vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable('/var/www/atlwiki');
+if (file_exists('/var/www/wiki/vendor/autoload.php')) {
+    include_once '/var/www/wiki/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable('/var/www/wiki');
     $dotenv->safeLoad();
 }
 
@@ -183,10 +183,10 @@ $wgSMTP = [
 //######################################################// Caching
 
 // https://www.mediawiki.org/wiki/Manual:$wgCacheDirectory
-$wgCacheDirectory = "/var/www/atlwiki/cache";
+$wgCacheDirectory = "/var/www/wiki/cache";
 
 // https://www.mediawiki.org/wiki/Manual:$wgGitInfoCacheDirectory
-$wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
+$wgGitInfoCacheDirectory = "/var/www/wiki/cache/gitinfo";
 
 // https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 $wgObjectCaches['redis'] = [

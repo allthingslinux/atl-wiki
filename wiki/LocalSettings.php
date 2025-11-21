@@ -16,7 +16,7 @@ if (!defined('MEDIAWIKI') ) {
 }
 
 // Loads the config files in order
-$configFiles = glob('/var/www/atlwiki/configs/*.php');
+$configFiles = glob('/var/www/wiki/configs/*.php');
 sort($configFiles);
 foreach ($configFiles as $configFile) {
     include_once $configFile;

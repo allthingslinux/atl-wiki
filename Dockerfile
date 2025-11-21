@@ -79,14 +79,14 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN mkdir -p /var/www/atlwiki/mediawiki
-WORKDIR /var/www/atlwiki
+RUN mkdir -p /var/www/wiki/mediawiki
+WORKDIR /var/www/wiki
 
-COPY wiki/composer.json /var/www/atlwiki/composer.json
+COPY wiki/composer.json /var/www/wiki/composer.json
 RUN --mount=type=cache,target=/root/.composer \
     composer install --no-dev --optimize-autoloader --no-scripts
 
-WORKDIR /var/www/atlwiki/mediawiki
+WORKDIR /var/www/wiki/mediawiki
 
 RUN --mount=type=cache,target=/tmp/mediawiki-cache \
     set -eux && \
@@ -108,27 +108,27 @@ RUN --mount=type=cache,target=/root/.composer \
     python3 /tmp/install_extensions.py && \
     # Install Citizen skin
     git clone --branch v${CITIZEN_VERSION} --single-branch --depth 1 \
-        https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/atlwiki/mediawiki/skins/Citizen
+        https://github.com/StarCitizenTools/mediawiki-skins-Citizen.git /var/www/wiki/mediawiki/skins/Citizen
 
 COPY wiki/composer.local.json ./composer.local.json
 RUN --mount=type=cache,target=/root/.composer \
     composer update --no-dev --optimize-autoloader --no-scripts
 
 # Cleanup
-RUN rm -rf /var/www/atlwiki/mediawiki/tests/ \
-        /var/www/atlwiki/mediawiki/docs/ \
-        /var/www/atlwiki/mediawiki/mw-config/ \
-        /var/www/atlwiki/mediawiki/maintenance/dev/ \
-        /var/www/atlwiki/mediawiki/maintenance/benchmarks/ \
-        /var/www/atlwiki/mediawiki/vendor/*/tests/ \
-        /var/www/atlwiki/mediawiki/vendor/*/test/ \
-        /var/www/atlwiki/mediawiki/vendor/*/.git* \
-        /var/www/atlwiki/mediawiki/skins/Citizen/.git* \
-        /var/www/atlwiki/mediawiki/skins/*/tests/ \
-        /var/www/atlwiki/mediawiki/extensions/*/tests/ && \
-    find /var/www/atlwiki/mediawiki -name "*.md" -delete && \
-    find /var/www/atlwiki/mediawiki -name "*.txt" -not -path "*/i18n/*" -delete && \
-    rm -f /var/www/atlwiki/mediawiki/composer.local.json /var/www/atlwiki/mediawiki/composer.lock
+RUN rm -rf /var/www/wiki/mediawiki/tests/ \
+        /var/www/wiki/mediawiki/docs/ \
+        /var/www/wiki/mediawiki/mw-config/ \
+        /var/www/wiki/mediawiki/maintenance/dev/ \
+        /var/www/wiki/mediawiki/maintenance/benchmarks/ \
+        /var/www/wiki/mediawiki/vendor/*/tests/ \
+        /var/www/wiki/mediawiki/vendor/*/test/ \
+        /var/www/wiki/mediawiki/vendor/*/.git* \
+        /var/www/wiki/mediawiki/skins/Citizen/.git* \
+        /var/www/wiki/mediawiki/skins/*/tests/ \
+        /var/www/wiki/mediawiki/extensions/*/tests/ && \
+    find /var/www/wiki/mediawiki -name "*.md" -delete && \
+    find /var/www/wiki/mediawiki -name "*.txt" -not -path "*/i18n/*" -delete && \
+    rm -f /var/www/wiki/mediawiki/composer.local.json /var/www/wiki/mediawiki/composer.lock
 
 # Final Stage
 FROM php:8.3-fpm-alpine AS final
@@ -163,19 +163,19 @@ COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 RUN addgroup -g 1000 -S mediawiki && \
     adduser -u 1000 -S mediawiki -G mediawiki
 
-RUN mkdir -p /var/www/atlwiki/mediawiki && \
-    mkdir -p /var/www/atlwiki/cache && \
-    mkdir -p /var/www/atlwiki/sitemap && \
-    touch /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml && \
-    ln -s /var/www/atlwiki/sitemap/sitemap-index-atl.wiki.xml /var/www/atlwiki/sitemap.xml && \
-    chown -R mediawiki:mediawiki /var/www/atlwiki && \
-    chmod -R 775 /var/www/atlwiki/sitemap && \
-    chmod -R 770 /var/www/atlwiki/cache
+RUN mkdir -p /var/www/wiki/mediawiki && \
+    mkdir -p /var/www/wiki/cache && \
+    mkdir -p /var/www/wiki/sitemap && \
+    touch /var/www/wiki/sitemap/sitemap-index-atl.wiki.xml && \
+    ln -s /var/www/wiki/sitemap/sitemap-index-atl.wiki.xml /var/www/wiki/sitemap.xml && \
+    chown -R mediawiki:mediawiki /var/www/wiki && \
+    chmod -R 775 /var/www/wiki/sitemap && \
+    chmod -R 770 /var/www/wiki/cache
 
 USER mediawiki
-WORKDIR /var/www/atlwiki
+WORKDIR /var/www/wiki
 
-COPY --chown=mediawiki:mediawiki --from=mediawiki /var/www/atlwiki .
+COPY --chown=mediawiki:mediawiki --from=mediawiki /var/www/wiki .
 
 COPY --chown=mediawiki:mediawiki wiki/robots.txt ./robots.txt
 COPY --chown=mediawiki:mediawiki wiki/.well-known ./.well-known
@@ -189,7 +189,7 @@ COPY wiki/php.ini /usr/local/etc/php/conf.d/custom.ini
 USER mediawiki
 
 # Fix MWCallbackStream.php return type declaration (TEMPORARY until Upstream Fixes it)
-RUN sed -i "s/public function write( \$string ) {/public function write( \$string ): int {/" /var/www/atlwiki/mediawiki/includes/http/MWCallbackStream.php
+RUN sed -i "s/public function write( \$string ) {/public function write( \$string ): int {/" /var/www/wiki/mediawiki/includes/http/MWCallbackStream.php
 
 # Expose Port for FastCGI
 EXPOSE 9000

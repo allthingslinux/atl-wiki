@@ -14,7 +14,7 @@ import sys
 
 MEDIAWIKI_BRANCH = os.environ.get('MEDIAWIKI_BRANCH')
 EXTENSIONS_JSON = '/tmp/extensions.json'
-EXTENSIONS_DIR = '/var/www/atlwiki/mediawiki/extensions'
+EXTENSIONS_DIR = '/var/www/wiki/mediawiki/extensions'
 
 def run(command):
     """
