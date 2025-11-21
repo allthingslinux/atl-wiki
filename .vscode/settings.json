@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*compose.yaml*": "yaml",
-        ".env.*": "env"
+        ".env.*": "env",
+        "Justfile*": "just"
     }
 }
