@@ -21,3 +21,6 @@ sort($configFiles);
 foreach ($configFiles as $configFile) {
     include_once $configFile;
 }
+
+// Flush Sentry logs
+\Sentry\logger()->flush();
