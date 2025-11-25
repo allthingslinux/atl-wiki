@@ -9,13 +9,13 @@ default:
 update-local:
     docker compose down -v
     sudo git pull
-    just copy-file local-compose.yaml.example compose.yaml
+    just copy-file deployment/local-compose.yaml.example compose.yaml
     docker compose -f compose.yaml up -d --build
 
 # === Configuration Setup ===
 
 # Setup local environment (copies local compose and env files)
-setup-local: (copy-file "local-compose.yaml.example" "compose.yaml") env-local
+setup-local: (copy-file "deployment/local-compose.yaml.example" "compose.yaml") env-local
 
 # Initialize local wiki (configure nginx and database - assumes containers are already running)
 init-local:
@@ -59,7 +59,7 @@ init-local:
     echo "✓ Database schema update complete!"
 
 # Copy local environment to .env
-env-local: (copy-file ".env.local.example" ".env")
+env-local: (copy-file "deployment/.env.local.example" ".env")
 
 # === Utility Functions ===
 
