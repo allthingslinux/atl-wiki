@@ -40,7 +40,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         calendar \
         gd \
         exif; \
-    # Install PECL extensions
+    # Install PECL Extensions
     pecl install redis luasandbox && \
     docker-php-ext-enable redis luasandbox && \
     # Cleanup in same layer

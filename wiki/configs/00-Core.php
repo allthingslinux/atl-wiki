@@ -16,7 +16,38 @@ if (file_exists('/var/www/wiki/vendor/autoload.php')) {
     include_once '/var/www/wiki/vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable('/var/www/wiki');
     $dotenv->safeLoad();
+
+    // Initialize Sentry for error tracking
+    if (!empty($_ENV['SENTRY_DSN'])) {
+        \Sentry\init(
+            [
+              'dsn' => $_ENV['SENTRY_DSN'],
+              'traces_sample_rate' => 1.0,
+              'profiles_sample_rate' => 1.0,
+              'error_types' => E_ALL,
+              'environment' => $_ENV['ENVIRONMENT'],
+              'enable_logs' => true,
+              'attach_stacktrace' => true,
+              'max_breadcrumbs' => 50,
+              'sample_rate' => 1.0,
+              'context_lines' => 7,
+            ]
+        );
+    }
 }
+
+// Error Logging Configuration
+error_reporting(-1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+
+$wgDebugLogFile = '/var/log/mediawiki/debug.log';
+
+$wgDebugLogGroups = [
+    'exception' => '/var/log/mediawiki/exception.log',
+    'dberror' => '/var/log/mediawiki/dberror.log',
+    'resourceloader' => '/var/log/mediawiki/resourceloader.log',
+];
 
 //######################################################// URL and CDN
 // https://www.mediawiki.org/wiki/Manual:Short_URL1

@@ -11,6 +11,14 @@
  * @link     https://atl.wiki
  */
 
+// Send all MediaWiki exceptions to Sentry
+$wgHooks['MWExceptionHandlerReport'][] = function ( $e ) {
+    if (class_exists('\Sentry\SentrySdk')) {
+        \Sentry\captureException($e);
+    }
+    return true;
+};
+
 $wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skin, &$links ) {
     foreach ( $links as &$group ) {
         foreach ( $group as &$tab ) {

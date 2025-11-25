@@ -3,6 +3,8 @@
     "description": "Configuration files for atl.wiki MediaWiki instance",
     "type": "project",
     "require": {
-        "vlucas/phpdotenv": "^5.6.2"
+        "sentry/sentry": "^4.10",
+        "vlucas/phpdotenv": "^5.6.2",
+        "psr/log": "1.1.4"
     }
 }
