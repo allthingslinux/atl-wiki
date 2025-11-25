@@ -122,28 +122,6 @@ $wgScriptPath = "";
 // https://www.mediawiki.org/wiki/Manual:$wgArticlePath
 $wgArticlePath = "/$1";
 
-// https://www.mediawiki.org/wiki/Manual:$wgActionPaths
-$actions = [
-  'view',
-  'edit',
-  'watch',
-  'unwatch',
-  'delete',
-  'revert',
-  'rollback',
-  'protect',
-  'unprotect',
-  'markpatrolled',
-  'render',
-  'submit',
-  'history',
-  'purge',
-  'info',
-];
-foreach ( $actions as $action ) {
-    $wgActionPaths[$action] = "/$action/$1";
-}
-
 // https://www.mediawiki.org/wiki/Manual:$wgForceHTTPS
 // Only force HTTPS if the server URL uses HTTPS
 $wgForceHTTPS = (strpos($_ENV['WG_SERVER'], 'https://') === 0);
