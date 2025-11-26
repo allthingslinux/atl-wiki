@@ -166,11 +166,14 @@ RUN addgroup -g 1000 -S mediawiki && \
 RUN mkdir -p /var/www/wiki/mediawiki && \
     mkdir -p /var/www/wiki/cache && \
     mkdir -p /var/www/wiki/sitemap && \
+    mkdir -p /var/log/mediawiki && \
     touch /var/www/wiki/sitemap/sitemap-index-atl.wiki.xml && \
     ln -s /var/www/wiki/sitemap/sitemap-index-atl.wiki.xml /var/www/wiki/sitemap.xml && \
     chown -R mediawiki:mediawiki /var/www/wiki && \
+    chown -R mediawiki:mediawiki /var/log/mediawiki && \
     chmod -R 775 /var/www/wiki/sitemap && \
-    chmod -R 770 /var/www/wiki/cache
+    chmod -R 770 /var/www/wiki/cache && \
+    chmod -R 770 /var/log/mediawiki
 
 USER mediawiki
 WORKDIR /var/www/wiki
@@ -181,6 +184,7 @@ COPY --chown=mediawiki:mediawiki wiki/robots.txt ./robots.txt
 COPY --chown=mediawiki:mediawiki wiki/.well-known ./.well-known
 COPY --chown=mediawiki:mediawiki wiki/LocalSettings.php ./mediawiki/LocalSettings.php
 COPY --chown=mediawiki:mediawiki wiki/configs/ ./configs/
+COPY --chown=mediawiki:mediawiki wiki/test-sentry.php ./test-sentry.php
 RUN ln -s ./.well-known/security.txt ./security.txt
 
 USER root
