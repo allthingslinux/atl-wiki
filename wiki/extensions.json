@@ -116,6 +116,12 @@
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
     "install_type": "git",
     "git_branch": "REL1_43"
+  },
+  {
+    "extension_name": "Buggy",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Buggy",
+    "install_type": "git",
+    "git_branch": "REL1_43"
   }
 ]
 
