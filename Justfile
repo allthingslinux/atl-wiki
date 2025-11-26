@@ -23,9 +23,9 @@ init-local:
     set -euo pipefail
 
     echo "Setting up MediaWiki database..."
-    docker exec local-atlwiki-mediawiki mv /var/www/atlwiki/mediawiki/LocalSettings.php /var/www/atlwiki/mediawiki/LocalSettings.php.bak
+    docker exec local-wiki-mediawiki mv /var/www/wiki/mediawiki/LocalSettings.php /var/www/wiki/mediawiki/LocalSettings.php.bak
 
-    docker exec local-atlwiki-mediawiki php /var/www/atlwiki/mediawiki/maintenance/install.php \
+    docker exec local-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/install.php \
       --dbtype=mysql \
       --dbserver=mariadb \
       --dbname=local-maria-db \
@@ -40,8 +40,8 @@ init-local:
       "admin"
 
     echo "Restoring custom LocalSettings.php..."
-    docker exec local-atlwiki-mediawiki rm /var/www/atlwiki/mediawiki/LocalSettings.php
-    docker exec local-atlwiki-mediawiki mv /var/www/atlwiki/mediawiki/LocalSettings.php.bak /var/www/atlwiki/mediawiki/LocalSettings.php
+    docker exec local-wiki-mediawiki rm /var/www/wiki/mediawiki/LocalSettings.php
+    docker exec local-wiki-mediawiki mv /var/www/wiki/mediawiki/LocalSettings.php.bak /var/www/wiki/mediawiki/LocalSettings.php
 
     echo ""
     echo "✓ Local wiki initialization complete!"
@@ -54,8 +54,34 @@ init-local:
     docker compose up -d --build
     echo "Containers restarted."
 
+    echo "Waiting for MediaWiki container to be healthy..."
+    MAX_WAIT=120  # Maximum wait time in seconds
+    ELAPSED=0
+    while [ $ELAPSED -lt $MAX_WAIT ]; do
+        HEALTH=$(docker inspect --format='{{.State.Health.Status}}' local-wiki-mediawiki 2>/dev/null || echo "starting")
+        if [ "$HEALTH" = "healthy" ]; then
+            echo "✓ MediaWiki container is healthy"
+            break
+        fi
+        if [ "$ELAPSED" -eq 0 ]; then
+            echo -n "Waiting for health check"
+        else
+            echo -n "."
+        fi
+        sleep 2
+        ELAPSED=$((ELAPSED + 2))
+    done
+
+    if [ "$HEALTH" != "healthy" ]; then
+        echo ""
+        echo "⚠ Warning: Container health check did not pass within ${MAX_WAIT}s"
+        echo "Attempting to continue anyway..."
+    else
+        echo ""
+    fi
+
     echo "Updating MediaWiki database schema..."
-    docker exec local-atlwiki-mediawiki php /var/www/atlwiki/mediawiki/maintenance/update.php --quick
+    docker exec local-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/update.php --quick
     echo "✓ Database schema update complete!"
 
 # Copy local environment to .env
