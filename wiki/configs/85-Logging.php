@@ -47,6 +47,16 @@ if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
 // MediaWiki Debug Configuration
 // ============================================================================
 
+/**
+ * Get debug setting from environment variable with safe defaults
+ *
+ * Returns true if env var is 'true' or '1', false if 'false' or '0'.
+ * If unset and $defaultToDev is true, returns true for development environment.
+ *
+ * @param string $envVar Environment variable name
+ * @param bool $defaultToDev Default to true in development if env var not set
+ * @return bool Debug setting value
+ */
 function getDebugSetting(string $envVar, bool $defaultToDev = true): bool
 {
     $value = isset($_ENV[$envVar]) ? $_ENV[$envVar] : null;
@@ -97,6 +107,16 @@ $wgDebugLogGroups = [
 $sentryLoggingEnabled = ($_ENV['MW_SENTRY_LOGGING_ENABLED'] ?? 'true') === 'true' ||
     $_ENV['MW_SENTRY_LOGGING_ENABLED'] === '1';
 
+/**
+ * Get Sentry log level from environment variable
+ *
+ * Supports: TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+ * Defaults to WARN in production, INFO in development if env var not set.
+ *
+ * @param string $envVar Environment variable name
+ * @param bool $isProduction Whether running in production environment
+ * @return \Sentry\Logs\LogLevel Sentry log level instance
+ */
 function getSentryLogLevel($envVar, $isProduction = false)
 {
     $level = strtoupper($_ENV[$envVar] ?? '');
@@ -120,6 +140,16 @@ function getSentryLogLevel($envVar, $isProduction = false)
     }
 }
 
+/**
+ * Get Monolog log level from environment variable
+ *
+ * Supports: DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
+ * Falls back to RFC 5424 numeric levels if constants not defined.
+ *
+ * @param string $envVar Environment variable name
+ * @param int $defaultLevel Default numeric level (RFC 5424) if env var not set
+ * @return int Monolog log level constant or numeric value
+ */
 function getMonologLogLevel($envVar, $defaultLevel = 200)
 {
     $level = strtoupper($_ENV[$envVar] ?? '');
@@ -252,9 +282,19 @@ if (!function_exists('sentry_log')) {
     /**
      * Log to Sentry via Monolog
      *
-     * @param string $level PSR-3 log level
-     * @param string $message Log message (may contain {placeholders})
-     * @param array $context Additional context data
+     * Convenience function for logging with PSR-3 compliance and Monolog integration.
+     * Supports both Monolog 2.x (constants) and 3.x (Level enum).
+     *
+     * @param string $level PSR-3 log level (emergency, alert, critical, error, warning, notice, info, debug)
+     * @param string $message Log message (may contain {placeholders} for context interpolation)
+     * @param array $context Additional context data for structured logging
+     * @return void
+     *
+     * @example
+     * sentry_log('error', 'Database connection failed', [
+     *     'host' => 'db.example.com',
+     *     'exception' => $e
+     * ]);
      */
     function sentry_log(string $level, string $message, array $context = []): void
     {

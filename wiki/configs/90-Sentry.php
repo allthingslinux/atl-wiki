@@ -224,7 +224,12 @@ $wgResourceModules['ext.sentry'] = [
 // MediaWiki Hooks
 // ============================================================================
 
-// Capture MediaWiki exceptions
+/**
+ * Capture MediaWiki exceptions and send to Sentry
+ *
+ * @param \Throwable $e Exception to capture
+ * @return bool Always returns true
+ */
 $wgHooks['MWExceptionHandlerReport'][] = function ($e) {
     if (class_exists('\Sentry\SentrySdk')) {
         \Sentry\addBreadcrumb(
@@ -243,7 +248,12 @@ $wgHooks['MWExceptionHandlerReport'][] = function ($e) {
     return true;
 };
 
-// User authentication events
+/**
+ * Add breadcrumb when user logs in
+ *
+ * @param \User $user User object
+ * @return bool Always returns true
+ */
 $wgHooks['UserLoginComplete'][] = function ($user) {
     if (class_exists('\Sentry\SentrySdk')) {
         \Sentry\addBreadcrumb(
@@ -259,6 +269,12 @@ $wgHooks['UserLoginComplete'][] = function ($user) {
     return true;
 };
 
+/**
+ * Add breadcrumb when user logs out
+ *
+ * @param \User $user User object
+ * @return bool Always returns true
+ */
 $wgHooks['UserLogoutComplete'][] = function ($user) {
     if (class_exists('\Sentry\SentrySdk')) {
         \Sentry\addBreadcrumb(
@@ -274,7 +290,22 @@ $wgHooks['UserLogoutComplete'][] = function ($user) {
     return true;
 };
 
-// Page edit events
+/**
+ * Add breadcrumb when page is edited
+ *
+ * @param \WikiPage $wikiPage Page that was edited
+ * @param \User $user User who made the edit
+ * @param \Content $content New page content
+ * @param string $summary Edit summary
+ * @param bool $isMinor Whether edit was marked as minor
+ * @param bool $isWatch Whether user is watching the page
+ * @param string|null $section Section that was edited
+ * @param int $flags Edit flags
+ * @param \RevisionRecord|null $revision New revision record
+ * @param \Status $status Status of the save operation
+ * @param int $baseRevId Base revision ID
+ * @return bool Always returns true
+ */
 $wgHooks['PageContentSaveComplete'][] = function ($wikiPage, $user, $content, $summary, $isMinor, $isWatch, $section, $flags, $revision, $status, $baseRevId) {
     if (class_exists('\Sentry\SentrySdk')) {
         $title = $wikiPage->getTitle();
@@ -316,7 +347,17 @@ if (!defined('SENTRY_BAGGAGE_HEADER')) {
     define('SENTRY_BAGGAGE_HEADER', \Sentry\getBaggage());
 }
 
-// Set user context and inject JavaScript SDK
+/**
+ * Set user context and inject JavaScript SDK configuration
+ *
+ * Configures Sentry scope with user, page, request, and session context.
+ * Injects JavaScript SDK configuration and trace propagation meta tags.
+ * Flushes pending Sentry logs at end of request.
+ *
+ * @param \OutputPage $out OutputPage object
+ * @param \Skin $skin Skin object
+ * @return bool Always returns true
+ */
 $wgHooks['BeforePageDisplay'][] = function ($out, $skin) {
     if (class_exists('\Sentry\SentrySdk')) {
         try {
@@ -565,6 +606,15 @@ $wgHooks['BeforePageDisplay'][] = function ($out, $skin) {
 // Sentry Tunnel Endpoint (Ad-blocker Bypass)
 // ============================================================================
 
+/**
+ * Handle Sentry tunnel requests from JavaScript SDK
+ *
+ * Forwards envelope data from client to Sentry API to bypass ad-blockers.
+ * Endpoint: /api.php?action=sentry-tunnel
+ *
+ * @param \ApiMain &$processor API processor (by reference)
+ * @return bool Always returns true
+ */
 $wgHooks['ApiBeforeMain'][] = function (&$processor) {
     if ($processor->getRequest()->getVal('action') === 'sentry-tunnel') {
         try {
@@ -635,6 +685,17 @@ $wgHooks['ApiBeforeMain'][] = function (&$processor) {
 // ============================================================================
 
 $wgCSPHeader = false;
+
+/**
+ * Configure Content-Security-Policy with Sentry reporting
+ *
+ * Builds CSP header with Sentry CDN domains allowed and violation reporting
+ * to Sentry security endpoint. Also configures Certificate Transparency reporting.
+ *
+ * @param array &$headers Array of HTTP headers (by reference)
+ * @param string $name Header name being processed
+ * @return bool Always returns true
+ */
 $wgHooks['SecurityResponseHeader'][] = function (&$headers, $name) {
     $sentryDsn = $_ENV['SENTRY_DSN'] ?? null;
     $environment = $_ENV['ENVIRONMENT'] ?? 'development';
@@ -671,6 +732,17 @@ $wgHooks['SecurityResponseHeader'][] = function (&$headers, $name) {
     return true;
 };
 
+/**
+ * Build Sentry security endpoint URL for CSP/CT violation reporting
+ *
+ * Extracts project ID and public key from DSN and constructs security endpoint URL.
+ * Used for Content-Security-Policy and Certificate Transparency violation reporting.
+ *
+ * @param string $dsn Sentry DSN (format: https://public_key@host/path/project_id)
+ * @param string|null $environment Environment name to include in URL
+ * @param string|null $release Release version to include in URL
+ * @return string|null Security endpoint URL or null if DSN is invalid
+ */
 function getSentrySecurityUrl($dsn, $environment = null, $release = null)
 {
     $dsnParts = parse_url($dsn);
