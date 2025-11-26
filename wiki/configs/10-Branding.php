@@ -44,7 +44,7 @@ $wgFooterIcons = [
 //######################################################// CC License
 
 // https://www.mediawiki.org/wiki/Manual:$wgRightsUrl
-$wgRightsUrl ="https://creativecommons.org/licenses/by-sa/4.0/";
+$wgRightsUrl = "https://creativecommons.org/licenses/by-sa/4.0/";
 
 // https://www.mediawiki.org/wiki/Manual:$wgRightsText
 $wgRightsText = "CC BY-SA 4.0";
