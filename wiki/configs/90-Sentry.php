@@ -165,9 +165,20 @@
 // Only initialize Sentry if DSN is configured to avoid errors in local/development
 // DSN (Data Source Name) contains project ID and authentication key
 if (!empty($_ENV['SENTRY_DSN'])) {
+    // Build Sentry configuration array
+    // Enable SDK internal logging for troubleshooting (optional)
+    // https://docs.sentry.io/platforms/php/troubleshooting/#general
+    // Only enable if SENTRY_DEBUG_LOGGER is set to avoid cluttering stdout
+    // Set SENTRY_DEBUG_LOGGER=stdout for console output, or 'file' for file logging
+    $sentryLogger = match ($_ENV['SENTRY_DEBUG_LOGGER'] ?? '') {
+        'stdout' => new \Sentry\Logger\DebugStdOutLogger(),
+        'file' => new \Sentry\Logger\DebugFileLogger('/var/log/mediawiki/sentry-sdk.log'),
+        default => null, // No debug logging by default to avoid noise
+    };
+
     // Initialize Sentry SDK for comprehensive PHP error tracking and performance monitoring
     // This creates the global Sentry hub that captures errors, traces, and profiles
-    \Sentry\init([
+    $sentryConfig = [
         // https://docs.sentry.io/platforms/php/configuration/options/#dsn
         'dsn' => $_ENV['SENTRY_DSN'],
         // https://docs.sentry.io/platforms/php/configuration/options/#release
@@ -177,13 +188,14 @@ if (!empty($_ENV['SENTRY_DSN'])) {
 
         // https://docs.sentry.io/platforms/php/integrations/monolog.md#support-with-sentry-logs
         'enable_logs' => true, // Enable Sentry Logs feature for searchable/filterable log entries
+    ];
 
-        // Enable SDK internal logging for troubleshooting
-        // https://docs.sentry.io/platforms/php/troubleshooting/#general
-        // Use DebugFileLogger in production, DebugStdOutLogger for development
-        'logger' => ($_ENV['ENVIRONMENT'] ?? 'development') === 'development'
-            ? new \Sentry\Logger\DebugStdOutLogger()
-            : new \Sentry\Logger\DebugFileLogger('/var/log/mediawiki/sentry-sdk.log'),
+    // Only add logger option if one is configured (avoid passing null)
+    if ($sentryLogger !== null) {
+        $sentryConfig['logger'] = $sentryLogger;
+    }
+
+    \Sentry\init(array_merge($sentryConfig, [
 
         // https://docs.sentry.io/platforms/php/logs/#before_send_log
         // Filter or modify logs before they're sent to Sentry
@@ -407,7 +419,7 @@ if (!empty($_ENV['SENTRY_DSN'])) {
         'trace_propagation_targets' => [
             '/^https:\/\/.*\.atl\.wiki/',     // Our own wiki domains
         ],
-    ]);
+    ]));
 }
 
 // Sentry ResourceLoader module registration (must be done before BeforePageDisplay)
