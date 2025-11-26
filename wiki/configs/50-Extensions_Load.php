@@ -17,6 +17,8 @@
 wfLoadExtension('AntiSpoof');
 // https://www.mediawiki.org/wiki/Extension:AWS
 wfLoadExtension('AWS');
+// https://www.mediawiki.org/wiki/Extension:Buggy
+wfLoadExtension('Buggy');
 // https://www.mediawiki.org/wiki/Extension:BulkBlock
 wfLoadExtension('BulkBlock');
 // https://www.mediawiki.org/wiki/Extension:Capiunto
@@ -34,7 +36,7 @@ wfLoadExtension('CodeEditor');
 // https://www.mediawiki.org/wiki/Extension:CodeMirror
 wfLoadExtension('CodeMirror');
 // https://www.mediawiki.org/wiki/Extension:ConfirmEdit
-wfLoadExtensions([ 'ConfirmEdit', 'ConfirmEdit/Turnstile' ]);
+wfLoadExtensions(['ConfirmEdit', 'ConfirmEdit/Turnstile']);
 // https://www.mediawiki.org/wiki/Extension:ConsoleOutput
 wfLoadExtension('ConsoleOutput');
 // https://www.mediawiki.org/wiki/Extension:Description2
