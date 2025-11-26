@@ -2,6 +2,12 @@
 
 tbc
 
+## Code quality
+
+- Install PHP dependencies inside `wiki/` via `composer install` (Composer 2).
+- Run `composer test` from `wiki/` to execute MediaWiki CodeSniffer checks defined in `.phpcs.xml`.
+- Run `composer fix` to automatically fix sniffs via `phpcbf` and re-run the sniffer if needed.
+
 # License
 
 Copyright 2025 Atmois <atmois@allthingslinux.org>
