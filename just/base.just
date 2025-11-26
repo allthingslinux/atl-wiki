@@ -32,8 +32,23 @@ _check-containers:
     set -euo pipefail
     ENV=$(just _detect-env)
 
-    CONTAINER_COUNT=$(docker ps --filter "name=${ENV}-wiki_" --format "{{{{.Names}}}}" | wc -l)
+    CONTAINER_COUNT=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}" | wc -l)
     if [ "$CONTAINER_COUNT" -eq 0 ]; then
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mNo running containers found for '$ENV'. Please start the services first.\033[0m\n"
         exit 1
     fi
+
+_copy-file src dst:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    SRC="{{src}}"
+    DST="{{dst}}"
+
+    if [ ! -f "$SRC" ]; then
+        echo "Error: source '$SRC' not found." >&2
+        exit 1
+    fi
+
+    cp -v "$SRC" "$DST"
+    echo "Successfully copied $SRC to $DST"
