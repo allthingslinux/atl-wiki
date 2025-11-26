@@ -3,5 +3,14 @@
         "*compose.yaml*": "yaml",
         ".env.*": "env",
         "Justfile*": "just"
-    }
+    },
+    "[php]": {
+        "editor.formatOnSave": true
+    },
+    "php.version": "8.3",
+    "intelephense.environment.includePaths": [
+        "wiki/*",
+        "wiki/**/*"
+    ],
+    "editor.wordWrap": "on"
 }
