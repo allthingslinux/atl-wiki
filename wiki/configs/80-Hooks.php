@@ -11,24 +11,16 @@
  * @link     https://atl.wiki
  */
 
-// Send all MediaWiki exceptions to Sentry
-$wgHooks['MWExceptionHandlerReport'][] = function ( $e ) {
-    if (class_exists('\Sentry\SentrySdk')) {
-        \Sentry\captureException($e);
-    }
-    return true;
-};
-
-$wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skin, &$links ) {
-    foreach ( $links as &$group ) {
-        foreach ( $group as &$tab ) {
-            if (isset($tab['href']) ) {
+$wgHooks['SkinTemplateNavigation::Universal'][] = function ($skin, &$links) {
+    foreach ($links as &$group) {
+        foreach ($group as &$tab) {
+            if (isset($tab['href'])) {
                 $tab['href'] = preg_replace_callback(
                     '#/index\.php\?title=([^&]+)(&(.*))?#',
-                    function ( $matches ) {
+                    function ($matches) {
                         $title = $matches[1];
-                        $query = isset($matches[3]) ? '?' . $matches[3] : '';
-                        return '/' . $title . $query;
+                        $query = isset($matches[3]) ? "?{$matches[3]}" : '';
+                        return "/{$title}{$query}";
                     },
                     $tab['href']
                 );
