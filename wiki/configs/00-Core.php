@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Wiki Configuration
  *
@@ -16,38 +17,7 @@ if (file_exists('/var/www/wiki/vendor/autoload.php')) {
     include_once '/var/www/wiki/vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable('/var/www/wiki');
     $dotenv->safeLoad();
-
-    // Initialize Sentry for error tracking
-    if (!empty($_ENV['SENTRY_DSN'])) {
-        \Sentry\init(
-            [
-              'dsn' => $_ENV['SENTRY_DSN'],
-              'traces_sample_rate' => 1.0,
-              'profiles_sample_rate' => 1.0,
-              'error_types' => E_ALL,
-              'environment' => $_ENV['ENVIRONMENT'],
-              'enable_logs' => true,
-              'attach_stacktrace' => true,
-              'max_breadcrumbs' => 50,
-              'sample_rate' => 1.0,
-              'context_lines' => 7,
-            ]
-        );
-    }
 }
-
-// Error Logging Configuration
-error_reporting(-1);
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-
-$wgDebugLogFile = '/var/log/mediawiki/debug.log';
-
-$wgDebugLogGroups = [
-    'exception' => '/var/log/mediawiki/exception.log',
-    'dberror' => '/var/log/mediawiki/dberror.log',
-    'resourceloader' => '/var/log/mediawiki/resourceloader.log',
-];
 
 //######################################################// URL and CDN
 // https://www.mediawiki.org/wiki/Manual:Short_URL1
@@ -86,29 +56,29 @@ $wgCdnMatchParameterOrder = false;
 
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServersNoPurge
 $wgCdnServersNoPurge = [
-  // Cloudflare IP Ranges
-  '173.245.48.0/20',
-  '103.21.244.0/22',
-  '103.22.200.0/22',
-  '103.31.4.0/22',
-  '141.101.64.0/18',
-  '108.162.192.0/18',
-  '190.93.240.0/20',
-  '188.114.96.0/20',
-  '197.234.240.0/22',
-  '198.41.128.0/17',
-  '162.158.0.0/15',
-  '104.16.0.0/13',
-  '104.24.0.0/14',
-  '172.64.0.0/13',
-  '131.0.72.0/22',
-  '2400:cb00::/32',
-  '2606:4700::/32',
-  '2803:f800::/32',
-  '2405:b500::/32',
-  '2405:8100::/32',
-  '2a06:98c0::/29',
-  '2c0f:f248::/32',
+    // Cloudflare IP Ranges
+    '173.245.48.0/20',
+    '103.21.244.0/22',
+    '103.22.200.0/22',
+    '103.31.4.0/22',
+    '141.101.64.0/18',
+    '108.162.192.0/18',
+    '190.93.240.0/20',
+    '188.114.96.0/20',
+    '197.234.240.0/22',
+    '198.41.128.0/17',
+    '162.158.0.0/15',
+    '104.16.0.0/13',
+    '104.24.0.0/14',
+    '172.64.0.0/13',
+    '131.0.72.0/22',
+    '2400:cb00::/32',
+    '2606:4700::/32',
+    '2803:f800::/32',
+    '2405:b500::/32',
+    '2405:8100::/32',
+    '2a06:98c0::/29',
+    '2c0f:f248::/32',
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServers
@@ -125,7 +95,7 @@ $wgCdnServers = [
 $wgUsePrivateIPs = true;
 
 // Trust the IP forwarded by the proxy (NPM and Cloudflare)
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $forwardedIps = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
     // The first IP in the list is the original client IP
     $_SERVER['REMOTE_ADDR'] = trim($forwardedIps[0]);
@@ -180,13 +150,13 @@ $wgDBuser = $_ENV['DB_USER'];
 $wgDBpassword = $_ENV['DB_PASSWORD'];
 
 $wgSMTP = [
-  "host"      => $_ENV['SMTP_HOST'],
-  "IDHost"    => $_ENV['SMTP_DOMAIN'],
-  "localhost" => $_ENV['SMTP_DOMAIN'],
-  "port"      => $_ENV['SMTP_PORT'],
-  "auth"      => true,
-  "username"  => $_ENV['SMTP_USERNAME'],
-  "password"  => $_ENV['SMTP_PASSWORD'] ?? '',
+    "host" => $_ENV['SMTP_HOST'],
+    "IDHost" => $_ENV['SMTP_DOMAIN'],
+    "localhost" => $_ENV['SMTP_DOMAIN'],
+    "port" => $_ENV['SMTP_PORT'],
+    "auth" => true,
+    "username" => $_ENV['SMTP_USERNAME'],
+    "password" => $_ENV['SMTP_PASSWORD'] ?? '',
 ];
 
 //######################################################// Caching
@@ -199,10 +169,10 @@ $wgGitInfoCacheDirectory = "/var/www/wiki/cache/gitinfo";
 
 // https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 $wgObjectCaches['redis'] = [
-  'class'                => 'RedisBagOStuff',
-  'servers'              => [ 'valkey:6379' ],
-  'persistent'           => false,
-  'automaticFailOver'    => false,
+    'class' => 'RedisBagOStuff',
+    'servers' => ['valkey:6379'],
+    'persistent' => false,
+    'automaticFailOver' => false,
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgMainStash
@@ -212,7 +182,7 @@ $wgMainStash = 'redis';
 $wgMainCacheType = 'redis';
 
 // https://www.mediawiki.org/wiki/Manual:$wgParserCacheType
-$wgParserCacheType  = 'redis';
+$wgParserCacheType = 'redis';
 
 // https://www.mediawiki.org/wiki/Manual:$wgSessionCacheType
 $wgSessionCacheType = 'redis';
