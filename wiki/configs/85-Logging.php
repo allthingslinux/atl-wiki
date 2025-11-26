@@ -147,30 +147,41 @@ if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
 //
 // @see https://www.mediawiki.org/wiki/Manual:How_to_debug
 
+// Helper function to safely get debug setting from environment
+// Returns true if env var is 'true' or '1', or if unset and environment is 'development'
+function getDebugSetting(string $envVar, bool $defaultToDev = true): bool
+{
+    $value = isset($_ENV[$envVar]) ? $_ENV[$envVar] : null;
+    if ($value === 'true' || $value === '1') {
+        return true;
+    }
+    if ($value === 'false' || $value === '0') {
+        return false;
+    }
+    // If not set, default to development environment check
+    $environment = isset($_ENV['ENVIRONMENT']) ? $_ENV['ENVIRONMENT'] : 'development';
+    return $defaultToDev && ($environment === 'development');
+}
+
 // Show detailed exception information on fatal error pages
 // Includes stack traces - useful for development but SECURITY SENSITIVE
-$wgShowExceptionDetails = ($_ENV['MW_DEBUG_EXCEPTION_DETAILS'] ?? $_ENV['ENVIRONMENT'] === 'development') === 'true' ||
-    $_ENV['MW_DEBUG_EXCEPTION_DETAILS'] === '1';
+$wgShowExceptionDetails = getDebugSetting('MW_DEBUG_EXCEPTION_DETAILS');
 
 // Show debug toolbar on pages with profiling and log info
 // Adds performance and debugging toolbar to page output
-$wgDebugToolbar = ($_ENV['MW_DEBUG_TOOLBAR'] ?? $_ENV['ENVIRONMENT'] === 'development') === 'true' ||
-    $_ENV['MW_DEBUG_TOOLBAR'] === '1';
+$wgDebugToolbar = getDebugSetting('MW_DEBUG_TOOLBAR');
 
 // Add raw log messages to bottom of pages
 // Shows debug logs directly in HTML output - development only
-$wgShowDebug = ($_ENV['MW_DEBUG_SHOW_LOGS'] ?? $_ENV['ENVIRONMENT'] === 'development') === 'true' ||
-    $_ENV['MW_DEBUG_SHOW_LOGS'] === '1';
+$wgShowDebug = getDebugSetting('MW_DEBUG_SHOW_LOGS');
 
 // Show warnings for deprecated functions and possible errors
 // Helps catch issues early in development
-$wgDevelopmentWarnings = ($_ENV['MW_DEBUG_DEVELOPMENT_WARNINGS'] ?? $_ENV['ENVIRONMENT'] === 'development') === 'true' ||
-    $_ENV['MW_DEBUG_DEVELOPMENT_WARNINGS'] === '1';
+$wgDevelopmentWarnings = getDebugSetting('MW_DEBUG_DEVELOPMENT_WARNINGS');
 
 // Log all SQL queries (not just failed ones)
 // Useful for query optimization and debugging DB issues
-$wgDebugDumpSql = ($_ENV['MW_DEBUG_DUMP_SQL'] ?? $_ENV['ENVIRONMENT'] === 'development') === 'true' ||
-    $_ENV['MW_DEBUG_DUMP_SQL'] === '1';
+$wgDebugDumpSql = getDebugSetting('MW_DEBUG_DUMP_SQL');
 
 // Send debug data as HTML comments in page output
 // More secure than debug logs but lost on redirects/fatal errors
@@ -186,8 +197,7 @@ $wgDebugComments = false; // Disabled for security - never enable in production
 
 // ResourceLoader debug mode (loads modules individually for easier debugging)
 // Only enable in development - significantly impacts performance
-$wgResourceLoaderDebug = ($_ENV['MW_DEBUG_RESOURCE_LOADER'] ?? $_ENV['ENVIRONMENT'] === 'development') === 'true' ||
-    $_ENV['MW_DEBUG_RESOURCE_LOADER'] === '1';
+$wgResourceLoaderDebug = getDebugSetting('MW_DEBUG_RESOURCE_LOADER');
 
 // JavaScript error logging is handled by ResourceLoader's mediawiki.errorLogger
 // Errors are automatically logged to the 'resourceloader' channel above
