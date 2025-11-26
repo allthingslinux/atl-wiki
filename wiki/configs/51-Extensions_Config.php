@@ -43,8 +43,8 @@ $wgUserrightsInterwikiDelimiter = '#';
 // https://www.mediawiki.org/wiki/Extension:ConfirmEdit
 
 $wgCaptchaClass = MediaWiki\Extension\ConfirmEdit\Turnstile\Turnstile::class;
-$wgTurnstileSiteKey= $_ENV['TURNSTILE_SITE_KEY'];
-$wgTurnstileSecretKey= $_ENV['TURNSTILE_SECRET_KEY'];
+$wgTurnstileSiteKey = $_ENV['TURNSTILE_SITE_KEY'];
+$wgTurnstileSecretKey = $_ENV['TURNSTILE_SECRET_KEY'];
 
 //######################################################// AWS
 // https://www.mediawiki.org/wiki/Extension:AWS
@@ -67,7 +67,7 @@ $wgFileBackends['s3'] = [
 //######################################################// Discord
 // https://www.mediawiki.org/wiki/Extension:Discord
 
-$wgDiscordWebhookURL = [ $_ENV['DISCORD_WEBHOOK_URL'] ];
+$wgDiscordWebhookURL = [$_ENV['DISCORD_WEBHOOK_URL']];
 $wgDiscordUseEmojis = true;
 $wgDiscordDisabledHooks = [
     'BlockIpComplete',
