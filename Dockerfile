@@ -184,7 +184,6 @@ COPY --chown=mediawiki:mediawiki wiki/robots.txt ./robots.txt
 COPY --chown=mediawiki:mediawiki wiki/.well-known ./.well-known
 COPY --chown=mediawiki:mediawiki wiki/LocalSettings.php ./mediawiki/LocalSettings.php
 COPY --chown=mediawiki:mediawiki wiki/configs/ ./configs/
-COPY --chown=mediawiki:mediawiki wiki/test-sentry.php ./test-sentry.php
 RUN ln -s ./.well-known/security.txt ./security.txt
 
 USER root
