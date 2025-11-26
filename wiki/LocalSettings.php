@@ -11,7 +11,7 @@
  * @link     https://atl.wiki
  */
 
-if (!defined('MEDIAWIKI') ) {
+if (!defined('MEDIAWIKI')) {
     exit;
 }
 
@@ -21,6 +21,3 @@ sort($configFiles);
 foreach ($configFiles as $configFile) {
     include_once $configFile;
 }
-
-// Flush Sentry logs
-\Sentry\logger()->flush();
