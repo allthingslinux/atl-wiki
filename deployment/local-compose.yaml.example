@@ -1,4 +1,4 @@
-name: local-wiki
+name: local-wiki # DO NOT CHANGE THIS, THIS WILL BREAK JUSTSCRIPTS AND OTHER AUTOMATIONS
 
 services:
   mediawiki:

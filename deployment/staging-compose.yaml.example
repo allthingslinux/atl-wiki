@@ -1,4 +1,4 @@
-name: staging-wiki
+name: staging-wiki # DO NOT CHANGE THIS, THIS WILL BREAK JUSTSCRIPTS AND OTHER AUTOMATIONS
 
 services:
   mediawiki:
