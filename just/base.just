@@ -46,7 +46,7 @@ _copy-file src dst:
     DST="{{dst}}"
 
     if [ ! -f "$SRC" ]; then
-        echo "Error: source '$SRC' not found." >&2
+        echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mSource '$SRC' not found\033[0m\n" >&2
         exit 1
     fi
 

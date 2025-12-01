@@ -13,6 +13,24 @@ stop:
 
     docker compose down
 
+restart:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+
+    just stop
+    just start
+
+clean-restart:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+
+    just clean-stop
+    just start
+
 clean-stop:
     #!/usr/bin/env bash
     set -euo pipefail
