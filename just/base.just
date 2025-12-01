@@ -77,7 +77,7 @@ _destructive-warning reason="":
     echo -e "\033[1;33mPlease check the help command or documentation for this script before proceeding to understand the consequences.\033[0m\n"
     read -p "Do you want to continue? (y/n): " -r REPLY
 
-    REPLY_LOWER=$(echo "$REPLY" | tr '[:upper:]' '[:lower:]')qqqq
+    REPLY_LOWER=$(echo "$REPLY" | tr '[:upper:]' '[:lower:]')
     if [[ ! "$REPLY_LOWER" =~ ^(y|yes)$ ]]; then
         echo "Aborting."
         exit 1
