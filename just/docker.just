@@ -42,6 +42,7 @@ clean-stop:
 update:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _destructive-warning "This will pull the latest code and replace your compose.yaml, check the changelog before proceeding."
     just _check-sudo
     just _verify-file compose.yaml
     just _check-containers

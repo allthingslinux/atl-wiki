@@ -3,6 +3,7 @@
 prod-files:
     #!/usr/bin/env bash
     set -euo pipefail
+    just just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
 
     just _copy-file production-compose.yaml.example compose.yaml
     just _copy-file .env.example .env
@@ -11,6 +12,7 @@ prod-files:
 staging-files:
     #!/usr/bin/env bash
     set -euo pipefail
+    just just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
 
     just _copy-file staging-compose.yaml.example compose.yaml
     just _copy-file .env.example .env
@@ -19,13 +21,15 @@ staging-files:
 local-files:
     #!/usr/bin/env bash
     set -euo pipefail
-
+    just just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
+    
     just _copy-file local-compose.yaml.example compose.yaml
     just _copy-file .env.local.example .env
 
 mediawiki-init:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _destructive-warning "This will reset Mediawiki and your database if already initialized. Only run this on new installs of Mediawiki."
     just _verify-file .env
     just _verify-file compose.yaml
     just _check-containers
