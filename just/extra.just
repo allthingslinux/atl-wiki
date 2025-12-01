@@ -83,11 +83,12 @@ db-status:
 
 # === System Services ===
 
-# Setup production sitemap systemd timer (REQUIRES SUDO)
+# Setup production sitemap systemd timer
 sitemap-prod:
     #!/usr/bin/env bash
     set -euo pipefail
-
+    just _check-sudo
+    
     echo "Installing production systemd service files..."
     sudo cp systemd/wiki-sitemap.service /etc/systemd/system/
     sudo cp systemd/wiki-sitemap.timer /etc/systemd/system/
@@ -101,10 +102,11 @@ sitemap-prod:
 
     echo "Production sitemap timer setup complete!"
 
-# Setup staging sitemap systemd timer (REQUIRES SUDO)
+# Setup staging sitemap systemd timer
 sitemap-staging:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _check-sudo
 
     echo "Installing staging systemd service files..."
     sudo cp systemd/staging-wiki-sitemap.service /etc/systemd/system/

@@ -57,6 +57,15 @@ _check-sudo:
     #!/usr/bin/env bash
     set -euo pipefail
 
+    if [ "$EUID" -ne 0 ]; then
+        echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mThis script must be run with 'sudo'.\033[0m\n"
+        exit 1
+    fi
+
+_check-sudo-dir:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
     OWNER=$(stat -c '%U' .)
 
     if [ "$OWNER" = "root" ] && [ "$EUID" -ne 0 ]; then
