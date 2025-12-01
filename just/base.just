@@ -52,3 +52,14 @@ _copy-file src dst:
 
     cp -v "$SRC" "$DST"
     echo "Successfully copied $SRC to $DST"
+
+_check-sudo:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    OWNER=$(stat -c '%U' .)
+
+    if [ "$OWNER" = "root" ] && [ "$EUID" -ne 0 ]; then
+        echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mCurrent directory is owned by root. Please run with 'sudo'.\033[0m\n"
+        exit 1
+    fi

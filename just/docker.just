@@ -42,6 +42,9 @@ clean-stop:
 update:
     #!/usr/bin/env bash
     set -euo pipefail
+    just _check-sudo
+    just _verify-file compose.yaml
+    just _check-containers
     ENV=$(just _detect-env)
 
     just clean-stop
