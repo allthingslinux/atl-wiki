@@ -34,7 +34,7 @@ health:
 
     echo "Checking container health for environment: $ENV"
 
-    UNHEALTHY_CONTAINERS=$(docker ps --filter "name=${ENV}-wiki-" --format "{{.Names}}\t{{.Status}}" | grep -v "healthy" | grep -v "Up")
+    UNHEALTHY_CONTAINERS=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep -v "healthy" | grep -v "Up")
 
     if [ -n "$UNHEALTHY_CONTAINERS" ]; then
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mUnhealthy containers detected:\033[0m\n"
@@ -42,7 +42,7 @@ health:
         exit 1
     fi
 
-    CONTAINERS_WITH_HEALTH=$(docker ps --filter "name=${ENV}-wiki-" --format "{{.Names}}\t{{.Status}}" | grep "health")
+    CONTAINERS_WITH_HEALTH=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep "health")
 
     if [ -n "$CONTAINERS_WITH_HEALTH" ]; then
         echo "All containers with health checks are healthy:"
@@ -59,7 +59,7 @@ db-status:
     echo "Checking database connectivity for environment: $ENV"
 
     if [ "$ENV" = "local" ]; then
-        if ! docker ps --format '{{.Names}}' | grep -q "^local-wiki-mariadb$"; then
+        if ! docker ps --format '{{{{.Names}}}}' | grep -q "^local-wiki-mariadb$"; then
             echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mDatabase container 'local-wiki-mariadb' does not exist or is not running.\033[0m\n"
             exit 1
         fi

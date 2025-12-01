@@ -63,3 +63,22 @@ _check-sudo:
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mCurrent directory is owned by root. Please run with 'sudo'.\033[0m\n"
         exit 1
     fi
+
+_destructive-warning reason="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    echo -e "\n\033[1;37m\033[41m WARNING \033[0m \033[1;33mThis action is destructive. Proceed with caution.\033[0m"
+
+    if [ -n "{{reason}}" ]; then
+        echo -e "          \033[3;38;5;208m{{reason}}\033[0m"
+    fi
+
+    echo -e "\033[1;33mPlease check the help command or documentation for this script before proceeding to understand the consequences.\033[0m\n"
+    read -p "Do you want to continue? (y/n): " -r REPLY
+
+    REPLY_LOWER=$(echo "$REPLY" | tr '[:upper:]' '[:lower:]')qqqq
+    if [[ ! "$REPLY_LOWER" =~ ^(y|yes)$ ]]; then
+        echo "Aborting."
+        exit 1
+    fi
