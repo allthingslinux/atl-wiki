@@ -1,31 +1,41 @@
 # === Setup Environment Scripts ===
 
+# Setup production environment files and configure sitemap service
 prod-files:
     #!/usr/bin/env bash
     set -euo pipefail
-    just just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
+    just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
 
+    echo "Setting up production environment files..."
     just _copy-file production-compose.yaml.example compose.yaml
     just _copy-file .env.example .env
     just sitemap-prod
+    echo "Created .env from .env.example and compose.yaml from production-compose.yaml.example. Please review and modify as needed."
 
+# Setup staging environment files and configure sitemap service
 staging-files:
     #!/usr/bin/env bash
     set -euo pipefail
-    just just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
+    just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
 
+    echo "Setting up staging environment files..."
     just _copy-file staging-compose.yaml.example compose.yaml
     just _copy-file .env.example .env
     just sitemap-staging
+    echo "Created .env from .env.example and compose.yaml from staging-compose.yaml.example. Please review and modify as needed."
 
+# Setup local development environment files
 local-files:
     #!/usr/bin/env bash
     set -euo pipefail
-    just just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
-    
+    just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
+
+    echo "Setting up local development environment files..."
     just _copy-file local-compose.yaml.example compose.yaml
     just _copy-file .env.local.example .env
+    echo "Created .env from .env.local.example and compose.yaml from local-compose.yaml.example. Please review and modify as needed."
 
+# Initialize MediaWiki database and create admin user
 mediawiki-init:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -35,6 +45,7 @@ mediawiki-init:
     just _check-containers
     ENV=$(just _detect-env)
 
+    # Extract database credentials from .env
     DB_USER=$(grep "^DB_USER=" .env | cut -d'=' -f2 | tr -d '"')
     DB_PASSWORD=$(grep "^DB_PASSWORD=" .env | cut -d'=' -f2 | tr -d '"')
     if [ -z "$DB_USER" ] || [ -z "$DB_PASSWORD" ]; then
@@ -42,9 +53,11 @@ mediawiki-init:
         exit 1
     fi
 
+    # Generate secure random admin password
     ADMIN_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-20)
     echo "Generated admin password: $ADMIN_PASSWORD"
 
+    # Run MediaWiki pre-configured installation
     docker exec ${ENV}-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/run.php installPreConfigured \
       --dbuser="${DB_USER}" \
       --dbpass="${DB_PASSWORD}" \
@@ -53,5 +66,6 @@ mediawiki-init:
 
     just clean-restart
 
+    # Run database schema updates
     docker exec ${ENV}-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/update.php --quick
 

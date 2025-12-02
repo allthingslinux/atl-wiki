@@ -1,5 +1,6 @@
 # === Status ===
 
+# Display comprehensive status of wiki deployment including containers, health, and database
 status:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -25,6 +26,7 @@ status:
     echo "Verifying database connectivity..."
     just db-status
 
+# Check health status of all wiki containers
 health:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -34,6 +36,7 @@ health:
 
     echo "Checking container health for environment: $ENV"
 
+    # Find containers without healthy status
     UNHEALTHY_CONTAINERS=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep -v "healthy" | grep -v "Up")
 
     if [ -n "$UNHEALTHY_CONTAINERS" ]; then
@@ -42,6 +45,7 @@ health:
         exit 1
     fi
 
+    # Display healthy containers
     CONTAINERS_WITH_HEALTH=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep "health")
 
     if [ -n "$CONTAINERS_WITH_HEALTH" ]; then
@@ -49,6 +53,7 @@ health:
         echo "$CONTAINERS_WITH_HEALTH"
     fi
 
+# Verify database connectivity for the wiki
 db-status:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -58,6 +63,7 @@ db-status:
 
     echo "Checking database connectivity for environment: $ENV"
 
+    # Local environment uses containerized MariaDB
     if [ "$ENV" = "local" ]; then
         if ! docker ps --format '{{{{.Names}}}}' | grep -q "^local-wiki-mariadb$"; then
             echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mDatabase container 'local-wiki-mariadb' does not exist or is not running.\033[0m\n"
@@ -71,6 +77,7 @@ db-status:
             exit 1
         fi
     else
+        # Staging/production use external database from .env
         DB_SERVER=$(grep "^DB_SERVER=" .env | cut -d'=' -f2 | tr -d '"')
 
         if nc -zv "$DB_SERVER" 3306 2>&1 | grep -q "succeeded"; then
@@ -83,12 +90,12 @@ db-status:
 
 # === System Services ===
 
-# Setup production sitemap systemd timer
+# Setup production sitemap generation as a systemd timer service
 sitemap-prod:
     #!/usr/bin/env bash
     set -euo pipefail
     just _check-sudo
-    
+
     echo "Installing production systemd service files..."
     sudo cp systemd/wiki-sitemap.service /etc/systemd/system/
     sudo cp systemd/wiki-sitemap.timer /etc/systemd/system/
@@ -102,7 +109,7 @@ sitemap-prod:
 
     echo "Production sitemap timer setup complete!"
 
-# Setup staging sitemap systemd timer
+# Setup staging sitemap generation as a systemd timer service
 sitemap-staging:
     #!/usr/bin/env bash
     set -euo pipefail
