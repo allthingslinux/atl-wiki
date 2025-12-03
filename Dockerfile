@@ -16,20 +16,19 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     # Install Build Dependencies
     apk add --no-cache --virtual .build-deps \
-        libxml2-dev \
-        oniguruma-dev \
-        libzip-dev \
-        icu-dev \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        freetype-dev \
         autoconf \
-        pcre-dev \
-        make \
-        gcc \
+        freetype-dev \
         g++ \
-        git \
-        lua5.1-dev; \
+        gcc \
+        icu-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libxml2-dev \
+        libzip-dev \
+        lua5.1-dev \
+        make \
+        oniguruma-dev \
+        pcre-dev; \
     # Install PHP Extensions
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install -j"$(nproc)" \
@@ -63,18 +62,18 @@ ARG MEDIAWIKI_BRANCH
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     apk add --no-cache \
-        python3 \
-        git \
         ca-certificates \
+        freetype \
+        git \
         gnupg \
         icu-libs \
-        libzip \
-        libpng \
         libjpeg-turbo \
-        freetype \
+        libpng \
         libxml2 \
+        libzip \
+        lua5.1-libs \
         oniguruma \
-        lua5.1-libs
+        python3
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
@@ -144,19 +143,19 @@ LABEL maintainer="atmois@allthingslinux.org" \
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     apk add --no-cache \
-        imagemagick \
-        librsvg \
-        rsvg-convert \
-        python3 \
-        icu-libs \
-        oniguruma \
-        libzip \
-        libpng \
-        libjpeg-turbo \
         freetype \
-        unzip \
+        icu-libs \
+        imagemagick \
+        libjpeg-turbo \
+        libpng \
+        librsvg \
+        libxml2 \
+        libzip \
         lua5.1-libs \
-        libxml2
+        oniguruma \
+        python3 \
+        rsvg-convert \
+        unzip
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
