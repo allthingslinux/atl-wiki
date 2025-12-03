@@ -1,10 +1,10 @@
 # atl.wiki Mediawiki Configs
 
-tbc
-
 # License
 
-Copyright 2025 Atmois <atmois@allthingslinux.org>
+Copyright 2025 All Things Linux and Contributors
+
+Primary maintainer: Atmois <atmois@allthingslinux.org>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
