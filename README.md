@@ -1,5 +1,12 @@
 # atl.wiki Mediawiki Configs
 
+> [!WARNING]
+> Currently this is hardcoded for atl.wiki, in our next release we aim to create a base Mediawiki image that can be easily customized for other deployments seperate from our own images.
+>
+> **We do not reccomend using this for your own deployments at this time but we welcome any feedback or contributions.**
+
+This repository contains Mediawiki configurations used for the deployment of [atl.wiki](https://atl.wiki). Including Docker configurations, environment settings, and other necessary files to run Mediawiki in a containerized environment with scripts to aid in the deployment and running of the application.
+
 # License
 
 Copyright 2025 All Things Linux and Contributors
@@ -13,7 +20,7 @@ You may obtain a copy of the License at
 
 # Upstream Dependencies
 
-We gratefully acknowledge the use of the following open source projects which are incorporated in or used by this project:
+We gratefully acknowledge the use of the following projects which are incorporated in or used by this project:
 
 | Project | Link | License |
 |---------|------|---------|
