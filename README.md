@@ -7,6 +7,47 @@
 
 This repository contains Mediawiki configurations used for the deployment of [atl.wiki](https://atl.wiki). Including Docker configurations, environment settings, and other necessary files to run Mediawiki in a containerized environment with scripts to aid in the deployment and running of the application.
 
+# Deployment Instructions
+*These are currently just a basic overview, more detailed instructions will be added with the refactor in the next release.*
+
+1. Install the dependencies on your server or local machine:
+   - [Docker](https://docs.docker.com/get-docker/)
+   - [Docker Compose](https://docs.docker.com/compose/install/)
+   - [just](https://github.com/casey/just)
+
+2. Clone this repository, we reccomend cloning the repository to `/opt/mediawiki`
+```bash
+    git clone https://github.com/allthingslinux/atl.wiki-configs mediawiki
+```
+
+3. Navigate to the cloned directory
+```bash
+    cd /opt/mediawiki
+```
+
+4. Run the file setup scripts, switch {ENV} with local, staging or prod.
+```bash
+    just {ENV}-files
+```
+
+5. Fill out the `.env` file as required with the values explained below.
+
+6. Start the Mediawiki instance
+```bash
+    just start
+```
+
+7. Initialize the Mediawiki instance
+```bash
+    just mediawiki-init
+```
+
+8. Access the Mediawiki instance in your web browser at `https://{localhost:3000 | domain.tld}`
+
+# Environment Variables
+
+<insert table here later>
+
 # Project Overview
 
 ### Directory Diagram
