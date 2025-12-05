@@ -43,7 +43,7 @@ graph LR
     Robots --- Wiki
     Configs --- Wiki
 
-    Root["📁 atl.wiki-configs"]
+    Root["📖 atl.wiki-configs"]
 
     Deployment --- Root
     Wiki --- Root
