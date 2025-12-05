@@ -12,6 +12,7 @@ This repository contains Mediawiki configurations used for the deployment of [at
 
 1. Install the dependencies on your server or local machine:
    - [Docker](https://docs.docker.com/get-docker/)
+   - [git](https://git-scm.com/install/linux)
    - [Docker Compose](https://docs.docker.com/compose/install/)
    - [just](https://github.com/casey/just)
 
