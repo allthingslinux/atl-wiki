@@ -127,6 +127,7 @@ graph LR
 | `systemd/` | Automated maintenance tasks service and timer files |
 
 # Just Commands
+Before running any `just` commands, ensure you have read the `just help` command for important information and the dangers of certain commands.
 
 | Command | Description |
 |---------|-------------|
