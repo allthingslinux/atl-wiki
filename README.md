@@ -7,6 +7,58 @@
 
 This repository contains Mediawiki configurations used for the deployment of [atl.wiki](https://atl.wiki). Including Docker configurations, environment settings, and other necessary files to run Mediawiki in a containerized environment with scripts to aid in the deployment and running of the application.
 
+# Repository Structure
+
+```mermaid
+graph LR
+    ComposeExample["📄 compose.yml.example"]
+    EnvExample["📄 env.example"]
+    Deployment["📁 deployment/"]
+
+    ComposeExample --- Deployment
+    EnvExample --- Deployment
+
+    ComposerJson["📦 composer.json"]
+    ComposerLocal["📦 composer.local.json"]
+    DefaultConf["⚙️ default.conf"]
+    ExtensionsJson["🔌 extensions.json"]
+    InstallPy["🐍 install_extensions.py"]
+    LocalSettings["⚙️ LocalSettings.php"]
+    MediawikiConf["⚙️ mediawiki.conf"]
+    PhpIni["⚙️ php.ini"]
+    Robots["🤖 robots.txt"]
+    Configs["📁 configs/"]
+    Wiki["📁 wiki/"]
+
+    ComposerJson --- Wiki
+    ComposerLocal --- Wiki
+    DefaultConf --- Wiki
+    ExtensionsJson --- Wiki
+    InstallPy --- Wiki
+    LocalSettings --- Wiki
+    MediawikiConf --- Wiki
+    PhpIni --- Wiki
+    Robots --- Wiki
+    Configs --- Wiki
+
+    Root["📁 atl.wiki-configs"]
+
+    Deployment --- Root
+    Wiki --- Root
+
+    Root --- Dockerfile["🐳 Dockerfile"]
+    Root --- Justfile["⚙️ Justfile"]
+    Root --- Just["📁 just/"]
+    Root --- Systemd["📁 systemd/"]
+
+    style Root fill:#e1f5ff
+    style Deployment fill:#fff4e1
+    style Just fill:#e8f5e9
+    style Systemd fill:#f3e5f5
+    style Wiki fill:#fff9c4
+    style Configs fill:#ffebee
+```
+
 # License
 
 Copyright 2025 All Things Linux and Contributors
