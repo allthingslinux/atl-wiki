@@ -7,12 +7,14 @@
 
 This repository contains Mediawiki configurations used for the deployment of [atl.wiki](https://atl.wiki). Including Docker configurations, environment settings, and other necessary files to run Mediawiki in a containerized environment with scripts to aid in the deployment and running of the application.
 
-# Repository Structure
+# Project Overview
+
+### Directory Diagram
 
 ```mermaid
 graph LR
     ComposeExample["📄 compose.yml.example"]
-    EnvExample["📄 env.example"]
+    EnvExample["📄 .env.example"]
     Deployment["📁 deployment/"]
 
     ComposeExample --- Deployment
@@ -58,6 +60,30 @@ graph LR
     style Wiki fill:#fff9c4
     style Configs fill:#ffebee
 ```
+
+### Directory Map
+
+| Path | Description |
+|------|-------------|
+| `deployment/` | Configuration templates for deployments (env and compose files) |
+| `deployment/compose.yml.example` | Docker Compose configuration template (environment specific versions) |
+| `deployment/env.example` | Environment variables template (environment specific versions) |
+| `wiki/` | MediaWiki and NGINX application configurations |
+| `wiki/composer.json` | PHP dependencies for MediaWiki extensions |
+| `wiki/composer.local.json` | Local PHP dependency overrides for environment setup |
+| `wiki/default.conf` | Not important, just exists because of NGINX quirk |
+| `wiki/extensions.json` | MediaWiki extension manifest |
+| `wiki/install_extensions.py` | Python script for extension installation |
+| `wiki/LocalSettings.php` | MediaWiki configuration file which loads config modules in `wiki/configs/` |
+| `wiki/mediawiki.conf` | MediaWiki NGINX configurations |
+| `wiki/php.ini` | PHP runtime configuration |
+| `wiki/robots.txt` | Crawler instructions |
+| `wiki/.well-known/security.txt` | Security reporting instructions |
+| `wiki/configs/` | Numbered configuration modules (00-99) ensuring correct load order |
+| `Dockerfile` | MediaWiki container build configuration |
+| `Justfile` | Main task runner entry point for Just scripts in `just/` |
+| `just/` | Modular task automation recipes for operations and setup |
+| `systemd/` | Automated maintenance tasks service and timer files |
 
 # License
 
