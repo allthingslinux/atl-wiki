@@ -126,6 +126,29 @@ graph LR
 | `just/` | Modular task automation recipes for operations and setup |
 | `systemd/` | Automated maintenance tasks service and timer files |
 
+# Just Commands
+
+| Command | Description |
+|---------|-------------|
+| `clean-restart` | Restart all wiki containers and removes cache volumes |
+| `clean-stop` | Stop all wiki containers and removes cache volumes |
+| `db-status` | Verify database connectivity for the wiki |
+| `default` | Show available recipes |
+| `health` | Check health status of all wiki containers |
+| `help` | Display comprehensive help for all available commands |
+| `local-files` | Setup local development environment files |
+| `mediawiki-init` | Initialize MediaWiki database and create admin user |
+| `mediawiki-schema-update` | Update MediaWiki database schema to latest version |
+| `prod-files` | Setup production environment files and configure sitemap service |
+| `restart` | Restart all wiki containers |
+| `sitemap-prod` | Setup production sitemap generation as a systemd timer service |
+| `sitemap-staging` | Setup staging sitemap generation as a systemd timer service |
+| `staging-files` | Setup staging environment files and configure sitemap service |
+| `start` | Start all wiki containers |
+| `status` | Display comprehensive status of wiki deployment including containers, health, and database |
+| `stop` | Stop all running wiki containers |
+| `update` | Pull latest code, updates compose.yaml from template, and restarts wiki containers |
+
 # License
 
 Copyright 2025 All Things Linux and Contributors
