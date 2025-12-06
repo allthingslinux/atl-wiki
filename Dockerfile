@@ -11,43 +11,24 @@
 FROM php:8.3-fpm-alpine AS builder
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
-RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
-    --mount=type=cache,target=/tmp/pear,sharing=locked \
+# Install PHP Extensions
+COPY --from=mlocati/php-extension-installer:latest /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN --mount=type=cache,target=/tmp/phpexts-cache \
     set -eux && \
-    # Install Build Dependencies
-    apk add --no-cache --virtual .build-deps \
-        autoconf \
-        freetype-dev \
-        g++ \
-        gcc \
-        icu-dev \
-        libjpeg-turbo-dev \
-        libpng-dev \
-        libxml2-dev \
-        libzip-dev \
-        lua5.1-dev \
-        make \
-        oniguruma-dev \
-        pcre-dev; \
-    # Install PHP Extensions
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install -j"$(nproc)" \
-        xml \
+    install-php-extensions \
+        apcu \
+        calendar \
+        exif \
+        gd \
+        intl \
+        luasandbox \
         mbstring \
         mysqli \
         pdo_mysql \
-        intl \
-        zip \
-        calendar \
-        gd \
-        exif; \
-    # Install PECL extensions
-    pecl install redis luasandbox && \
-    docker-php-ext-enable redis luasandbox && \
-    # Cleanup in same layer
-    docker-php-source delete && \
-    rm -rf ~/.pearrc && \
-    apk del .build-deps
+        redis \
+        xml \
+        zip
 
 # Mediawiki Setup Stage
 FROM php:8.3-fpm-alpine AS mediawiki
@@ -69,6 +50,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         icu-libs \
         libjpeg-turbo \
         libpng \
+        libthai \
         libxml2 \
         libzip \
         lua5.1-libs \
@@ -146,12 +128,15 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
         freetype \
         icu-libs \
         imagemagick \
+        libavif \
         libjpeg-turbo \
         libpng \
         librsvg \
+        libthai \
         libxml2 \
         libzip \
         lua5.1-libs \
+        lz4-libs \
         oniguruma \
         python3 \
         rsvg-convert \
