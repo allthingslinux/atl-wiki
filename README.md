@@ -47,7 +47,7 @@ This repository contains Mediawiki configurations used for the deployment of [at
 
 # Environment Variables
 
-<insert table here later>
+
 
 # Project Overview
 
