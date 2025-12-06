@@ -108,13 +108,6 @@ Below are the extra options for **LOCAL** setups.
 
 ```mermaid
 graph LR
-    ComposeExample["📄 compose.yml.example"]
-    EnvExample["📄 .env.example"]
-    Deployment["📁 deployment/"]
-
-    ComposeExample --- Deployment
-    EnvExample --- Deployment
-
     ComposerJson["📦 composer.json"]
     ComposerLocal["📦 composer.local.json"]
     DefaultConf["⚙️ default.conf"]
@@ -145,6 +138,8 @@ graph LR
 
     Root --- Dockerfile["🐳 Dockerfile"]
     Root --- Justfile["⚙️ Justfile"]
+    Root --- ComposeExample["📄 compose.yml.example"]
+    Root --- EnvExample["📄 .env.example"]
     Root --- Just["📁 just/"]
     Root --- Systemd["📁 systemd/"]
 
@@ -160,9 +155,6 @@ graph LR
 
 | Path | Description |
 |------|-------------|
-| `deployment/` | Configuration templates for deployments (env and compose files) |
-| `deployment/compose.yml.example` | Docker Compose configuration template (environment specific versions) |
-| `deployment/env.example` | Environment variables template (environment specific versions) |
 | `wiki/` | MediaWiki and NGINX application configurations |
 | `wiki/composer.json` | PHP dependencies for MediaWiki extensions |
 | `wiki/composer.local.json` | Local PHP dependency overrides for environment setup |
@@ -175,6 +167,8 @@ graph LR
 | `wiki/robots.txt` | Crawler instructions |
 | `wiki/.well-known/security.txt` | Security reporting instructions |
 | `wiki/configs/` | Numbered configuration modules (00-99) ensuring correct load order |
+| `compose.yml.example` | Docker Compose configuration template (environment specific versions available) |
+| `env.example` | Environment variables template (environment specific versions available) |
 | `Dockerfile` | MediaWiki container build configuration |
 | `Justfile` | Main task runner entry point for Just scripts in `just/` |
 | `just/` | Modular task automation recipes for operations and setup |
