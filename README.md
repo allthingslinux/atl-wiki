@@ -59,7 +59,7 @@ Variables marked with a `*` are required. The function they provide may be optio
 | `MEDIAWIKI_MAJOR_VERSION` * | The major version number of MediaWiki you want to use | `1.44` |
 | `MEDIAWIKI_VERSION` * | The full version number of MediaWiki you want to use | `1.44.2` |
 | `MEDIAWIKI_BRANCH` * | The branch of MediaWiki you want to use for extensions | `REL1_44` |
-| `CITIZEN_VERSION` * | The version of the Citizen skin you want to use | `3.7.0` |
+| `CITIZEN_VERSION` * | The version of the Citizen skin you want to use | `3.11.0` |
 | `UPGRADE_KEY` * | The key to access the upgrade page. Must be a 16 character alphanumeric string | *Generate using `openssl rand -hex 8`* |
 | `SECRET_KEY` * | The key used for various security related functions within MediaWiki. Must be a 64 character alphanumeric string | *Generate using `openssl rand -hex 32`* |
 | `DB_SERVER` * | The IP address or hostname of your database server | `db.example.com` or `192.168.0.0` |
