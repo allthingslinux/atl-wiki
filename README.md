@@ -10,6 +10,11 @@ This repository contains Mediawiki configurations used for the deployment of [at
 # Deployment Instructions
 *These are currently just a basic overview, more detailed instructions will be added with the refactor in the next release.*
 
+> [!NOTE]
+> **This only applies if you are running a staging or production instance, local instances have these pre-configured as docker containers.** To deploy this service you will need:
+> - A running and accessible [MariaDB](https://mariadb.org) server which is version 10.3 or higher, we reccomend having this either as a managed service or having a dedicated server running MariaDB.
+> - A running and accessible S3 server or configured provider, we recommend [Cloudflare's R2 service](https://www.cloudflare.com/en-gb/developer-platform/products/r2/).
+
 1. Install the dependencies on your server or local machine:
    - [Docker](https://docs.docker.com/get-docker/)
    - [git](https://git-scm.com/install/linux)
@@ -47,7 +52,12 @@ This repository contains Mediawiki configurations used for the deployment of [at
 
 # Environment Variables
 
+# Notes for System Administrators
 
+- Please DO NOT modify your generated `compose.yml`, it will be overriden on any update and may cause unexpected behavior. The **only two supported exceptions** is changing the NGINX external port from `3000` or if you use an external database, cache or S3 provider where you can comment out the relevant service lines, but please be aware you will need to manage those services yourself AND it will still be overriden on updates.
+- If possible avoid running `docker compose` commands directly, instead use the provided `just` commands to ensure proper operation. These are designed to handle checks and ensure smooth operation of the wiki deployment.
+- Any changes to files in the `wiki/` directory will require a clean restart to take effect. Use `just clean-restart` to perform this action safely.
+- To fully utilise the image you will require a host OS which utilises Systemd as its init system. You can still run without systemd but certain features will not be available.
 
 # Project Overview
 
