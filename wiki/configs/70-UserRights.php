@@ -95,3 +95,4 @@ $wgGroupPermissions['sysop']['mwoauthviewprivate'] = true;
 $wgGroupPermissions['sysop']['mwoauthmanagemygrants'] = true;
 $wgGroupPermissions['sysop']['interwiki'] = true;
 $wgGroupPermissions['sysop']['import'] = false;
+$wgGroupPermissions['sysop']['interwiki'] = true;
