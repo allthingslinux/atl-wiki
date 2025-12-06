@@ -1,15 +1,15 @@
 # === Setup Environment Scripts ===
 
 # Setup production environment files and configure sitemap service
-prod-files:
+production-files:
     #!/usr/bin/env bash
     set -euo pipefail
     just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
 
     echo "Setting up production environment files..."
-    just _copy-file production-compose.yaml.example compose.yaml
+    just _copy-file compose.production.yaml.example compose.yaml
     just _copy-file .env.example .env
-    just sitemap-prod
+    just sitemap-production
     echo "Created .env from .env.example and compose.yaml from production-compose.yaml.example. Please review and modify as needed."
 
 # Setup staging environment files and configure sitemap service
@@ -19,7 +19,7 @@ staging-files:
     just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
 
     echo "Setting up staging environment files..."
-    just _copy-file staging-compose.yaml.example compose.yaml
+    just _copy-file compose.staging.yaml.example compose.yaml
     just _copy-file .env.example .env
     just sitemap-staging
     echo "Created .env from .env.example and compose.yaml from staging-compose.yaml.example. Please review and modify as needed."
@@ -31,7 +31,7 @@ local-files:
     just _destructive-warning "This will override your compose.yaml and .env files if they exist. Please back them up if needed."
 
     echo "Setting up local development environment files..."
-    just _copy-file local-compose.yaml.example compose.yaml
+    just _copy-file compose.local.yaml.example compose.yaml
     just _copy-file .env.local.example .env
     echo "Created .env from .env.local.example and compose.yaml from local-compose.yaml.example. Please review and modify as needed."
 

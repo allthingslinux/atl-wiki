@@ -91,7 +91,7 @@ db-status:
 # === System Services ===
 
 # Setup production sitemap generation as a systemd timer service
-sitemap-prod:
+sitemap-production:
     #!/usr/bin/env bash
     set -euo pipefail
     just _check-sudo

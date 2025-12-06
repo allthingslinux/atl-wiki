@@ -65,7 +65,7 @@ update:
     git pull
     # Copy environment-specific compose template
     echo "Updating compose.yaml for environment: $ENV"
-    just _copy-file ${ENV}-compose.yaml.example compose.yaml
+    just _copy-file compose.${ENV}.yaml.example compose.yaml
     echo "Restarting wiki containers..."
     just start
 

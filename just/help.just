@@ -3,7 +3,7 @@
 # Display comprehensive help for all available commands
 help:
     @echo "=== Setup & Initialization ==="
-    @echo "  prod-files              Setup production environment files (.env, compose.yaml)"
+    @echo "  production-files              Setup production environment files (.env, compose.yaml)"
     @echo -e "                          \033[41mDESTRUCTIVE\033[0m: Overwrites existing compose.yaml and .env files"
     @echo ""
     @echo "  staging-files           Setup staging environment files (.env, compose.yaml)"
@@ -37,7 +37,7 @@ help:
     @echo "  db-status               Verify database connectivity for the wiki"
     @echo ""
     @echo "=== System Services ==="
-    @echo "  sitemap-prod            Setup production sitemap generation as systemd timer"
+    @echo "  sitemap-production            Setup production sitemap generation as systemd timer"
     @echo -e "                          \033[43m\033[30mPrivileged\033[0m: Installs systemd service files"
     @echo ""
     @echo "  sitemap-staging         Setup staging sitemap generation as systemd timer"

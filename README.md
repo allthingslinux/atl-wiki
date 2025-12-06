@@ -31,7 +31,7 @@ This repository contains Mediawiki configurations used for the deployment of [at
     cd /opt/mediawiki
 ```
 
-4. Run the file setup scripts, switch {ENV} with local, staging or prod.
+4. Run the file setup scripts, switch {ENV} with local, staging or production.
 ```bash
     just {ENV}-files
 ```
@@ -188,9 +188,9 @@ Before running any `just` commands, ensure you have read the `just help` command
 | `local-files` | Setup local development environment files |
 | `mediawiki-init` | Initialize MediaWiki database and create admin user |
 | `mediawiki-schema-update` | Update MediaWiki database schema to latest version |
-| `prod-files` | Setup production environment files and configure sitemap service |
+| `production-files` | Setup production environment files and configure sitemap service |
 | `restart` | Restart all wiki containers |
-| `sitemap-prod` | Setup production sitemap generation as a systemd timer service |
+| `sitemap-production` | Setup production sitemap generation as a systemd timer service |
 | `sitemap-staging` | Setup staging sitemap generation as a systemd timer service |
 | `staging-files` | Setup staging environment files and configure sitemap service |
 | `start` | Start all wiki containers |

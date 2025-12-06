@@ -22,7 +22,7 @@ _detect-env:
         echo "local"
     elif [[ "$name" == *"staging-wiki"* ]]; then
         echo "staging"
-    elif [[ "$name" == *"prod-wiki"* ]]; then
+    elif [[ "$name" == *"production-wiki"* ]]; then
         echo "production"
     else
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mCould not detect environment from compose.yaml\033[0m\n"
