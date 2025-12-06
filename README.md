@@ -52,6 +52,49 @@ This repository contains Mediawiki configurations used for the deployment of [at
 
 # Environment Variables
 
+Variables marked with a `*` are required. The function they provide may be optional but the wiki may not operate correctly without the variables provided. For local setups **we recommend not changing the pre-defined values to ensure the containers can communicate properly**:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `MEDIAWIKI_MAJOR_VERSION` * | The major version number of MediaWiki you want to use | `1.44` |
+| `MEDIAWIKI_VERSION` * | The full version number of MediaWiki you want to use | `1.44.2` |
+| `MEDIAWIKI_BRANCH` * | The branch of MediaWiki you want to use for extensions | `REL1_44` |
+| `CITIZEN_VERSION` * | The version of the Citizen skin you want to use | `3.7.0` |
+| `UPGRADE_KEY` * | The key to access the upgrade page. Must be a 16 character alphanumeric string | *Generate using `openssl rand -hex 8`* |
+| `SECRET_KEY` * | The key used for various security related functions within MediaWiki. Must be a 64 character alphanumeric string | *Generate using `openssl rand -hex 32`* |
+| `DB_SERVER` * | The IP address or hostname of your database server | `db.example.com` or `192.168.0.0` |
+| `DB_NAME` * | The name of the table in the database used by MediaWiki | `mediawiki` |
+| `DB_USER` * | The username used by MediaWiki to connect to the database | `mediawiki` |
+| `DB_PASSWORD` * | The password used by MediaWiki to connect to the database | `0123456789abcdef` |
+| `SMTP_HOST` | The SMTP server host address | `smtp.gmail.com` |
+| `SMTP_DOMAIN` | The SMTP domain you wish to use for sending emails | `example.com` |
+| `SMTP_PORT` | The SMTP server port (usually 587 for TLS or 465 for SSL) | `587` |
+| `SMTP_USERNAME` | The email address to send SMTP emails from for service notifications | `noreply@example.com` |
+| `SMTP_PASSWORD` | The password for the SMTP username | `0123456789abcdef` |
+| `EMERGENCY_EMAIL` | The email address to send emergency notifications to | `admin@example.com` |
+| `TURNSTILE_SITE_KEY` * | The site key for Cloudflare Turnstile | `0123456789abcdef` |
+| `TURNSTILE_SECRET_KEY` * | The secret key for Cloudflare Turnstile | `0123456789abcdef` |
+| `OPENID_CLIENT_ID` | The client ID for OpenID authentication from Okta | `0123456789abcdef` |
+| `OPENID_CLIENT_SECRET` | The client secret for OpenID authentication from Okta | `0123456789abcdef` |
+| `S3_ENDPOINT` * | The S3 endpoint URL | `https://s3.domain.tld` |
+| `S3_ACCESS_KEY_ID` * | The S3 access key ID | `0123456789abcdef` |
+| `S3_SECRET_ACCESS_KEY` * | The S3 secret access key | `0123456789abcdef` |
+| `S3_BUCKET_NAME` * | The S3 bucket name | `wiki-images` |
+| `S3_BUCKET_DOMAIN` * | The S3 bucket domain | `wiki-images.domain.tld` |
+| `SITENAME` * | The domain the wiki will be accessible from, without the protocol | `wiki.example.com` |
+| `WG_SERVER` * | The full URL the wiki will be accessible from, including the protocol | `https://wiki.example.com` |
+| `DISCORD_WEBHOOK_URL` * | Discord Webhook URL | `https://discord.com/api/webhooks/0123456789/abcdef` |
+
+Below are the extra options for **LOCAL** setups.
+
+| Variable* | Description | Example |
+|-----------|-------------|---------|
+| `MARIADB_PASSWORD` * | The MariaDB root password. This needs to match `DB_PASSWORD` | `local-maria-password` |
+| `MARIADB_NAME` * | The MariaDB database name. This needs to match `DB_NAME` | `local-maria-db` |
+| `MARIADB_USER` * | The MariaDB username. This needs to match `DB_USER` | `local-maria-user` |
+| `MINIO_USER` * | The MinIO username. This needs to match `S3_ACCESS_KEY_ID` | `local-minio-user` |
+| `MINIO_PASSWORD` * | The MinIO password. This needs to match `S3_SECRET_ACCESS_KEY` | `local-minio-password` |
+
 # Notes for System Administrators
 
 - Please DO NOT modify your generated `compose.yml`, it will be overriden on any update and may cause unexpected behavior. The **only two supported exceptions** is changing the NGINX external port from `3000` or if you use an external database, cache or S3 provider where you can comment out the relevant service lines, but please be aware you will need to manage those services yourself AND it will still be overriden on updates.
