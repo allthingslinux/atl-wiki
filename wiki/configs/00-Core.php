@@ -209,8 +209,8 @@ $wgLanguageCode = "en";
 // https://www.mediawiki.org/wiki/Manual:$wgLocaltimezone
 $wgLocaltimezone = "UTC";
 
-// https://www.mediawiki.org/wiki/Manual:$wgDiff3
-$wgDiff3 = "/usr/bin/diff3";
+// https://www.mediawiki.org/wiki/Manual:$wgDiffEngine
+$wgDiffEngine = 'wikidiff2';
 
 // https://www.mediawiki.org/wiki/Manual:$wgUseRCPatrol
 $wgUseRCPatrol = false;

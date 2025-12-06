@@ -27,6 +27,7 @@ RUN --mount=type=cache,target=/tmp/phpexts-cache \
         mysqli \
         pdo_mysql \
         redis \
+        wikidiff2 \
         xml \
         zip
 
