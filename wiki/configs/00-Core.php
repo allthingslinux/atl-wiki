@@ -148,6 +148,8 @@ $wgDBname = $_ENV['DB_NAME'];
 $wgDBuser = $_ENV['DB_USER'];
 $wgDBpassword = $_ENV['DB_PASSWORD'];
 
+//######################################################// SMTP
+
 $wgSMTP = [
   "host"      => $_ENV['SMTP_HOST'],
   "IDHost"    => $_ENV['SMTP_DOMAIN'],
