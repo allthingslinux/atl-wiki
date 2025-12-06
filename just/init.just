@@ -59,10 +59,7 @@ mediawiki-init:
 
     # Run MediaWiki pre-configured installation
     docker exec ${ENV}-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/run.php installPreConfigured \
-      --dbuser="${DB_USER}" \
-      --dbpass="${DB_PASSWORD}" \
-      --pass="${ADMIN_PASSWORD}" \
-      "admin"
+      --dbuser="${DB_USER}" --dbpass="${DB_PASSWORD}"
 
     just clean-restart
 

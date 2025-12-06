@@ -12,7 +12,7 @@ _verify-file file:
 _detect-env:
     #!/usr/bin/env bash
     set -euo pipefail
-    just _verify-file compose.yaml
+    just _verify-file compose.yaml >/dev/null 2>&1
 
     # Extract name field from compose.yaml
     name=$(grep -m 1 "^name:" compose.yaml | cut -d':' -f2 | tr -d ' ')
