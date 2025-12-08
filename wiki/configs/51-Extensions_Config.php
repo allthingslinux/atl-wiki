@@ -123,3 +123,10 @@ $egDraftsAutoSaveWait = 15;
 // https://www.mediawiki.org/wiki/Extension:Scribunto
 
 $wgScribuntoDefaultEngine = 'luasandbox';
+
+//######################################################// SimpleBatchUpload
+// https://www.mediawiki.org/wiki/Extension:SimpleBatchUpload
+
+$wgSimpleBatchUploadMaxFilesPerBatch = [
+    '*' => 10,
+];

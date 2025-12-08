@@ -57,6 +57,8 @@ def main():
             run(f"mkdir -p {extension_name}")
             run(f"tar -xzf {tarball_name} -C {extension_name} --strip-components=1")
             run(f"rm {tarball_name}")
+        elif install_type == 'composer':
+            continue
         else:
             print(f"Unknown install_type for {extension_name}: {install_type}", file=sys.stderr)
             sys.exit(1)

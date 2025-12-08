@@ -116,6 +116,14 @@
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/FilterSpecialPages",
     "install_type": "git",
     "git_branch": "REL1_43"
+  },
+  {
+    "extension_name": "Mix'n'match",
+    "extension_url": "https://github.com/ProfessionalWiki/SimpleBatchUpload",
+    "install_type": "composer",
+    "post_install_commands": [
+      "php composer.phar update mediawiki/simple-batch-upload"
+    ]
   }
 ]
 

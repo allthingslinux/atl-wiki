@@ -93,6 +93,8 @@ wfLoadExtension('ReplaceText');
 wfLoadExtension('Scribunto');
 // https://www.mediawiki.org/wiki/Extension:SecureLinkFixer
 wfLoadExtension('SecureLinkFixer');
+// https://www.mediawiki.org/wiki/Extension:SimpleBatchUpload
+wfLoadExtension('SimpleBatchUpload');
 // https://www.mediawiki.org/wiki/Extension:SiteMetrics
 wfLoadExtension('SiteMetrics');
 // https://www.mediawiki.org/wiki/Extension:SpamBlacklist
