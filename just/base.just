@@ -52,6 +52,7 @@ _copy-file src dst:
 
     SRC="{{src}}"
     DST="{{dst}}"
+    just _destructive-warning "You are about to overwrite {{dst}} which may overwrite existing data in that file."
 
     echo "Copying file: $SRC → $DST"
     if [ ! -f "$SRC" ]; then
