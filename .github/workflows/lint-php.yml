@@ -1,0 +1,25 @@
+name: Lint PHP
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.php'
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: phpcs
+
+      - name: Lint PHP files with phpcs
+        run: phpcs .
