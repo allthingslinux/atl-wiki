@@ -54,8 +54,8 @@ This repository contains Mediawiki configurations used for the deployment of [at
 
 Variables marked with a `*` are required. The function they provide may be optional but the wiki may not operate correctly without the variables provided. For local setups **we recommend not changing the pre-defined values to ensure the containers can communicate properly**:
 
-| Variable | Description | Example |
-|----------|-------------|---------|
+| Variable | Description      | Example |
+|----------|------------------|---------|
 | `MEDIAWIKI_MAJOR_VERSION` * | The major version number of MediaWiki you want to use | `1.44` |
 | `MEDIAWIKI_VERSION` * | The full version number of MediaWiki you want to use | `1.44.2` |
 | `MEDIAWIKI_BRANCH` * | The branch of MediaWiki you want to use for extensions | `REL1_44` |
@@ -87,8 +87,8 @@ Variables marked with a `*` are required. The function they provide may be optio
 
 Below are the extra options for **LOCAL** setups.
 
-| Variable* | Description | Example |
-|-----------|-------------|---------|
+| Variable* | Description      | Example |
+|-----------|------------------|---------|
 | `MARIADB_PASSWORD` * | The MariaDB root password. This needs to match `DB_PASSWORD` | `local-maria-password` |
 | `MARIADB_NAME` * | The MariaDB database name. This needs to match `DB_NAME` | `local-maria-db` |
 | `MARIADB_USER` * | The MariaDB username. This needs to match `DB_USER` | `local-maria-user` |
