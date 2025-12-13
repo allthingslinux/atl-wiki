@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mediawiki Permissions Configuration
  * https://www.mediawiki.org/wiki/Manual:User_rights

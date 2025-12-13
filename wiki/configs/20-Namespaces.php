@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Namespaces Configuration
  * https://www.mediawiki.org/wiki/Manual:$wgNamespaceProtection

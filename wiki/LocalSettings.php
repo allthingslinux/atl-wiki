@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The root setting for all things Mediawiki
  *
@@ -11,7 +12,7 @@
  * @link     https://atl.wiki
  */
 
-if (!defined('MEDIAWIKI') ) {
+if (!defined('MEDIAWIKI')) {
     exit;
 }
 

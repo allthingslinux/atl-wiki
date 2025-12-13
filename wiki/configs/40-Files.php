@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Upload Configuration
  * https://www.mediawiki.org/wiki/Manual:Configuring_file_uploads#Configuring_file_types

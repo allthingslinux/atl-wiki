@@ -1,9 +1,16 @@
 <?xml version="1.0"?>
+
 <ruleset name="PSR12">
+
     <description>PSR-12 Coding Standard</description>
 
     <!-- Use PSR-12 standard -->
-    <rule ref="PSR12"/>
+    <rule ref="PSR12">
+
+        <!-- Exclude certain rules -->
+        <exclude name="PSR1.Files.SideEffects"/>
+
+    </rule>
 
     <!-- Paths to check -->
     <file>wiki</file>
@@ -15,4 +22,5 @@
     <!-- Show progress and use colors -->
     <arg name="colors"/>
     <arg value="sp"/>
+
 </ruleset>
