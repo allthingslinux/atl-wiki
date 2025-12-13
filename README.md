@@ -221,6 +221,7 @@ We gratefully acknowledge the use of the following projects which are incorporat
 | just | https://github.com/casey/just | CC0-1.0 |
 | MediaWiki | https://www.mediawiki.org | GPL-2.0-or-later |
 | PHP | https://www.php.net | PHP-3.01 |
+| PHP_CodeSniffer | https://github.com/PHPCSStandards/PHP_CodeSniffer/ | BSD3-Clause |
 | phpdotenv | https://github.com/vlucas/phpdotenv | BSD-3-Clause |
 | Python | https://www.python.org | PSF-2.0 |
 | Renovate | https://www.mend.io/renovate | AGPL-3.0 |
