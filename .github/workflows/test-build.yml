@@ -2,7 +2,8 @@ name: Docker Build Test
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
     paths:
       - 'Dockerfile'
       - 'wiki/**'
