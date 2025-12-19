@@ -23,7 +23,7 @@ This repository contains Mediawiki configurations used for the deployment of [at
 
 2. Clone this repository, we reccomend cloning the repository to `/opt/mediawiki`
 ```bash
-    git clone https://github.com/allthingslinux/atl.wiki-configs mediawiki
+    git clone https://github.com/allthingslinux/atl-wiki mediawiki
 ```
 
 3. Navigate to the cloned directory
@@ -131,7 +131,7 @@ graph LR
     Robots --- Wiki
     Configs --- Wiki
 
-    Root["📖 atl.wiki-configs"]
+    Root["📖 atl-wiki"]
 
     Deployment --- Root
     Wiki --- Root
