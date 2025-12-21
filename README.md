@@ -3,7 +3,7 @@
 > [!WARNING]
 > Currently this is hardcoded for atl.wiki, in our next release we aim to create a base Mediawiki image that can be easily customized for other deployments seperate from our own images.
 >
-> **We do not reccomend using this for your own deployments at this time but we welcome any feedback or contributions.**
+> **We do not recommend using this for your own deployments at this time but we welcome any feedback or contributions.**
 
 This repository contains Mediawiki configurations used for the deployment of [atl.wiki](https://atl.wiki). Including Docker configurations, environment settings, and other necessary files to run Mediawiki in a containerized environment with scripts to aid in the deployment and running of the application.
 
@@ -60,8 +60,8 @@ Variables marked with a `*` are required. The function they provide may be optio
 | `MEDIAWIKI_VERSION` * | The full version number of MediaWiki you want to use | `1.44.2` |
 | `MEDIAWIKI_BRANCH` * | The branch of MediaWiki you want to use for extensions | `REL1_44` |
 | `CITIZEN_VERSION` * | The version of the Citizen skin you want to use | `3.11.0` |
-| `UPGRADE_KEY` * | The key to access the upgrade page. Must be a 16 character alphanumeric string | *Generate using `openssl rand -hex 8`* |
-| `SECRET_KEY` * | The key used for various security related functions within MediaWiki. Must be a 64 character alphanumeric string | *Generate using `openssl rand -hex 32`* |
+| `UPGRADE_KEY` * | The key to access the upgrade page. Must be a 16-character alphanumeric string | *Generate using `openssl rand -hex 8`* |
+| `SECRET_KEY` * | The key used for various security related functions within MediaWiki. Must be a 64-character alphanumeric string | *Generate using `openssl rand -hex 32`* |
 | `DB_SERVER` * | The IP address or hostname of your database server | `db.example.com` or `192.168.0.0` |
 | `DB_NAME` * | The name of the table in the database used by MediaWiki | `mediawiki` |
 | `DB_USER` * | The username used by MediaWiki to connect to the database | `mediawiki` |
@@ -97,12 +97,12 @@ Below are the extra options for **LOCAL** setups.
 
 # Notes for System Administrators
 
-- Please DO NOT modify your generated `compose.yml`, it will be overriden on any update and may cause unexpected behavior. The **only two supported exceptions** is changing the NGINX external port from `3000` or if you use an external database, cache or S3 provider where you can comment out the relevant service lines, but please be aware you will need to manage those services yourself AND it will still be overriden on updates.
+- Please DO NOT modify your generated `compose.yml`, it will be overridden on any update and may cause unexpected behavior. The **only two supported exceptions** is changing the NGINX external port from `3000` or if you use an external database, cache or S3 provider where you can comment out the relevant service lines, but please be aware you will need to manage those services yourself AND it will still be overridden on updates.
 - If possible avoid running `docker compose` commands directly, instead use the provided `just` commands to ensure proper operation. These are designed to handle checks and ensure smooth operation of the wiki deployment.
 - Any changes to files in the `wiki/` directory will require a clean restart to take effect. Use `just clean-restart` to perform this action safely.
 - To fully utilise the image you will require a host OS which utilises Systemd as its init system. You can still run without systemd but certain features will not be available.
 
-# Project Overview
+## Project Overview
 
 ### Directory Diagram
 
