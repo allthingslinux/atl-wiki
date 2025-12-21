@@ -18,7 +18,7 @@ status:
     echo "Containers are running"
 
     echo "Container Status:"
-    docker-compose ps
+    docker compose ps
 
     echo "Verifying container health..."
     just health
@@ -36,8 +36,8 @@ health:
 
     echo "Checking container health for environment: $ENV"
 
-    # Find containers without healthy status
-    UNHEALTHY_CONTAINERS=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep -v "healthy" | grep -v "Up")
+    # Find containers with unhealthy status
+    UNHEALTHY_CONTAINERS=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep -i "unhealthy")
 
     if [ -n "$UNHEALTHY_CONTAINERS" ]; then
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mUnhealthy containers detected:\033[0m\n"

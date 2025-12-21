@@ -55,7 +55,13 @@ mediawiki-init:
 
     # Generate secure random admin password
     ADMIN_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-20)
-    echo "Generated admin password: $ADMIN_PASSWORD"
+    echo ""
+    echo "=========================================="
+    echo "IMPORTANT: Save this admin password now! It won't be shown again."
+    echo "Admin password: $ADMIN_PASSWORD"
+    echo "This is to login to MediaWiki as the initial admin."
+    echo "=========================================="
+    echo ""
 
     # Run MediaWiki pre-configured installation
     docker exec ${ENV}-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/run.php installPreConfigured \
