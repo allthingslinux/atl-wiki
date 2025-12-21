@@ -10,7 +10,7 @@ production-files:
     just _copy-file compose.production.yaml.example compose.yaml
     just _copy-file .env.example .env
     just sitemap-production
-    echo "Created .env from .env.example and compose.yaml from production-compose.yaml.example. Please review and modify as needed."
+    echo "Created .env from .env.example and compose.yaml from compose.production.yaml.example. Please review and modify as needed."
 
 # Setup staging environment files and configure sitemap service
 staging-files:
@@ -22,7 +22,7 @@ staging-files:
     just _copy-file compose.staging.yaml.example compose.yaml
     just _copy-file .env.example .env
     just sitemap-staging
-    echo "Created .env from .env.example and compose.yaml from staging-compose.yaml.example. Please review and modify as needed."
+    echo "Created .env from .env.example and compose.yaml from compose.staging.yaml.example. Please review and modify as needed."
 
 # Setup local development environment files
 local-files:
@@ -33,7 +33,7 @@ local-files:
     echo "Setting up local development environment files..."
     just _copy-file compose.local.yaml.example compose.yaml
     just _copy-file .env.local.example .env
-    echo "Created .env from .env.local.example and compose.yaml from local-compose.yaml.example. Please review and modify as needed."
+    echo "Created .env from .env.local.example and compose.yaml from compose.local.yaml.example. Please review and modify as needed."
 
 # Initialize MediaWiki database and create admin user
 mediawiki-init:
