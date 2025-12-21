@@ -118,7 +118,7 @@
     "git_branch": "REL1_43"
   },
   {
-    "extension_name": "Mix'n'match",
+    "extension_name": "SimpleBatchUpload",
     "extension_url": "https://github.com/ProfessionalWiki/SimpleBatchUpload",
     "install_type": "composer",
     "post_install_commands": [
