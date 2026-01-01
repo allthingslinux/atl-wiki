@@ -20,7 +20,10 @@
   {
     "extension_name": "CirrusSearch",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CirrusSearch",
-    "install_type": "git"
+    "install_type": "git",
+    "post_install_commands": [
+	    "composer install --no-dev"
+    ]
   },
   {
     "extension_name": "CodeMirror",

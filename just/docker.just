@@ -69,22 +69,51 @@ update:
     echo "Restarting wiki containers..."
     just start
 
-opensearch-install-deps:
-    docker compose exec mediawiki composer install
-
-opensearch-update-db:
-    docker compose exec mediawiki php maintenance/run.php update.php
-
-opensearch-update-config:
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php
-
-opensearch-reindex:
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse
-
-opensearch-run-jobs:
-    docker compose exec mediawiki php maintenance/runJobs.php
-
-opensearch-suggester:
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSuggesterIndex.php
-
+ opensearch-install-deps:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+    
+     docker compose exec mediawiki composer install
+ 
+ opensearch-update-db:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+    
+     docker compose exec mediawiki php maintenance/run.php update.php
+ 
+ opensearch-update-config:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+    
+     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php
+ 
+ opensearch-reindex:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+    
+     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip
+     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse
+ 
+ opensearch-run-jobs:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+    
+     docker compose exec mediawiki php maintenance/runJobs.php
+ 
+ opensearch-suggester:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _verify-file compose.yaml
+    just _check-containers
+    
+     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSuggesterIndex.php

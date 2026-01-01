@@ -68,7 +68,7 @@ $s3SecretKey = $env('S3_SECRET_ACCESS_KEY');
 $s3Endpoint = $env('S3_ENDPOINT');
 $s3BucketDomain = $env('S3_BUCKET_DOMAIN');
 
-if ($s3BucketName !== '' && $s3AccessKey !== '' && $s3SecretKey !== '' && $s3Endpoint !== '') {
+if ($s3BucketName !== '' && $s3AccessKey !== '' && $s3SecretKey !== '' && $s3Endpoint !== '' && $s3BucketDomain !== '') {
     $wgAWSRegion = 'auto';
     $wgAWSBucketName = $s3BucketName;
     $wgAWSBucketDomain = $s3BucketDomain;
