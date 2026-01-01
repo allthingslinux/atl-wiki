@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Extension Configuring
  *
@@ -14,8 +15,8 @@
 /*
  * Helper reads to avoid undefined index warnings when env vars are empty.
  */
-$env = static function ( string $key, string $default = '' ): string {
-    return isset( $_ENV[$key] ) && $_ENV[$key] !== '' ? (string)$_ENV[$key] : $default;
+$env = static function (string $key, string $default = ''): string {
+    return isset($_ENV[$key]) && $_ENV[$key] !== '' ? (string)$_ENV[$key] : $default;
 };
 
 //#################################################################// TextExtracts
@@ -49,10 +50,10 @@ $wgUserrightsInterwikiDelimiter = '#';
 //######################################################// ConfirmEdit
 // https://www.mediawiki.org/wiki/Extension:ConfirmEdit
 
-$turnstileSiteKey = $env( 'TURNSTILE_SITE_KEY' );
-$turnstileSecretKey = $env( 'TURNSTILE_SECRET_KEY' );
+$turnstileSiteKey = $env('TURNSTILE_SITE_KEY');
+$turnstileSecretKey = $env('TURNSTILE_SECRET_KEY');
 
-if ( $turnstileSiteKey !== '' && $turnstileSecretKey !== '' ) {
+if ($turnstileSiteKey !== '' && $turnstileSecretKey !== '') {
     $wgCaptchaClass = MediaWiki\Extension\ConfirmEdit\Turnstile\Turnstile::class;
     $wgTurnstileSiteKey = $turnstileSiteKey;
     $wgTurnstileSecretKey = $turnstileSecretKey;
@@ -61,13 +62,13 @@ if ( $turnstileSiteKey !== '' && $turnstileSecretKey !== '' ) {
 //######################################################// AWS
 // https://www.mediawiki.org/wiki/Extension:AWS
 
-$s3BucketName = $env( 'S3_BUCKET_NAME' );
-$s3AccessKey = $env( 'S3_ACCESS_KEY_ID' );
-$s3SecretKey = $env( 'S3_SECRET_ACCESS_KEY' );
-$s3Endpoint = $env( 'S3_ENDPOINT' );
-$s3BucketDomain = $env( 'S3_BUCKET_DOMAIN' );
+$s3BucketName = $env('S3_BUCKET_NAME');
+$s3AccessKey = $env('S3_ACCESS_KEY_ID');
+$s3SecretKey = $env('S3_SECRET_ACCESS_KEY');
+$s3Endpoint = $env('S3_ENDPOINT');
+$s3BucketDomain = $env('S3_BUCKET_DOMAIN');
 
-if ( $s3BucketName !== '' && $s3AccessKey !== '' && $s3SecretKey !== '' && $s3Endpoint !== '' ) {
+if ($s3BucketName !== '' && $s3AccessKey !== '' && $s3SecretKey !== '' && $s3Endpoint !== '') {
     $wgAWSRegion = 'auto';
     $wgAWSBucketName = $s3BucketName;
     $wgAWSBucketDomain = $s3BucketDomain;
@@ -76,7 +77,7 @@ if ( $s3BucketName !== '' && $s3AccessKey !== '' && $s3SecretKey !== '' && $s3En
         'secret' => $s3SecretKey,
     ];
 
-    if ( !isset( $wgFileBackends ) || !is_array( $wgFileBackends ) ) {
+    if (!isset($wgFileBackends) || !is_array($wgFileBackends)) {
         $wgFileBackends = [];
     }
 
@@ -92,8 +93,8 @@ if ( $s3BucketName !== '' && $s3AccessKey !== '' && $s3SecretKey !== '' && $s3En
 //######################################################// Discord
 // https://www.mediawiki.org/wiki/Extension:Discord
 
-$discordWebhook = $env( 'DISCORD_WEBHOOK_URL' );
-if ( $discordWebhook !== '' ) {
+$discordWebhook = $env('DISCORD_WEBHOOK_URL');
+if ($discordWebhook !== '') {
     $wgDiscordWebhookURL = [ $discordWebhook ];
     $wgDiscordUseEmojis = true;
     $wgDiscordDisabledHooks = [
@@ -114,10 +115,10 @@ $wgCheckUserLogLogins = true;
 //######################################################// PluggableAuth
 // https://www.mediawiki.org/wiki/Extension:PluggableAuth
 
-$openidClientId = $env( 'OPENID_CLIENT_ID' );
-$openidClientSecret = $env( 'OPENID_CLIENT_SECRET' );
+$openidClientId = $env('OPENID_CLIENT_ID');
+$openidClientSecret = $env('OPENID_CLIENT_SECRET');
 
-if ( $openidClientId !== '' && $openidClientSecret !== '' ) {
+if ($openidClientId !== '' && $openidClientSecret !== '') {
     $wgPluggableAuth_Config['Staff Login via All Things Linux (SSO)'] = [
         'plugin' => 'OpenIDConnect',
         'data' => [
@@ -175,4 +176,3 @@ $wgCirrusSearchServers = [
 
 // Keep search updates enabled so the job queue can index new edits.
 $wgDisableSearchUpdate = false;
-
