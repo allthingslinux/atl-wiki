@@ -26,6 +26,8 @@ wfLoadExtension('Capiunto');
 wfLoadExtension('CategoryTree');
 // https://www.mediawiki.org/wiki/Extension:CheckUser
 wfLoadExtension('CheckUser');
+// https://www.mediawiki.org/wiki/Extension:Elastica
+wfLoadExtension('Elastica');
 // https://www.mediawiki.org/wiki/Extension:CirrusSearch
 wfLoadExtension('CirrusSearch');
 // https://www.mediawiki.org/wiki/Extension:Cite
@@ -52,8 +54,6 @@ wfLoadExtension('Drafts');
 wfLoadExtension('Echo');
 // https://www.mediawiki.org/wiki/Extension:Editcount
 wfLoadExtension('Editcount');
-// https://www.mediawiki.org/wiki/Extension:Elastica
-wfLoadExtension('Elastica');
 // https://www.mediawiki.org/wiki/Extension:FilterSpecialPages
 wfLoadExtension('FilterSpecialPages');
 // https://www.mediawiki.org/wiki/Extension:Gadgets
