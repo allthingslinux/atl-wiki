@@ -18,6 +18,11 @@
     "install_type": "git"
   },
   {
+    "extension_name": "CirrusSearch",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CirrusSearch",
+    "install_type": "git"
+  },
+  {
     "extension_name": "CodeMirror",
     "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/CodeMirror",
     "install_type": "git"
@@ -123,6 +128,15 @@
     "install_type": "composer",
     "post_install_commands": [
       "php composer.phar update mediawiki/simple-batch-upload"
+    ]
+  },
+  {
+    "extension_name": "Elastica",
+    "extension_url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/Elastica",
+    "install_type": "git",
+    "git_branch": "REL1_44",
+    "post_install_commands": [
+      "composer install --no-dev"
     ]
   }
 ]

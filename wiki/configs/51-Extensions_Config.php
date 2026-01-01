@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Extension Configuring
  *
@@ -11,6 +10,13 @@
  * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  * @link     https://atl.wiki
  */
+
+/*
+ * Helper reads to avoid undefined index warnings when env vars are empty.
+ */
+$env = static function ( string $key, string $default = '' ): string {
+    return isset( $_ENV[$key] ) && $_ENV[$key] !== '' ? (string)$_ENV[$key] : $default;
+};
 
 //#################################################################// TextExtracts
 // https://www.mediawiki.org/wiki/Extension:TextExtracts
@@ -32,7 +38,7 @@ $wgVisualEditorAvailableNamespaces = [
 $wgVisualEditorEnableDiffPageBetaFeature = true;
 $wgVisualEditorUseSingleEditTab = true;
 $wgDefaultUserOptions['visualeditor-enable'] = 1;
-$wgDefaultUserOptions['visualeditor-editor'] = "visualeditor";
+$wgDefaultUserOptions['visualeditor-editor'] = 'visualeditor';
 
 //######################################################// Interwiki
 // https://www.mediawiki.org/wiki/Extension:Interwiki
@@ -43,40 +49,61 @@ $wgUserrightsInterwikiDelimiter = '#';
 //######################################################// ConfirmEdit
 // https://www.mediawiki.org/wiki/Extension:ConfirmEdit
 
-$wgCaptchaClass = MediaWiki\Extension\ConfirmEdit\Turnstile\Turnstile::class;
-$wgTurnstileSiteKey = $_ENV['TURNSTILE_SITE_KEY'];
-$wgTurnstileSecretKey = $_ENV['TURNSTILE_SECRET_KEY'];
+$turnstileSiteKey = $env( 'TURNSTILE_SITE_KEY' );
+$turnstileSecretKey = $env( 'TURNSTILE_SECRET_KEY' );
+
+if ( $turnstileSiteKey !== '' && $turnstileSecretKey !== '' ) {
+    $wgCaptchaClass = MediaWiki\Extension\ConfirmEdit\Turnstile\Turnstile::class;
+    $wgTurnstileSiteKey = $turnstileSiteKey;
+    $wgTurnstileSecretKey = $turnstileSecretKey;
+}
 
 //######################################################// AWS
 // https://www.mediawiki.org/wiki/Extension:AWS
 
-$wgAWSRegion = 'auto';
-$wgAWSBucketName = $_ENV['S3_BUCKET_NAME'];
-$wgAWSBucketDomain = $_ENV['S3_BUCKET_DOMAIN'];
-$wgAWSCredentials = [
-    'key' => $_ENV['S3_ACCESS_KEY_ID'],
-    'secret' => $_ENV['S3_SECRET_ACCESS_KEY'],
-];
-$wgFileBackends['s3'] = [
-    'class' => 'AmazonS3FileBackend',
-    'bucket' => $wgAWSBucketName,
-    'region' => 'auto',
-    'endpoint' => $_ENV['S3_ENDPOINT'],
-    'use_path_style_endpoint' => true,
-];
+$s3BucketName = $env( 'S3_BUCKET_NAME' );
+$s3AccessKey = $env( 'S3_ACCESS_KEY_ID' );
+$s3SecretKey = $env( 'S3_SECRET_ACCESS_KEY' );
+$s3Endpoint = $env( 'S3_ENDPOINT' );
+$s3BucketDomain = $env( 'S3_BUCKET_DOMAIN' );
+
+if ( $s3BucketName !== '' && $s3AccessKey !== '' && $s3SecretKey !== '' && $s3Endpoint !== '' ) {
+    $wgAWSRegion = 'auto';
+    $wgAWSBucketName = $s3BucketName;
+    $wgAWSBucketDomain = $s3BucketDomain;
+    $wgAWSCredentials = [
+        'key' => $s3AccessKey,
+        'secret' => $s3SecretKey,
+    ];
+
+    if ( !isset( $wgFileBackends ) || !is_array( $wgFileBackends ) ) {
+        $wgFileBackends = [];
+    }
+
+    $wgFileBackends['s3'] = [
+        'class' => 'AmazonS3FileBackend',
+        'bucket' => $wgAWSBucketName,
+        'region' => 'auto',
+        'endpoint' => $s3Endpoint,
+        'use_path_style_endpoint' => true,
+    ];
+}
 
 //######################################################// Discord
 // https://www.mediawiki.org/wiki/Extension:Discord
 
-$wgDiscordWebhookURL = [ $_ENV['DISCORD_WEBHOOK_URL'] ];
-$wgDiscordUseEmojis = true;
-$wgDiscordDisabledHooks = [
-    'BlockIpComplete',
-    'UnblockUserComplete',
-    'FileDeleteComplete',
-    'FileUndeleteComplete',
-    'ArticleRevisionVisibilitySet',
-];
+$discordWebhook = $env( 'DISCORD_WEBHOOK_URL' );
+if ( $discordWebhook !== '' ) {
+    $wgDiscordWebhookURL = [ $discordWebhook ];
+    $wgDiscordUseEmojis = true;
+    $wgDiscordDisabledHooks = [
+        'BlockIpComplete',
+        'UnblockUserComplete',
+        'FileDeleteComplete',
+        'FileUndeleteComplete',
+        'ArticleRevisionVisibilitySet',
+    ];
+}
 
 //######################################################// CheckUser
 // https://www.mediawiki.org/wiki/Extension:CheckUser
@@ -87,14 +114,20 @@ $wgCheckUserLogLogins = true;
 //######################################################// PluggableAuth
 // https://www.mediawiki.org/wiki/Extension:PluggableAuth
 
-$wgPluggableAuth_Config["Staff Login via All Things Linux (SSO)"] = [
-    "plugin" => "OpenIDConnect",
-    "data" => [
-        "providerURL" => "https://sso.allthingslinux.org",
-        "clientID" => $_ENV['OPENID_CLIENT_ID'],
-        "clientsecret" => $_ENV['OPENID_CLIENT_SECRET'],
-    ]
-];
+$openidClientId = $env( 'OPENID_CLIENT_ID' );
+$openidClientSecret = $env( 'OPENID_CLIENT_SECRET' );
+
+if ( $openidClientId !== '' && $openidClientSecret !== '' ) {
+    $wgPluggableAuth_Config['Staff Login via All Things Linux (SSO)'] = [
+        'plugin' => 'OpenIDConnect',
+        'data' => [
+            'providerURL' => 'https://sso.allthingslinux.org',
+            'clientID' => $openidClientId,
+            'clientsecret' => $openidClientSecret,
+        ]
+    ];
+}
+
 $wgPluggableAuth_EnableLocalLogin = true;
 $wgPluggableAuth_EnableLocalProperties = true;
 
@@ -131,3 +164,15 @@ $wgScribuntoDefaultEngine = 'luasandbox';
 $wgSimpleBatchUploadMaxFilesPerBatch = [
     '*' => 10,
 ];
+
+//######################################################// CirrusSearch
+// https://www.mediawiki.org/wiki/Extension:CirrusSearch
+
+$wgSearchType = 'CirrusSearch';
+$wgCirrusSearchServers = [
+    [ 'host' => 'opensearch', 'port' => 9200 ],
+];
+
+// Keep search updates enabled so the job queue can index new edits.
+$wgDisableSearchUpdate = false;
+

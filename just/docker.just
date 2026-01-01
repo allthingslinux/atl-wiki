@@ -69,3 +69,22 @@ update:
     echo "Restarting wiki containers..."
     just start
 
+opensearch-install-deps:
+    docker compose exec mediawiki composer install
+
+opensearch-update-db:
+    docker compose exec mediawiki php maintenance/run.php update.php
+
+opensearch-update-config:
+    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php
+
+opensearch-reindex:
+    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip
+    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse
+
+opensearch-run-jobs:
+    docker compose exec mediawiki php maintenance/runJobs.php
+
+opensearch-suggester:
+    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSuggesterIndex.php
+
