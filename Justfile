@@ -1,3 +1,5 @@
+set working-directory := justfile_directory()
+
 import 'just/docker.just'
 import 'just/base.just'
 import 'just/extra.just'
