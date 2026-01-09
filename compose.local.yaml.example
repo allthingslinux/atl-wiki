@@ -127,7 +127,7 @@ services:
       - node.name=mediwiki-node
       - bootstrap.memory_lock=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
+      - plugins.security.disabled=true
     ulimits:
       memlock:
         soft: -1
