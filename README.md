@@ -12,7 +12,7 @@ This repository contains Mediawiki configurations used for the deployment of [at
 
 > [!NOTE]
 > **This only applies if you are running a staging or production instance, local instances have these pre-configured as docker containers.** To deploy this service you will need:
-> - A running and accessible [MariaDB](https://mariadb.org) server which is version 10.3 or higher, we reccomend having this either as a managed service or having a dedicated server running MariaDB.
+> - A running and accessible [MariaDB](https://mariadb.org) server which is version 10.3 or higher, we recommend having this either as a managed service or having a dedicated server running MariaDB.
 > - A running and accessible S3 server or configured provider, we recommend [Cloudflare's R2 service](https://www.cloudflare.com/en-gb/developer-platform/products/r2/).
 
 1. Install the dependencies on your server or local machine:
@@ -21,7 +21,7 @@ This repository contains Mediawiki configurations used for the deployment of [at
    - [Docker Compose](https://docs.docker.com/compose/install/)
    - [just](https://github.com/casey/just)
 
-2. Clone this repository, we reccomend cloning the repository to `/opt/mediawiki`
+2. Clone this repository, we recommend cloning the repository to `/opt/mediawiki`
 ```bash
     git clone https://github.com/allthingslinux/atl-wiki mediawiki
 ```
@@ -61,7 +61,7 @@ Variables marked with a `*` are required. The function they provide may be optio
 | `MEDIAWIKI_BRANCH` * | The branch of MediaWiki you want to use for extensions | `REL1_44` |
 | `CITIZEN_VERSION` * | The version of the Citizen skin you want to use | `3.11.0` |
 | `UPGRADE_KEY` * | The key to access the upgrade page. Must be a 16-character alphanumeric string | *Generate using `openssl rand -hex 8`* |
-| `SECRET_KEY` * | The key used for various security related functions within MediaWiki. Must be a 64-character alphanumeric string | *Generate using `openssl rand -hex 32`* |
+| `SECRET_KEY` * | The key used for various security-related functions within MediaWiki. Must be a 64-character alphanumeric string | *Generate using `openssl rand -hex 32`* |
 | `DB_SERVER` * | The IP address or hostname of your database server | `db.example.com` or `192.168.0.0` |
 | `DB_NAME` * | The name of the table in the database used by MediaWiki | `mediawiki` |
 | `DB_USER` * | The username used by MediaWiki to connect to the database | `mediawiki` |
@@ -215,13 +215,13 @@ We gratefully acknowledge the use of the following projects which are incorporat
 
 | Project | Link | License |
 |---------|------|---------|
-| Docker | https://www.docker.com | Apache-2.0 |
-| Docker Compose | https://github.com/docker/compose | Apache-2.0 |
-| Hadolint | https://github.com/hadolint/hadolint | GPL-3.0 |
-| just | https://github.com/casey/just | CC0-1.0 |
-| MediaWiki | https://www.mediawiki.org | GPL-2.0-or-later |
-| PHP | https://www.php.net | PHP-3.01 |
-| PHP_CodeSniffer | https://github.com/PHPCSStandards/PHP_CodeSniffer/ | BSD3-Clause |
-| phpdotenv | https://github.com/vlucas/phpdotenv | BSD-3-Clause |
-| Python | https://www.python.org | PSF-2.0 |
-| Renovate | https://www.mend.io/renovate | AGPL-3.0 |
+| Docker | [https://www.docker.com](https://www.docker.com) | Apache-2.0 |
+| Docker Compose | [https://github.com/docker/compose](https://github.com/docker/compose) | Apache-2.0 |
+| Hadolint | [https://github.com/hadolint/hadolint](https://github.com/hadolint/hadolint) | GPL-3.0 |
+| just | [https://github.com/casey/just](https://github.com/casey/just) | CC0-1.0 |
+| MediaWiki | [https://www.mediawiki.org](https://www.mediawiki.org) | GPL-2.0-or-later |
+| PHP | [https://www.php.net](https://www.php.net) | PHP-3.01 |
+| PHP_CodeSniffer | [https://github.com/PHPCSStandards/PHP_CodeSniffer/](https://github.com/PHPCSStandards/PHP_CodeSniffer/) | BSD3-Clause |
+| phpdotenv | [https://github.com/vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) | BSD-3-Clause |
+| Python | [https://www.python.org](https://www.python.org) | PSF-2.0 |
+| Renovate | [https://www.mend.io/renovate](https://www.mend.io/renovate) | AGPL-3.0 |
