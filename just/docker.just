@@ -2,18 +2,20 @@
 start:
     #!/usr/bin/env bash
     set -euo pipefail
+    JUSTFILE_DIR="{{justfile_directory()}}"
     just _verify-file compose.yaml
 
-    docker compose up -d --build
+    cd "$JUSTFILE_DIR" && docker compose up -d --build
 
 # Stop all running wiki containers
 stop:
     #!/usr/bin/env bash
     set -euo pipefail
+    JUSTFILE_DIR="{{justfile_directory()}}"
     just _verify-file compose.yaml
     just _check-containers
 
-    docker compose down
+    cd "$JUSTFILE_DIR" && docker compose down
 
 # Restart all wiki containers
 restart:
@@ -43,10 +45,11 @@ clean-restart:
 clean-stop:
     #!/usr/bin/env bash
     set -euo pipefail
+    JUSTFILE_DIR="{{justfile_directory()}}"
     just _verify-file compose.yaml
     just _check-containers
 
-    docker compose down -v
+    cd "$JUSTFILE_DIR" && docker compose down -v
 
 # Pull latest code, updates compose.yaml from template, and restarts wiki containers
 update:

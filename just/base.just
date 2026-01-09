@@ -2,8 +2,11 @@
 _verify-file file:
     #!/usr/bin/env bash
     set -euo pipefail
+    JUSTFILE_DIR="{{justfile_directory()}}"
+    FILE_PATH="$JUSTFILE_DIR/{{file}}"
+
     echo "Verifying file: {{file}}"
-    if [ ! -f "{{file}}" ]; then
+    if [ ! -f "$FILE_PATH" ]; then
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mFile '{{file}}' not found\033[0m\n"
         exit 1
     fi
@@ -12,9 +15,11 @@ _verify-file file:
 _detect-env:
     #!/usr/bin/env bash
     set -euo pipefail
+    JUSTFILE_DIR="{{justfile_directory()}}"
     just _verify-file compose.yaml >/dev/null 2>&1
 
     # Extract name field from compose.yaml
+    name=$(grep -m 1 "^name:" "$JUSTFILE_DIR/compose.yaml"
     name=$(grep -m 1 "^name:" compose.yaml | cut -d':' -f2 | tr -d ' ')
 
     # Match name pattern to determine environment
