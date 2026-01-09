@@ -11,7 +11,9 @@
 				"extensions/Cite/composer.json",
 				"extensions/OATHAuth/composer.json",
 				"extensions/TemplateStyles/composer.json",
-				"extensions/AbuseFilter/composer.json"
+				"extensions/AbuseFilter/composer.json",
+				"extensions/CirrusSearch/composer.json",
+				"extensions/Elastica/composer.json"
 			]
 		}
 	}

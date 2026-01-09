@@ -19,8 +19,7 @@ _detect-env:
     just _verify-file compose.yaml >/dev/null 2>&1
 
     # Extract name field from compose.yaml
-    name=$(grep -m 1 "^name:" "$JUSTFILE_DIR/compose.yaml"
-    name=$(grep -m 1 "^name:" compose.yaml | cut -d':' -f2 | tr -d ' ')
+    name=$(grep -m 1 "^name:" "$JUSTFILE_DIR/compose.yaml" | cut -d':' -f2 | tr -d ' ')
 
     # Match name pattern to determine environment
     if [[ "$name" == *"local-wiki"* ]]; then
