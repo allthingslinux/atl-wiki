@@ -64,11 +64,11 @@ mediawiki-init:
     echo ""
 
     # Run MediaWiki pre-configured installation
-    docker exec ${ENV}-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/run.php installPreConfigured \
+    docker compose exec mediawiki php /var/www/wiki/mediawiki/maintenance/run.php installPreConfigured \
       --dbuser="${DB_USER}" --dbpass="${DB_PASSWORD}"
 
     just clean-restart
 
     # Run database schema updates
-    docker exec ${ENV}-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/update.php --quick
+    docker compose exec mediawiki php /var/www/wiki/mediawiki/maintenance/update.php --quick
 

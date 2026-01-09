@@ -32,12 +32,11 @@ health:
     set -euo pipefail
     just _verify-file compose.yaml
     just _check-containers
-    ENV=$(just _detect-env)
 
-    echo "Checking container health for environment: $ENV"
+    echo "Checking container health..."
 
     # Find containers with unhealthy status
-    UNHEALTHY_CONTAINERS=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep -i "unhealthy")
+    UNHEALTHY_CONTAINERS=$(docker compose ps --format "{{{{.Name}}}}\t{{{{.Status}}}}" | grep -i "unhealthy")
 
     if [ -n "$UNHEALTHY_CONTAINERS" ]; then
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mUnhealthy containers detected:\033[0m\n"
@@ -46,7 +45,7 @@ health:
     fi
 
     # Display healthy containers
-    CONTAINERS_WITH_HEALTH=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}\t{{{{.Status}}}}" | grep "health")
+    CONTAINERS_WITH_HEALTH=$(docker compose ps --format "{{{{.Name}}}}\t{{{{.Status}}}}" | grep "health")
 
     if [ -n "$CONTAINERS_WITH_HEALTH" ]; then
         echo "All containers with health checks are healthy:"
@@ -70,7 +69,7 @@ db-status:
             exit 1
         fi
 
-        if docker exec local-wiki-mediawiki nc -zv local-wiki-mariadb 3306 2>&1; then
+        if docker compose exec mediawiki nc -zv local-wiki-mariadb 3306 2>&1; then
             echo "Database container is reachable from mediawiki"
         else
             echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mFailed to reach database container from mediawiki.\033[0m\n"
@@ -139,5 +138,5 @@ mediawiki-schema-update:
     ENV=$(just _detect-env)
 
     # Run database schema updates
-    docker exec ${ENV}-wiki-mediawiki php /var/www/wiki/mediawiki/maintenance/update.php --quick
+    docker compose exec mediawiki php /var/www/wiki/mediawiki/maintenance/update.php --quick
     echo "MediaWiki database schema update complete!"
