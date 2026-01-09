@@ -69,7 +69,7 @@ update:
     echo "Restarting wiki containers..."
     just start
 
- opensearch-install-deps:
+opensearch-install-deps:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
@@ -77,7 +77,7 @@ update:
 
     docker compose exec mediawiki composer install
 
- opensearch-update-db:
+opensearch-update-db:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
@@ -85,7 +85,7 @@ update:
 
     docker compose exec mediawiki php maintenance/run.php update.php
 
- opensearch-update-config:
+opensearch-update-config:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
@@ -93,7 +93,7 @@ update:
 
     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php
 
- opensearch-reindex:
+opensearch-reindex:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
@@ -102,7 +102,7 @@ update:
     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip
     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse
 
- opensearch-run-jobs:
+opensearch-run-jobs:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
@@ -110,7 +110,7 @@ update:
 
     docker compose exec mediawiki php maintenance/runJobs.php
 
- opensearch-suggester:
+opensearch-suggester:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
