@@ -97,7 +97,7 @@ Below are the extra options for **LOCAL** setups.
 
 # Notes for System Administrators
 
-- Please DO NOT modify your generated `compose.yml`, it will be overridden on any update and may cause unexpected behavior. The **only two supported exceptions** is changing the NGINX external port from `3000` or if you use an external database, cache or S3 provider where you can comment out the relevant service lines, but please be aware you will need to manage those services yourself AND it will still be overridden on updates.
+- Please DO NOT modify your generated `compose.yaml`, it will be overridden on any update and may cause unexpected behavior. The **only two supported exceptions** is changing the NGINX external port from `3000` or if you use an external database, cache or S3 provider where you can comment out the relevant service lines, but please be aware you will need to manage those services yourself AND it will still be overridden on updates.
 - If possible avoid running `docker compose` commands directly, instead use the provided `just` commands to ensure proper operation. These are designed to handle checks and ensure smooth operation of the wiki deployment.
 - Any changes to files in the `wiki/` directory will require a clean restart to take effect. Use `just clean-restart` to perform this action safely.
 - To fully utilise the image you will require a host OS which utilises Systemd as its init system. You can still run without systemd but certain features will not be available.
@@ -138,7 +138,7 @@ graph LR
 
     Root --- Dockerfile["🐳 Dockerfile"]
     Root --- Justfile["⚙️ Justfile"]
-    Root --- ComposeExample["📄 compose.yml.example"]
+    Root --- ComposeExample["📄 compose.yaml.example"]
     Root --- EnvExample["📄 .env.example"]
     Root --- Just["📁 just/"]
     Root --- Systemd["📁 systemd/"]
@@ -167,7 +167,7 @@ graph LR
 | `wiki/robots.txt` | Crawler instructions |
 | `wiki/.well-known/security.txt` | Security reporting instructions |
 | `wiki/configs/` | Numbered configuration modules (00-99) ensuring correct load order |
-| `compose.yml.example` | Docker Compose configuration template (environment specific versions available) |
+| `compose.yaml.example` | Docker Compose configuration template (environment specific versions available) |
 | `env.example` | Environment variables template (environment specific versions available) |
 | `Dockerfile` | MediaWiki container build configuration |
 | `Justfile` | Main task runner entry point for Just scripts in `just/` |
