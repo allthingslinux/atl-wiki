@@ -126,10 +126,8 @@ LABEL maintainer="atmois@allthingslinux.org" \
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
     set -eux && \
     apk add --no-cache \
-        git \
         freetype \
         icu-libs \
-        composer \
         imagemagick \
         libavif \
         libjpeg-turbo \
