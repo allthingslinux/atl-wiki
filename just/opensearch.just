@@ -17,14 +17,14 @@ opensearch-reindex:
     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip
     docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse
 
-# Run pending jobs in MediaWiki (including OpenSearch indexing jobs)
-opensearch-run-jobs:
+# Run pending jobs in MediaWiki
+run-jobs:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
     just _check-containers
 
-    docker compose exec mediawiki php maintenance/runJobs.php
+    docker compose exec mediawiki php maintenance/run.php runJobs.php
 
 # Update OpenSearch suggester index in MediaWiki
 opensearch-suggester:
