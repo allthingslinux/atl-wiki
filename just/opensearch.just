@@ -5,7 +5,7 @@ opensearch-update-config:
     just _verify-file compose.yaml
     just _check-containers
 
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php
+    docker compose exec mediawiki php mediawiki/maintenance/run.php mediawiki/extensions/CirrusSearch/maintenance/UpdateSearchIndexConfig.php
 
 # Reindex OpenSearch in MediaWiki
 opensearch-reindex:
@@ -14,8 +14,9 @@ opensearch-reindex:
     just _verify-file compose.yaml
     just _check-containers
 
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse
+    docker compose exec mediawiki php mediawiki/maintenance/run.php mediawiki/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipLinks --indexOnSkip
+    docker compose exec mediawiki php mediawiki/maintenance/run.php mediawiki/extensions/CirrusSearch/maintenance/ForceSearchIndex.php --skipParse
+    docker compose exec mediawiki php mediawiki/maintenance/run.php mediawiki/extensions/CirrusSearch/maintenance/UpdateSuggesterIndex.php
 
 # Run pending jobs in MediaWiki
 run-jobs:
@@ -24,13 +25,4 @@ run-jobs:
     just _verify-file compose.yaml
     just _check-containers
 
-    docker compose exec mediawiki php maintenance/run.php runJobs.php
-
-# Update OpenSearch suggester index in MediaWiki
-opensearch-suggester:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    just _verify-file compose.yaml
-    just _check-containers
-
-    docker compose exec mediawiki php extensions/CirrusSearch/maintenance/UpdateSuggesterIndex.php
+    docker compose exec mediawiki php mediawiki/maintenance/run.php runJobs.php
