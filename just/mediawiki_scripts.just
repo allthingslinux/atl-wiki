@@ -1,5 +1,5 @@
 # Update OpenSearch index configuration in MediaWiki
-opensearch-update-config:
+opensearch-update:
     #!/usr/bin/env bash
     set -euo pipefail
     just _verify-file compose.yaml
