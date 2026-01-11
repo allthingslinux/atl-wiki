@@ -94,22 +94,6 @@ Disallow: /*?title=Property%3A
 Disallow: /*?*&title=Property:
 Disallow: /*?*&title=Property%3A
 
-# Block action paths
-Disallow: /edit/
-Disallow: /watch/
-Disallow: /unwatch/
-Disallow: /delete/
-Disallow: /revert/
-Disallow: /rollback/
-Disallow: /protect/
-Disallow: /unprotect/
-Disallow: /markpatrolled/
-Disallow: /render/
-Disallow: /submit/
-Disallow: /history/
-Disallow: /purge/
-Disallow: /info/
-
 #################
 ## Sitemap URL ##
 #################
