@@ -1,4 +1,7 @@
-vendor/
 .env
-compose.yaml
 composer.lock
+compose.yaml
+backups/
+database/
+images/
+vendor/

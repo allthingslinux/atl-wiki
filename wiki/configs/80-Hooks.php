@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The Mediawiki Hooks Configuration
  *
@@ -11,13 +12,13 @@
  * @link     https://atl.wiki
  */
 
-$wgHooks['SkinTemplateNavigation::Universal'][] = function ( $skin, &$links ) {
-    foreach ( $links as &$group ) {
-        foreach ( $group as &$tab ) {
-            if (isset($tab['href']) ) {
+$wgHooks['SkinTemplateNavigation::Universal'][] = function ($skin, &$links) {
+    foreach ($links as &$group) {
+        foreach ($group as &$tab) {
+            if (isset($tab['href'])) {
                 $tab['href'] = preg_replace_callback(
                     '#/index\.php\?title=([^&]+)(&(.*))?#',
-                    function ( $matches ) {
+                    function ($matches) {
                         $title = $matches[1];
                         $query = isset($matches[3]) ? '?' . $matches[3] : '';
                         return '/' . $title . $query;

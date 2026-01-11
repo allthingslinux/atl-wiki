@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 
-#  Copyright 2025 atmois <atmois@allthingslinux.org>
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#      http://www.apache.org/licenses/LICENSE-2.0
+# Copyright 2025 All Things Linux and Contributors
+
+# Primary maintainer: Atmois <atmois@allthingslinux.org>
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+"""Installs MediaWiki extensions as specified in the extensions.json file"""
 
 import json
 import os
@@ -14,7 +18,7 @@ import sys
 
 MEDIAWIKI_BRANCH = os.environ.get('MEDIAWIKI_BRANCH')
 EXTENSIONS_JSON = '/tmp/extensions.json'
-EXTENSIONS_DIR = '/var/www/atlwiki/mediawiki/extensions'
+EXTENSIONS_DIR = '/var/www/wiki/mediawiki/extensions'
 
 def run(command):
     """
@@ -55,6 +59,8 @@ def main():
             run(f"mkdir -p {extension_name}")
             run(f"tar -xzf {tarball_name} -C {extension_name} --strip-components=1")
             run(f"rm {tarball_name}")
+        elif install_type == 'composer':
+            continue
         else:
             print(f"Unknown install_type for {extension_name}: {install_type}", file=sys.stderr)
             sys.exit(1)

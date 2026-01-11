@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The root setting for all things Mediawiki
  *
@@ -11,12 +12,12 @@
  * @link     https://atl.wiki
  */
 
-if (!defined('MEDIAWIKI') ) {
+if (!defined('MEDIAWIKI')) {
     exit;
 }
 
 // Loads the config files in order
-$configFiles = glob('/var/www/atlwiki/configs/*.php');
+$configFiles = glob('/var/www/wiki/configs/*.php');
 sort($configFiles);
 foreach ($configFiles as $configFile) {
     include_once $configFile;

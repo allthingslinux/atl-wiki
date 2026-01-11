@@ -1,5 +1,5 @@
 {
-    "name": "allthingslinux/atl.wiki-configs",
+    "name": "allthingslinux/atl-wiki",
     "description": "Configuration files for atl.wiki MediaWiki instance",
     "type": "project",
     "require": {

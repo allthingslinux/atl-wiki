@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mediawiki Permissions Configuration
  * https://www.mediawiki.org/wiki/Manual:User_rights
@@ -93,5 +94,5 @@ $wgGroupPermissions['sysop']['mwoauthsuppress'] = true;
 $wgGroupPermissions['sysop']['mwoauthviewsuppressed'] = true;
 $wgGroupPermissions['sysop']['mwoauthviewprivate'] = true;
 $wgGroupPermissions['sysop']['mwoauthmanagemygrants'] = true;
-$wgGroupPermissions['sysop']['import'] = false;
 $wgGroupPermissions['sysop']['interwiki'] = true;
+$wgGroupPermissions['sysop']['import'] = false;

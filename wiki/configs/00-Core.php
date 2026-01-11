@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Wiki Configuration
  *
@@ -12,9 +13,9 @@
  */
 
 // Load environment variables from .env file using phpdotenv
-if (file_exists('/var/www/atlwiki/vendor/autoload.php')) {
-    include_once '/var/www/atlwiki/vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable('/var/www/atlwiki');
+if (file_exists('/var/www/wiki/vendor/autoload.php')) {
+    include_once '/var/www/wiki/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable('/var/www/wiki');
     $dotenv->safeLoad();
 }
 
@@ -82,17 +83,19 @@ $wgCdnServersNoPurge = [
 
 // https://www.mediawiki.org/wiki/Manual:$wgCdnServers
 $wgCdnServers = [
-    // Reverse Proxy
-    '10.0.0.2',
-    // nginx Container
-    'nginx'
+    // nginx container (local reverse proxy)
+    'nginx',
+    // Wiki server on Tailscale
+    '100.64.3.0',
+    // NPM server on Tailscale
+    '100.64.1.0',
 ];
 
 // https://www.mediawiki.org/wiki/Manual:$wgUsePrivateIPs
 $wgUsePrivateIPs = true;
 
 // Trust the IP forwarded by the proxy (NPM and Cloudflare)
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $forwardedIps = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
     // The first IP in the list is the original client IP
     $_SERVER['REMOTE_ADDR'] = trim($forwardedIps[0]);
@@ -102,7 +105,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
 $wgCookieSameSite = 'Lax';
 
 // https://www.mediawiki.org/wiki/Manual:$wgCookieSecure
-$wgCookieSecure = true;
+// Only use secure cookies if HTTPS is enabled
+$wgCookieSecure = (strpos($_ENV['WG_SERVER'], 'https://') === 0);
 
 // https://www.mediawiki.org/wiki/Manual:$wgExternalLinkTarget
 $wgExternalLinkTarget = '_blank';
@@ -119,30 +123,9 @@ $wgScriptPath = "";
 // https://www.mediawiki.org/wiki/Manual:$wgArticlePath
 $wgArticlePath = "/$1";
 
-// https://www.mediawiki.org/wiki/Manual:$wgActionPaths
-$actions = [
-  'view',
-  'edit',
-  'watch',
-  'unwatch',
-  'delete',
-  'revert',
-  'rollback',
-  'protect',
-  'unprotect',
-  'markpatrolled',
-  'render',
-  'submit',
-  'history',
-  'purge',
-  'info',
-];
-foreach ( $actions as $action ) {
-    $wgActionPaths[$action] = "/$action/$1";
-}
-
 // https://www.mediawiki.org/wiki/Manual:$wgForceHTTPS
-$wgForceHTTPS = true;
+// Only force HTTPS if the server URL uses HTTPS
+$wgForceHTTPS = (strpos($_ENV['WG_SERVER'], 'https://') === 0);
 
 //######################################################// DB Config
 
@@ -166,28 +149,30 @@ $wgDBname = $_ENV['DB_NAME'];
 $wgDBuser = $_ENV['DB_USER'];
 $wgDBpassword = $_ENV['DB_PASSWORD'];
 
+//######################################################// SMTP
+
 $wgSMTP = [
-  "host"      => "smtp.gmail.com",
-  "IDHost"    => "allthingslinux.org",
-  "localhost" => "allthingslinux.org",
-  "port"      => 587,
+  "host"      => $_ENV['SMTP_HOST'],
+  "IDHost"    => $_ENV['SMTP_DOMAIN'],
+  "localhost" => $_ENV['SMTP_DOMAIN'],
+  "port"      => $_ENV['SMTP_PORT'],
   "auth"      => true,
-  "username"  => "services@allthingslinux.org",
+  "username"  => $_ENV['SMTP_USERNAME'],
   "password"  => $_ENV['SMTP_PASSWORD'] ?? '',
 ];
 
 //######################################################// Caching
 
 // https://www.mediawiki.org/wiki/Manual:$wgCacheDirectory
-$wgCacheDirectory = "/var/www/atlwiki/cache";
+$wgCacheDirectory = "/var/www/wiki/cache";
 
 // https://www.mediawiki.org/wiki/Manual:$wgGitInfoCacheDirectory
-$wgGitInfoCacheDirectory = "/var/www/atlwiki/cache/gitinfo";
+$wgGitInfoCacheDirectory = "/var/www/wiki/cache/gitinfo";
 
 // https://www.mediawiki.org/wiki/Manual:$wgObjectCaches
 $wgObjectCaches['redis'] = [
   'class'                => 'RedisBagOStuff',
-  'servers'              => [ 'redis:6379' ],
+  'servers'              => [ 'valkey:6379' ],
   'persistent'           => false,
   'automaticFailOver'    => false,
 ];
@@ -227,8 +212,8 @@ $wgLanguageCode = "en";
 // https://www.mediawiki.org/wiki/Manual:$wgLocaltimezone
 $wgLocaltimezone = "UTC";
 
-// https://www.mediawiki.org/wiki/Manual:$wgDiff3
-$wgDiff3 = "/usr/bin/diff3";
+// https://www.mediawiki.org/wiki/Manual:$wgDiffEngine
+$wgDiffEngine = 'wikidiff2';
 
 // https://www.mediawiki.org/wiki/Manual:$wgUseRCPatrol
 $wgUseRCPatrol = false;

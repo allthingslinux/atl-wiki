@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Extensions Loading
  *
@@ -25,6 +26,8 @@ wfLoadExtension('Capiunto');
 wfLoadExtension('CategoryTree');
 // https://www.mediawiki.org/wiki/Extension:CheckUser
 wfLoadExtension('CheckUser');
+// https://www.mediawiki.org/wiki/Extension:CirrusSearch
+wfLoadExtension('CirrusSearch');
 // https://www.mediawiki.org/wiki/Extension:Cite
 wfLoadExtension('Cite');
 // https://www.mediawiki.org/wiki/Extension:CiteThisPage
@@ -49,6 +52,8 @@ wfLoadExtension('Drafts');
 wfLoadExtension('Echo');
 // https://www.mediawiki.org/wiki/Extension:Editcount
 wfLoadExtension('Editcount');
+// https://www.mediawiki.org/wiki/Extension:Elastica
+wfLoadExtension('Elastica');
 // https://www.mediawiki.org/wiki/Extension:FilterSpecialPages
 wfLoadExtension('FilterSpecialPages');
 // https://www.mediawiki.org/wiki/Extension:Gadgets
@@ -93,6 +98,8 @@ wfLoadExtension('ReplaceText');
 wfLoadExtension('Scribunto');
 // https://www.mediawiki.org/wiki/Extension:SecureLinkFixer
 wfLoadExtension('SecureLinkFixer');
+// https://www.mediawiki.org/wiki/Extension:SimpleBatchUpload
+wfLoadExtension('SimpleBatchUpload');
 // https://www.mediawiki.org/wiki/Extension:SiteMetrics
 wfLoadExtension('SiteMetrics');
 // https://www.mediawiki.org/wiki/Extension:SpamBlacklist
