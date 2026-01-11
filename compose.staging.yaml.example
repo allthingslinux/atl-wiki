@@ -90,7 +90,7 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - opensearch-data:/usr/share/opensearch/data
+      - ./opensearch:/usr/share/opensearch/data
     networks:
       - wiki-network
     healthcheck:
@@ -110,6 +110,4 @@ volumes:
   wiki-webroot:
     driver: local
   valkey-data:
-    driver: local
-  opensearch-data:
     driver: local
