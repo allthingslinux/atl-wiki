@@ -3,7 +3,8 @@
 /**
  * Mediawiki Permissions Configuration
  * https://www.mediawiki.org/wiki/Manual:User_rights
- * bureaucrat, checkuser, supress & push-subscription-manager are dead
+ * checkuser, supress, interface-admin & push-subscription-manager are dead
+ * groups are in order of increasing rank
  *
  * PHP version 8.3
  *
@@ -26,24 +27,16 @@ $wgGroupPermissions['user']['move-subpages'] = false;
 $wgGroupPermissions['user']['move-categorypages'] = false;
 $wgGroupPermissions['user']['move-rootuserpages'] = false;
 $wgGroupPermissions['user']['movefile'] = false;
-$wgGroupPermissions['user']['viewapprover'] = true;
-
-// moderator ~ Wiki Only Moderators (not used yet)
-$wgGroupPermissions['moderator']['move'] = true;
-$wgGroupPermissions['moderator']['move-subpages'] = true;
-$wgGroupPermissions['moderator']['move-categorypages'] = true;
-$wgGroupPermissions['moderator']['move-rootuserpages'] = true;
-$wgGroupPermissions['moderator']['editsemiprotected'] = true;
-$wgGroupPermissions['moderator']['movefile'] = true;
-$wgGroupPermissions['moderator']['block'] = true;
-$wgGroupPermissions['moderator']['rollback'] = true;
-$wgGroupPermissions['moderator']['approverevisions'] = true;
 
 // autoconfirmed ~ Given for wiki author role sync on discord
 $wgAutoConfirmAge = 259200;
 $wgAutoConfirmCount = 10;
 $wgGroupPermissions['autoconfirmed']['autoconfirmed'] = false;
 $wgGroupPermissions['autoconfirmed']['editsemiprotected'] = false;
+
+// template-editor ~ Grants edit permissions for templates and modules
+$wgGroupPermissions['template-editor']['template-editing'] = true;
+$wgGroupPermissions['template-editor']['module-editing'] = true;
 
 // staff ~ For all ATL Staff
 $wgGroupPermissions['staff']['block'] = true;
@@ -53,15 +46,22 @@ $wgGroupPermissions['staff']['move-subpages'] = true;
 $wgGroupPermissions['staff']['move-categorypages'] = true;
 $wgGroupPermissions['staff']['move-rootuserpages'] = true;
 $wgGroupPermissions['staff']['editsemiprotected'] = true;
-$wgGroupPermissions['staff']['approverevisions'] = true;
 
-// template-editor ~ Grants edit permissions for templates and modules
-$wgGroupPermissions['template-editor']['template-editing'] = true;
-$wgGroupPermissions['interface-admin']['module-editing'] = true;
+// wiki-team ~ For Wiki Team Members
+$wgGroupPermissions['wiki-team']['template-editing'] = true;
+$wgGroupPermissions['wiki-team']['module-editing'] = true;
+$wgGroupPermissions['wiki-team']['meta-editing'] = true;
+$wgGroupPermissions['wiki-team']['move'] = true;
+$wgGroupPermissions['wiki-team']['move-subpages'] = true;
+$wgGroupPermissions['wiki-team']['move-categorypages'] = true;
+$wgGroupPermissions['wiki-team']['move-rootuserpages'] = true;
+$wgGroupPermissions['wiki-team']['editsemiprotected'] = true;
+$wgGroupPermissions['wiki-team']['movefile'] = true;
+$wgGroupPermissions['wiki-team']['block'] = true;
+$wgGroupPermissions['wiki-team']['rollback'] = true;
 
-// interface-admin ~ Grants interface edit permissions
-$wgGroupPermissions['interface-admin']['template-editing'] = true;
-$wgGroupPermissions['interface-admin']['module-editing'] = true;
+$wgAddGroups['wiki-team'] = array('template-editor', 'staff', 'autoconfirmed');
+$wgRemoveGroups['wiki-team'] = array('template-editor', 'staff', 'autoconfirmed', "wiki-team");
 
 // sysop ~ Only for Wiki Admins, gives ALL permissions
 $wgGroupPermissions['sysop']['checkuser'] = true;
@@ -96,3 +96,15 @@ $wgGroupPermissions['sysop']['mwoauthviewprivate'] = true;
 $wgGroupPermissions['sysop']['mwoauthmanagemygrants'] = true;
 $wgGroupPermissions['sysop']['interwiki'] = true;
 $wgGroupPermissions['sysop']['import'] = false;
+
+$wgAddGroups['sysop'] = array('moderator', 'autoconfirmed', 'staff', 'template-editor', 'wiki-team');
+$wgRemoveGroups['sysop'] = array('moderator', 'autoconfirmed', 'staff', 'template-editor', 'wiki-team', 'sysop');
+
+// bureaucrat ~ ATL Management
+$wgGroupPermissions['bureaucrat']['userrights'] = true;
+$wgGroupPermissions['bureaucrat']['userrights-interwiki'] = true;
+$wgGroupPermissions['bureaucrat']['renameuser'] = true;
+$wgGroupPermissions['bureaucrat']['block'] = true;
+
+$wgAddGroups['bureaucrat'] = array('autoconfirmed', 'staff', 'template-editor', 'wiki-team', 'sysop', 'bureaucrat');
+$wgRemoveGroups['bureaucrat'] = array('autoconfirmed', 'staff', 'template-editor', 'wiki-team', 'sysop', 'bureaucrat');
