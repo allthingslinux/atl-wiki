@@ -43,7 +43,7 @@ services:
       - ./wiki/mediawiki.conf:/etc/nginx/templates/mediawiki.conf.template:ro
       - ./wiki/default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
-      - '3000:80'
+      - '100.64.3.0:3000:80'
     networks:
       - wiki-network
     restart: unless-stopped
