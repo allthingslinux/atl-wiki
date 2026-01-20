@@ -42,7 +42,7 @@ _check-containers:
 
     # Count running containers matching the environment prefix
     echo "Checking for running containers..."
-    CONTAINER_COUNT=$(docker ps --filter "name=${ENV}-wiki-" --format "{{{{.Names}}}}" | wc -l)
+    CONTAINER_COUNT=$(docker compose ps --format "{{{{.Name}}}}\t{{{{.Status}}}}" | wc -l)
     if [ "$CONTAINER_COUNT" -eq 0 ]; then
         echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mNo running containers found for '$ENV'. Please start the services first.\033[0m\n"
         exit 1
@@ -53,19 +53,20 @@ _check-containers:
 _copy-file src dst:
     #!/usr/bin/env bash
     set -euo pipefail
+    JUSTFILE_DIR="{{justfile_directory()}}"
 
-    SRC="{{src}}"
-    DST="{{dst}}"
+    SRC="$JUSTFILE_DIR/{{src}}"
+    DST="$JUSTFILE_DIR/{{dst}}"
     just _destructive-warning "You are about to overwrite {{dst}} which may overwrite existing data in that file."
 
-    echo "Copying file: $SRC → $DST"
+    echo "Copying file: {{src}} → {{dst}}"
     if [ ! -f "$SRC" ]; then
-        echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mSource '$SRC' not found\033[0m\n" >&2
+        echo -e "\n\033[1;37m\033[41m ERROR \033[0m \033[1;31mSource '{{src}}' not found\033[0m\n" >&2
         exit 1
     fi
 
     cp -v "$SRC" "$DST"
-    echo "Successfully copied $SRC to $DST"
+    echo "Successfully copied {{src}} to {{dst}}"
 
 # Check if the script is running with sudo/root privileges
 _check-sudo:
