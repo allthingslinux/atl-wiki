@@ -96,7 +96,7 @@ RUN --mount=type=cache,target=/root/.composer \
 
 COPY wiki/composer.local.json ./composer.local.json
 RUN --mount=type=cache,target=/root/.composer \
-    composer update --no-dev --optimize-autoloader --no-scripts
+    composer update --no-dev --optimize-autoloader --no-scripts --no-audit
 
 # Cleanup
 RUN rm -rf /var/www/wiki/mediawiki/tests/ \
