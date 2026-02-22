@@ -43,7 +43,7 @@
   },
   {
     "extension_name": "Discord",
-    "extension_url": "https://github.com/allthingslinux/mw-discord-44",
+    "extension_url": "https://github.com/jayktaylor/mw-discord",
     "install_type": "git",
     "git_branch": "master"
   },
